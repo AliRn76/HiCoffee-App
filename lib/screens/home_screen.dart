@@ -35,88 +35,138 @@ class _HomeScreenState extends State<HomeScreen> {
     ],
   );
 
-  bool clickedOnSearch = false;
+  bool clickedOnSearch;
   int selectedMenuItemId;
   TextEditingController editingController = TextEditingController();
+  Color myColor;
+
+  bool _active = false;
+
+  void _handleTap() {
+    setState(() {
+      _active = !_active;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    myColor = Color(0xFFccffff);
+    clickedOnSearch = false;
   }
 
   @override
   Widget build(BuildContext context) {
+    print("Start Build");
+    print(clickedOnSearch);
     return DrawerScaffold(
+
       drawers: [
         _drawer(),
       ],
-      builder: (context, id) => Center(
-          child: Scaffold(
-            body: SafeArea(
-              child: Container(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                child: Column(
-                  children: <Widget>[
-                    _searchBar(),
-                    Expanded(
-                      child: Stack(
-                        children: <Widget>[
-                          _cardLists(),
-                          _wave(),
-                        ],
-                      ),
-                    ),
-                  ],
+      builder: (context, id) => Scaffold(
+        body: SafeArea(
+          child: Container(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            child: Column(
+              children: <Widget>[
+//                _searchBar(),
+                Expanded(
+                  child: Stack(
+                    children: <Widget>[
+                      _cardLists(),
+                      _wave(),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
-            floatingActionButton: _floatingActionButton(),
           ),
+        ),
+        floatingActionButton: _floatingActionButton(),
       ),
     );
   }
 
 
-  Widget _searchBar(){
-    if (clickedOnSearch){
-      return Padding(
-        padding: EdgeInsets.fromLTRB(15, 10, 15, 6),
-        child: TextField(
-          onChanged: (value) {
-            print(value);
-          },
-          controller: editingController,
-          decoration: InputDecoration(
-              labelText: "Search",
-              hintText: "Search",
-              prefixIcon: Icon(Icons.search),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25.0)))),
-        ),
-      );
-    }else{
-      return Row(
-        children: <Widget>[
-          IconButton(
-            onPressed: (){},
-            icon: Icon(
-              Icons.dehaze,
-            ),
-          ),
-          IconButton(
-            onPressed: (){
-              setState(() {
-                clickedOnSearch = true;
-              });
-            },
-            icon: Icon(
-              Icons.search,
-            ),
-          ),
-        ],
-      );
-    }
+  Widget test1(){
+    return Container(
+      height: 100,
+      width: 100,
+      color: Colors.yellow,
+    );
+  }
+  Widget test2(){
+    return Container(
+      height: 100,
+      width: 100,
+      color: Colors.red,
+    );
+  }
+  Widget test(){
+    return GestureDetector(
+      onTap: (){
+        setState(() {
+          clickedOnSearch = true;
+        });
+      },
+      child: Container(
+        height: 100,
+        width: 100,
+        color: clickedOnSearch == true ? Colors.red : Colors.yellow,
+      ),
+    );
+  }
 
+  Widget _searchBar(){
+    print(clickedOnSearch);
+    return Builder(
+        builder: (BuildContext context){
+          if (clickedOnSearch){
+            print("ITS IF ");
+            return Padding(
+              padding: EdgeInsets.fromLTRB(15, 10, 15, 6),
+              child: TextField(
+                onChanged: (value) {
+                  print(value);
+                },
+                controller: editingController,
+                decoration: InputDecoration(
+                    labelText: "Search",
+                    hintText: "Search",
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+              ),
+            );
+          }else{
+            print("ITS ELSE");
+            return Row(
+              children: <Widget>[
+                IconButton(
+                  onPressed: (){},
+                  icon: Icon(
+                    Icons.dehaze,
+                  ),
+                ),
+                IconButton(
+                  onPressed: (){
+                    setState(() {
+                      print("Search Clicked");
+//                print(clickedOnSearch);
+                      clickedOnSearch = true;
+                      _searchBar();
+                    });
+                  },
+                  icon: Icon(
+                    Icons.search,
+                  ),
+                ),
+              ],
+            );
+          }
+        }
+    );
   }
 
   Widget _drawer(){
@@ -155,8 +205,11 @@ class _HomeScreenState extends State<HomeScreen> {
         return SimpleFoldingCell.create(
             frontWidget: _buildFrontWidget(),
             innerWidget: _buildInnerWidget(),
-            cellSize: Size(MediaQuery.of(context).size.width, 85),
-            padding: EdgeInsets.all(15),
+            cellSize: Size(MediaQuery.of(context).size.width, 80),
+            padding: EdgeInsets.symmetric(
+              horizontal: 20.0,
+              vertical: 20.0,
+            ),
             animationDuration: Duration(milliseconds: 300),
             borderRadius: 20,
             onOpen: () => print('cell opened'),
@@ -173,20 +226,25 @@ class _HomeScreenState extends State<HomeScreen> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
-              border: Border.all(
-                color: Theme.of(context).accentColor,
-                width: 1.0,
+              border: Border(
+                bottom: BorderSide(
+                  color: Theme.of(context).accentColor,
+                  width: 1.0,
+                ),
               ),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("CARD",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'OpenSans',
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w800)),
+                Text(
+                  "CARD",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'OpenSans',
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w800
+                  ),
+                ),
                 FlatButton(
                   onPressed: () {
                     final foldingCellState = context
@@ -289,7 +347,16 @@ class _HomeScreenState extends State<HomeScreen> {
       alignment: Alignment(0.9, 0.95),
       child: FloatingActionButton(
         splashColor: Colors.blue,
-        onPressed: (){},
+        onPressed: (){
+          setState(() {
+//            test1()
+//            if(clickedOnSearch){
+//              clickedOnSearch = false;
+//            }else{
+//              clickedOnSearch = true;
+//            }
+          });
+        },
         elevation: 20.0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         shape: RoundedRectangleBorder(
