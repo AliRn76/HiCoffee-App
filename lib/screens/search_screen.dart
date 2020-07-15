@@ -1,27 +1,18 @@
-
-import 'package:hicoffee/screens/search_screen.dart';
 import 'package:wave/wave.dart';
 import 'package:wave/config.dart';
 import 'package:flutter/material.dart';
 import 'package:folding_cell/folding_cell.dart';
-import 'package:drawerbehavior/drawerbehavior.dart';
 
-
-
-class HomeScreen extends StatefulWidget {
+class SearchScreen extends StatefulWidget {
+  List<String> list;
+  SearchScreen({this.list});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _SearchScreenState createState() => _SearchScreenState();
 }
 
-
-
-class _HomeScreenState extends State<HomeScreen> {
-
-  // Collection Data
-
-  bool clickedOnSearch;
-  int selectedMenuItemId;
+class _SearchScreenState extends State<SearchScreen> {
+  List<String> tempList = [];
   Icon customIcon = Icon(Icons.search);
   TextEditingController editingController = TextEditingController();
 
@@ -33,66 +24,29 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   );
 
-  final menu = new Menu(
-    items: [
-      new MenuItem(
-        id: 'home',
-        title: 'Home',
-      ),
-      new MenuItem(
-        id: 'nightmode',
-        title: 'Night Mode',
-      ),
-      new MenuItem(
-        id: 'about',
-        title: 'About Developer',
-      ),
-    ],
-  );
-
-  List<String> list = ['Hello', "Bye", "Ali", "Hamid", "OK", "ITS GOOD", "EVERYThING will be ok", " asdf"];
-  List<String> tempList = [];
-
-  // End of Collecting Data
-
-
-
-  @override
-  void initState() {
-    super.initState();
-//    tempList = list;
-    clickedOnSearch = false;
-  }
-
 
 
   @override
   Widget build(BuildContext context) {
-    return DrawerScaffold(
+    return Scaffold(
       appBar: _appBar(),
-      drawers: [
-        _drawer(),
-      ],
-      builder: (context, id) => Scaffold(
-        body: SafeArea(
-          child: Container(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            child: Column(
-              children: <Widget>[
+      body: SafeArea(
+        child: Container(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: Column(
+            children: <Widget>[
 //                _searchBar(),
-                Expanded(
-                  child: Stack(
-                    children: <Widget>[
-                      _cardLists(),
-                      _wave(),
-                    ],
-                  ),
+              Expanded(
+                child: Stack(
+                  children: <Widget>[
+                    _cardLists(),
+                    _wave(),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-        floatingActionButton: _floatingActionButton(),
       ),
     );
   }
@@ -104,48 +58,45 @@ class _HomeScreenState extends State<HomeScreen> {
             .scaffoldBackgroundColor,
         elevation: 0.0,
         centerTitle: true,
-        title: customTitle,
+        title: Padding(
+          padding: EdgeInsets.all(0.0),
+          child: TextField(
+            style: TextStyle(
+              fontSize: 17.0,
+              fontWeight: FontWeight.w400,
+            ),
+            maxLines: 1,
+            onChanged: (value) {
+              if (!(value.isEmpty)) {
+                setState(() {
+                  tempList.clear();
+                  print(value);
+                  for (int i = 0; i < widget.list.length; i++) {
+                    if (widget.list[i].toLowerCase().contains(
+                        value.toLowerCase())) {
+                      tempList.add(widget.list[i]);
+                    }
+                  }
+                  print(tempList);
+                });
+              }
+            },
+            controller: editingController,
+            decoration: InputDecoration(
+              labelText: "Search",
+              hintText: "Search",
+              prefixIcon: Icon(Icons.search),
+            ),
+          ),
+        ),
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SearchScreen(list: list,)),
-              );
+            onPressed: (){
+              editingController.clear();
             },
-            icon: customIcon,
-          ),
+            icon: Icon(Icons.cancel),
+          )
         ]
-    );
-  }
-
-
-  Widget _drawer(){
-    return SideDrawer(
-        degree: 45,
-        color: Theme.of(context).primaryColor,
-        selectedItemId: selectedMenuItemId,
-        onMenuItemSelected: (itemId) {
-          setState(() {
-            selectedMenuItemId = itemId;
-          });
-        },
-        menu: menu,
-        itemBuilder:
-            (BuildContext context, MenuItem itemMenu, bool isSelected) {
-          return Container(
-            color: isSelected
-                ? Theme.of(context).accentColor.withOpacity(0.7)
-                : Colors.transparent,
-            padding: EdgeInsets.fromLTRB(24, 16, 24, 16),
-            child: Text(
-              itemMenu.title,
-              style: Theme.of(context).textTheme.subhead.copyWith(
-//                      color: isSelected ? Colors.black87 : Colors.black54),
-                  color: Colors.black87),
-            ),
-          );
-        }
     );
   }
 
@@ -153,11 +104,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return Builder(
       builder: (BuildContext context){
         return ListView.builder(
-          itemCount: list.length,
+          itemCount: tempList.length,
           itemBuilder: (context, index){
             return SimpleFoldingCell.create(
-                frontWidget: _buildFrontWidget(list[index]),
-                innerWidget: _buildInnerWidget(list[index]),
+                frontWidget: _buildFrontWidget(tempList[index]),
+                innerWidget: _buildInnerWidget(tempList[index]),
                 cellSize: Size(MediaQuery.of(context).size.width, 80),
                 padding: EdgeInsets.symmetric(
                   horizontal: 20.0,
@@ -299,29 +250,5 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _floatingActionButton(){
-    return Align(
-      alignment: Alignment(0.9, 0.95),
-      child: FloatingActionButton(
-        splashColor: Colors.blue,
-        onPressed: (){
-          setState(() {
-          });
-        },
-        elevation: 20.0,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        shape: RoundedRectangleBorder(
-            side: BorderSide(color: Theme.of(context).accentColor, width: 2.0),
-            borderRadius: BorderRadius.all(
-                Radius.circular(20.0)
-            )
-        ),
-        child: Icon(
-          Icons.add,
-          size: 36.0,
-          color: Theme.of(context).accentColor,
-        ),
-      ),
-    );
-  }
+
 }
