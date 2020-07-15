@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hicoffee/screens/home_screen.dart';
-import 'package:hicoffee/screens/loading_screen.dart';
-import 'package:hicoffee/screens/custom_drawer_guitar.dart';
+//import 'package:hicoffee/screens/loading_screen.dart';
+//import 'package:hicoffee/screens/custom_drawer_guitar.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,9 +10,9 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    AppBar appBar = AppBar();
-    Widget child = HomeScreen(appBar: appBar);
-    child = CustomGuitarDrawer(child: child);
+//    AppBar appBar = AppBar();
+//    Widget child = HomeScreen(appBar: appBar);
+//    child = CustomGuitarDrawer(child: child);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
 
 
       ),
-      home: child,
+//      home: child,
+      home: HomeScreen(),
     );
   }
 }

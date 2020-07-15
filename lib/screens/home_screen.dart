@@ -4,13 +4,13 @@ import 'package:wave/config.dart';
 import 'package:flutter/material.dart';
 import 'package:folding_cell/folding_cell.dart';
 import 'package:drawerbehavior/drawerbehavior.dart';
-import 'package:hicoffee/screens/custom_drawer_guitar.dart';
+//import 'package:hicoffee/screens/custom_drawer_guitar.dart';
 
 
 class HomeScreen extends StatefulWidget {
 
-  final AppBar appBar;
-  HomeScreen({Key key, @required this.appBar}) : super(key: key);
+//  final AppBar appBar;
+//  HomeScreen({Key key, @required this.appBar}) : super(key: key);
 
 
   @override
@@ -19,6 +19,12 @@ class HomeScreen extends StatefulWidget {
 
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  bool clickedOnSearch;
+  int selectedMenuItemId;
+  TextEditingController editingController = TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
 
   final menu = new Menu(
     items: [
@@ -41,157 +47,97 @@ class _HomeScreenState extends State<HomeScreen> {
     ],
   );
 
-  bool clickedOnSearch;
-  int selectedMenuItemId;
-  TextEditingController editingController = TextEditingController();
-  Color myColor;
+  Widget customTitle = Text(
+    "Hi Coffee",
+    style: TextStyle(
+      fontSize: 19.0,
+      fontWeight: FontWeight.bold,
+    ),
+  );
 
-  bool _active = false;
+  Icon customIcon = Icon(Icons.search);
 
-  void _handleTap() {
-    setState(() {
-      _active = !_active;
-    });
-  }
 
   @override
   void initState() {
     super.initState();
-    myColor = Color(0xFFccffff);
     clickedOnSearch = false;
   }
 
   @override
   Widget build(BuildContext context) {
-    print("Start Build");
-    print(clickedOnSearch);
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          child: Column(
-            children: <Widget>[
-//                _searchBar(),
-              Expanded(
-                child: Stack(
-                  children: <Widget>[
-                    _cardLists(),
-                    _wave(),
-                  ],
-                ),
-              ),
-            ],
+
+    return DrawerScaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0.0,
+        centerTitle: true,
+        title: customTitle,
+        actions: [
+          IconButton(
+            onPressed: (){
+              setState(() {
+                if (this.customIcon.icon == Icons.search){
+                  this.customIcon = Icon(Icons.cancel);
+                  this.customTitle = Padding(
+                    padding: EdgeInsets.all(0.0),
+                    child: TextField(
+                      style: TextStyle(
+                        fontSize: 17.0,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      maxLines: 1,
+                      onChanged: (value) {
+                        print(value);
+                      },
+                      controller: editingController,
+                      decoration: InputDecoration(
+                          labelText: "Search",
+                          hintText: "Search",
+                          prefixIcon: Icon(Icons.search),
+                      ),
+                    ),
+                  );
+                }else{
+                  this.customIcon = Icon(Icons.search);
+                  this.customTitle = Text(
+                    "Hi Coffee",
+                    style: TextStyle(
+                      fontSize: 19.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                }
+              });
+            },
+            icon: customIcon,
           ),
-        ),
+        ]
       ),
-      floatingActionButton: _floatingActionButton(),
-    );
-//    return DrawerScaffold(
-//      drawers: [
-//        _drawer(),
-//      ],
-//      builder: (context, id) => Scaffold(
-//        body: SafeArea(
-//          child: Container(
-//            color: Theme.of(context).scaffoldBackgroundColor,
-//            child: Column(
-//              children: <Widget>[
-////                _searchBar(),
-//                Expanded(
-//                  child: Stack(
-//                    children: <Widget>[
-//                      _cardLists(),
-//                      _wave(),
-//                    ],
-//                  ),
-//                ),
-//              ],
-//            ),
-//          ),
-//        ),
-//        floatingActionButton: _floatingActionButton(),
-//      ),
-//    );
-  }
-
-
-  Widget test1(){
-    return Container(
-      height: 100,
-      width: 100,
-      color: Colors.yellow,
-    );
-  }
-  Widget test2(){
-    return Container(
-      height: 100,
-      width: 100,
-      color: Colors.red,
-    );
-  }
-  Widget test(){
-    return GestureDetector(
-      onTap: (){
-        setState(() {
-          clickedOnSearch = true;
-        });
-      },
-      child: Container(
-        height: 100,
-        width: 100,
-        color: clickedOnSearch == true ? Colors.red : Colors.yellow,
-      ),
-    );
-  }
-
-  Widget _searchBar(){
-    print(clickedOnSearch);
-    return Builder(
-        builder: (BuildContext context){
-          if (clickedOnSearch){
-            print("ITS IF ");
-            return Padding(
-              padding: EdgeInsets.fromLTRB(15, 10, 15, 6),
-              child: TextField(
-                onChanged: (value) {
-                  print(value);
-                },
-                controller: editingController,
-                decoration: InputDecoration(
-                    labelText: "Search",
-                    hintText: "Search",
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25.0)))),
-              ),
-            );
-          }else{
-            print("ITS ELSE");
-            return Row(
+      drawers: [
+        _drawer(),
+      ],
+      builder: (context, id) => Scaffold(
+        body: SafeArea(
+          child: Container(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            child: Column(
               children: <Widget>[
-                IconButton(
-                  onPressed: (){},
-                  icon: Icon(
-                    Icons.dehaze,
-                  ),
-                ),
-                IconButton(
-                  onPressed: (){
-                    setState(() {
-                      print("Search Clicked");
-//                print(clickedOnSearch);
-                      clickedOnSearch = true;
-                      _searchBar();
-                    });
-                  },
-                  icon: Icon(
-                    Icons.search,
+//                _searchBar(),
+                Expanded(
+                  child: Stack(
+                    children: <Widget>[
+                      _cardLists(),
+                      _wave(),
+                    ],
                   ),
                 ),
               ],
-            );
-          }
-        }
+            ),
+          ),
+        ),
+        floatingActionButton: _floatingActionButton(),
+      ),
     );
   }
 
@@ -292,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildInnerWidget() {
     return Builder(
-      builder: (context){
+      builder: (BuildContext context){
         return Stack(
           children: <Widget>[
             Positioned(
@@ -338,7 +284,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         );
-      }
+      },
     );
   }
 
@@ -375,12 +321,6 @@ class _HomeScreenState extends State<HomeScreen> {
         splashColor: Colors.blue,
         onPressed: (){
           setState(() {
-//            test1()
-//            if(clickedOnSearch){
-//              clickedOnSearch = false;
-//            }else{
-//              clickedOnSearch = true;
-//            }
           });
         },
         elevation: 20.0,
@@ -400,44 +340,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-//void main() => runApp(MyApp());
-
-//class MyApp extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    AppBar appBar = AppBar();
-//    Widget child = MyHomePage(appBar: appBar);
-//    child = CustomGuitarDrawer(child: child);
-//    return MaterialApp(
-//      title: 'Flutter Demo',
-//      theme: ThemeData(
-//        primarySwatch: Colors.blue,
-//      ),
-//      home: child,
-//    );
-//  }
-//}
-
-//class MyHomePage extends StatefulWidget {
-//  final AppBar appBar;
-//
-//  MyHomePage({Key key, @required this.appBar}) : super(key: key);
-//
-//  @override
-//  _MyHomePageState createState() => _MyHomePageState();
-//}
-//
-//class _MyHomePageState extends State<MyHomePage> {
-//
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      appBar: widget.appBar,
-//      body: Center(
-//      ),
-//      floatingActionButton: FloatingActionButton(),
-//    );
-//  }
-//}
