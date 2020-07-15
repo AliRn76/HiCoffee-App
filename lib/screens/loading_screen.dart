@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hicoffee/screens/home_screen.dart';
+import 'package:hicoffee/screens/custom_drawer_guitar.dart';
 
 class LoadingScreen extends StatefulWidget {
+
+//  final AppBar appBar;
+//  LoadingScreen({Key key, @required this.appBar}) : super(key: key);
+//
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
 }

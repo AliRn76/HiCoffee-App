@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hicoffee/screens/home_screen.dart';
 import 'package:hicoffee/screens/loading_screen.dart';
+import 'package:hicoffee/screens/custom_drawer_guitar.dart';
 
 void main() {
   runApp(MyApp());
@@ -8,8 +10,13 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AppBar appBar = AppBar();
+    Widget child = HomeScreen(appBar: appBar);
+    child = CustomGuitarDrawer(child: child);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+
       theme: ThemeData(
 //        scaffoldBackgroundColor: Color(0xFFccffff),
 //        scaffoldBackgroundColor: Color(0xFFccebff), // abi kam rang
@@ -21,7 +28,7 @@ class MyApp extends StatelessWidget {
 
 
       ),
-      home: LoadingScreen(),
+      home: child,
     );
   }
 }

@@ -1,12 +1,18 @@
-import 'package:flutter/services.dart';
+
 import 'package:wave/wave.dart';
 import 'package:wave/config.dart';
 import 'package:flutter/material.dart';
 import 'package:folding_cell/folding_cell.dart';
 import 'package:drawerbehavior/drawerbehavior.dart';
+import 'package:hicoffee/screens/custom_drawer_guitar.dart';
 
 
 class HomeScreen extends StatefulWidget {
+
+  final AppBar appBar;
+  HomeScreen({Key key, @required this.appBar}) : super(key: key);
+
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -59,33 +65,53 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     print("Start Build");
     print(clickedOnSearch);
-    return DrawerScaffold(
-
-      drawers: [
-        _drawer(),
-      ],
-      builder: (context, id) => Scaffold(
-        body: SafeArea(
-          child: Container(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            child: Column(
-              children: <Widget>[
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: Column(
+            children: <Widget>[
 //                _searchBar(),
-                Expanded(
-                  child: Stack(
-                    children: <Widget>[
-                      _cardLists(),
-                      _wave(),
-                    ],
-                  ),
+              Expanded(
+                child: Stack(
+                  children: <Widget>[
+                    _cardLists(),
+                    _wave(),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-        floatingActionButton: _floatingActionButton(),
       ),
+      floatingActionButton: _floatingActionButton(),
     );
+//    return DrawerScaffold(
+//      drawers: [
+//        _drawer(),
+//      ],
+//      builder: (context, id) => Scaffold(
+//        body: SafeArea(
+//          child: Container(
+//            color: Theme.of(context).scaffoldBackgroundColor,
+//            child: Column(
+//              children: <Widget>[
+////                _searchBar(),
+//                Expanded(
+//                  child: Stack(
+//                    children: <Widget>[
+//                      _cardLists(),
+//                      _wave(),
+//                    ],
+//                  ),
+//                ),
+//              ],
+//            ),
+//          ),
+//        ),
+//        floatingActionButton: _floatingActionButton(),
+//      ),
+//    );
   }
 
 
@@ -374,3 +400,44 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+//void main() => runApp(MyApp());
+
+//class MyApp extends StatelessWidget {
+//  @override
+//  Widget build(BuildContext context) {
+//    AppBar appBar = AppBar();
+//    Widget child = MyHomePage(appBar: appBar);
+//    child = CustomGuitarDrawer(child: child);
+//    return MaterialApp(
+//      title: 'Flutter Demo',
+//      theme: ThemeData(
+//        primarySwatch: Colors.blue,
+//      ),
+//      home: child,
+//    );
+//  }
+//}
+
+//class MyHomePage extends StatefulWidget {
+//  final AppBar appBar;
+//
+//  MyHomePage({Key key, @required this.appBar}) : super(key: key);
+//
+//  @override
+//  _MyHomePageState createState() => _MyHomePageState();
+//}
+//
+//class _MyHomePageState extends State<MyHomePage> {
+//
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return Scaffold(
+//      appBar: widget.appBar,
+//      body: Center(
+//      ),
+//      floatingActionButton: FloatingActionButton(),
+//    );
+//  }
+//}
