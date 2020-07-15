@@ -1,13 +1,13 @@
 
-import 'package:hicoffee/screens/search_screen.dart';
-import 'package:wave/wave.dart';
-import 'package:wave/config.dart';
+
 import 'package:flutter/material.dart';
-import 'package:folding_cell/folding_cell.dart';
+
 import 'package:drawerbehavior/drawerbehavior.dart';
+import 'package:hicoffee/screens/search_screen.dart';
 
-
-
+import 'package:hicoffee/widgets/wave.dart';
+import 'package:hicoffee/widgets/cardLists.dart';
+import 'package:hicoffee/screens/addItem_screen.dart';
 class HomeScreen extends StatefulWidget {
 
   @override
@@ -22,9 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool clickedOnSearch;
   int selectedMenuItemId;
-  Icon customIcon = Icon(Icons.search);
-  TextEditingController editingController = TextEditingController();
 
+  TextEditingController editingController = TextEditingController();
+  Icon customIcon = Icon(Icons.search);
   Widget customTitle = Text(
     "Hi Coffee",
     style: TextStyle(
@@ -32,6 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
       fontWeight: FontWeight.bold,
     ),
   );
+
+
+
 
   final menu = new Menu(
     items: [
@@ -44,13 +47,17 @@ class _HomeScreenState extends State<HomeScreen> {
         title: 'Night Mode',
       ),
       new MenuItem(
+        id: 'terms',
+        title: 'Terms of Service',
+      ),
+      new MenuItem(
         id: 'about',
-        title: 'About Developer',
+        title: 'About us',
       ),
     ],
   );
 
-  List<String> list = ['Hello', "Bye", "Ali", "Hamid", "OK", "ITS GOOD", "EVERYThING will be ok", " asdf"];
+  List<String> list = ['Hello',"سلام","ماگ طرحدار","علی", "ماگ خوب", "Bye", "Ali", "Hamid", "OK", "ITS GOOD", "EVERYThING will be ok", " asdf"];
   List<String> tempList = [];
 
   // End of Collecting Data
@@ -74,48 +81,24 @@ class _HomeScreenState extends State<HomeScreen> {
         _drawer(),
       ],
       builder: (context, id) => Scaffold(
-        body: SafeArea(
-          child: Container(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            child: Column(
-              children: <Widget>[
+        body: Container(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: Column(
+            children: <Widget>[
 //                _searchBar(),
-                Expanded(
-                  child: Stack(
-                    children: <Widget>[
-                      _cardLists(),
-                      _wave(),
-                    ],
-                  ),
+              Expanded(
+                child: Stack(
+                  children: <Widget>[
+                    Center(child: CardLists(list: list)),
+                    Wave(),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         floatingActionButton: _floatingActionButton(),
       ),
-    );
-  }
-
-  Widget _appBar() {
-    return AppBar(
-        backgroundColor: Theme
-            .of(context)
-            .scaffoldBackgroundColor,
-        elevation: 0.0,
-        centerTitle: true,
-        title: customTitle,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SearchScreen(list: list,)),
-              );
-            },
-            icon: customIcon,
-          ),
-        ]
     );
   }
 
@@ -149,153 +132,25 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _cardLists(){
-    return Builder(
-      builder: (BuildContext context){
-        return ListView.builder(
-          itemCount: list.length,
-          itemBuilder: (context, index){
-            return SimpleFoldingCell.create(
-                frontWidget: _buildFrontWidget(list[index]),
-                innerWidget: _buildInnerWidget(list[index]),
-                cellSize: Size(MediaQuery.of(context).size.width, 80),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20.0,
-                  vertical: 20.0,
-                ),
-                animationDuration: Duration(milliseconds: 300),
-                borderRadius: 20,
-                onOpen: () => print('cell opened'),
-                onClose: () => print('cell closed')
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Widget _buildFrontWidget(String name) {
-    return Builder(
-      builder: (BuildContext context){
-        return Container(
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              border: Border(
-                bottom: BorderSide(
-                  color: Theme.of(context).accentColor,
-                  width: 1.0,
-                ),
-              ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  name,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'OpenSans',
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w800
-                  ),
-                ),
-                FlatButton(
-                  onPressed: () {
-                    final foldingCellState = context
-                        .findAncestorStateOfType<SimpleFoldingCellState>();
-                    foldingCellState?.toggleFold();
-                  },
-                  child: Icon(
-                    Icons.keyboard_arrow_down,
-                    size: 30.0,
-                    color: Theme.of(context).accentColor,
-                  ),
-                )
-              ],
-            )
-        );
-      },
-    );
-  }
-
-  Widget _buildInnerWidget(String name) {
-    return Builder(
-      builder: (BuildContext context){
-        return Stack(
-          children: <Widget>[
-            Positioned(
-              top: 0.0,
-              width: MediaQuery.of(context).size.width - 30,
-              height: 85.0,
-              child: Container(
-                color: Colors.purpleAccent[100],
-                alignment: Alignment.center,
-                child: Text(
-                  name,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'OpenSans',
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w800
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 0.0,
-              height: 85.0,
-              child: Container(
-                color: Colors.white,
-                width: MediaQuery.of(context).size.width - 30.0,
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: FlatButton(
-                    onPressed: () {
-                      final foldingCellState = context
-                          .findAncestorStateOfType<SimpleFoldingCellState>();
-                      foldingCellState?.toggleFold();
-                    },
-                    child: Icon(
-                      Icons.keyboard_arrow_up,
-                      size: 30.0,
-                      color: Theme.of(context).accentColor,
-                    ),
-                    //          splashColor: Colors.white.withOpacity(0.5),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _wave(){
-    return Positioned(
-      bottom: 0.0,
-      child: WaveWidget(
-        config: CustomConfig(
-          gradients: [
-            [Color(0xFF3A2DB3), Color(0xFF3A2DB1)],
-            [Color(0xFFEC72EE), Color(0xFFFF7D9C)],
-            [Color(0xFFfc00ff), Color(0xFF00dbde)],
-            [Color(0xFF396afc), Color(0xFF2948ff)],
-          ],
-          durations: [35000, 19440, 10800, 6000],
-          heightPercentages: [0.20, 0.23, 0.25, 0.30],
-          blur: MaskFilter.blur(BlurStyle.inner, 5),
-          gradientBegin: Alignment.centerLeft,
-          gradientEnd: Alignment.centerRight,
-        ),
-        waveAmplitude: 1,
-        size: Size(
-          MediaQuery.of(context).size.width,
-          100.0,
-        ),
-      ),
+  Widget _appBar(){
+    return AppBar(
+        backgroundColor: Theme
+            .of(context)
+            .scaffoldBackgroundColor,
+        elevation: 0.0,
+        centerTitle: true,
+        title: customTitle,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SearchScreen(list: list)),
+              );
+            },
+            icon: customIcon,
+          ),
+        ]
     );
   }
 
@@ -306,6 +161,11 @@ class _HomeScreenState extends State<HomeScreen> {
         splashColor: Colors.blue,
         onPressed: (){
           setState(() {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddItemScreen(list: list)),
+            );
+
           });
         },
         elevation: 20.0,

@@ -31,6 +31,8 @@ dependencies:
   drawerbehavior: ^1.0.3
   wave: ^0.0.8
   folding_cell: ^1.0.0
+  flip_card: ^0.4.4
+  flutter_fluid_slider: ^1.0.2
 
 dev_dependencies:
   flutter_test:

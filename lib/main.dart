@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hicoffee/screens/home_screen.dart';
+import 'package:hicoffee/screens/loading_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
 
       ),
 //      home: child,
-      home: HomeScreen(),
+//      home: HomeScreen(),
+      home: LoadingScreen(),
     );
   }
 }
