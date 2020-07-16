@@ -34,6 +34,9 @@ dependencies:
   flip_card: ^0.4.4
   flutter_fluid_slider: ^1.0.2
   clay_containers: ^0.2.2
+  number_selection: ^0.0.1
+
+#  font_awesome_flutter: ^8.8.1
 
 dev_dependencies:
   flutter_test:

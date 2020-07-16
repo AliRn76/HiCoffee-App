@@ -1,10 +1,10 @@
 
 
 import 'package:flutter/material.dart';
-
+import 'package:hicoffee/widgets/slide_bottom_route.dart';
 import 'package:drawerbehavior/drawerbehavior.dart';
 import 'package:hicoffee/screens/search_screen.dart';
-
+import 'package:hicoffee/model/item.dart';
 import 'package:hicoffee/widgets/wave.dart';
 import 'package:hicoffee/widgets/cardLists.dart';
 import 'package:hicoffee/screens/addItem_screen.dart';
@@ -13,7 +13,6 @@ class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
-
 
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -57,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ],
   );
 
-  List<String> list = ['Hello', "Bye", "Ali", "Hamid", "OK", "ITS GOOD", "EVERYThING will be ok", " asdf"];
+  List<Item> list = [Item("hello",3), Item("کلمبیا۱۹", 33), Item("اندونزی مدیوم", 30), Item("میلانو", 0), Item("ترک لایت", 25), Item("سالوادور", 0), Item("نیکاراگوئه", 28), Item("پرو", 5), Item("ویتنام", 0), Item("گلد اکوادور(بسته ۵ کیلویی)", 0), Item("چای ماسالا (بسته)", 30), Item("اتیوپی", 30), Item("پی بی", 15), Item("چری", 15), Item("برزیل", 19)];
   List<String> tempList = [];
 
   // End of Collecting Data
@@ -83,17 +82,10 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, id) => Scaffold(
         body: Container(
           color: Theme.of(context).scaffoldBackgroundColor,
-          child: Column(
+          child: Stack(
             children: <Widget>[
-//                _searchBar(),
-              Expanded(
-                child: Stack(
-                  children: <Widget>[
-                    Center(child: CardLists(list: list)),
-                    Wave(),
-                  ],
-                ),
-              ),
+              Center(child: CardLists(list: list)),
+              Wave(),
             ],
           ),
         ),
@@ -101,11 +93,28 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+//  @override
+//  Widget build(BuildContext context) {
+//    return Scaffold(
+//      appBar: _appBar(),
+//      body: Container(
+//        color: Theme.of(context).scaffoldBackgroundColor,
+//        child: Stack(
+//          children: <Widget>[
+//            Center(child: CardLists(list: list)),
+//            Wave(),
+//          ],
+//        ),
+//      ),
+//      floatingActionButton: _floatingActionButton(),
+//    );
+//  }
 
 
   Widget _drawer(){
     return SideDrawer(
-        degree: 145,
+        degree: 45,
+        drawerWidth: MediaQuery.of(context).size.width/2.4,
         color: Theme.of(context).primaryColor,
         selectedItemId: selectedMenuItemId,
         onMenuItemSelected: (itemId) {
@@ -143,12 +152,20 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SearchScreen(list: list)),
+              Navigator.push(context,
+                  PageRouteBuilder(
+                      transitionDuration: Duration(milliseconds: 600),
+                      pageBuilder: (_, __, ___) => SearchScreen(list: list)
+                  ),
+//              Navigator.push(
+//                context,
+//                MaterialPageRoute(builder: (context) => SearchScreen(list: list)),
               );
             },
-            icon: customIcon,
+            icon: Hero(
+              tag: "search",
+              child: customIcon
+            ),
           ),
         ]
     );
@@ -163,8 +180,12 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddItemScreen(list: list)),
+              SlideBottomRoute(page: AddItemScreen(list: list)),
             );
+//            Navigator.push(
+//              context,
+//              MaterialPageRoute(builder: (context) => AddItemScreen(list: list)),
+//            );
 
           });
         },

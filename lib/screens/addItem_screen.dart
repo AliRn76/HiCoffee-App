@@ -5,10 +5,10 @@ import 'package:hicoffee/widgets/wave.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
 import 'package:clay_containers/clay_containers.dart';
-
+import 'package:hicoffee/model/item.dart';
 
 class AddItemScreen extends StatefulWidget {
-  List<String> list = [];
+  List<Item> list = [];
   AddItemScreen({this.list});
 
   @override
@@ -46,21 +46,19 @@ class _AddItemScreenState extends State<AddItemScreen> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         color: Theme.of(context).scaffoldBackgroundColor ,
-        child: Expanded(
-            child: Stack(
-              children: <Widget>[
-                Center(
-                  child: FlipCard(
-                    key: cardKey,
-                    flipOnTouch: false,
-                    direction: FlipDirection.VERTICAL,
-                    front: _fromView(),
-                    back: _backView(),
-                  ),  
-                ),
-                Wave(),
-              ],
-            )
+        child: Stack(
+          children: <Widget>[
+            Center(
+              child: FlipCard(
+                key: cardKey,
+                flipOnTouch: false,
+                direction: FlipDirection.VERTICAL,
+                front: _frontView(),
+                back: _backView(),
+              ),
+            ),
+            Wave(),
+          ],
         ),
       ),
     );
@@ -78,18 +76,26 @@ class _AddItemScreenState extends State<AddItemScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SearchScreen(list: widget.list,)),
+              Navigator.push(context,
+                PageRouteBuilder(
+                    transitionDuration: Duration(milliseconds: 600),
+                    pageBuilder: (_, __, ___) => SearchScreen(list: widget.list)
+                ),
+//              Navigator.push(
+//                context,
+//                MaterialPageRoute(builder: (context) => SearchScreen(list: list)),
               );
             },
-            icon: customIcon,
+            icon: Hero(
+              tag: "search",
+              child: customIcon
+            ),
           ),
         ]
     );
   }
 
-  Widget _fromView(){
+  Widget _frontView(){
     return Center(
       child: Container(
         margin: EdgeInsets.only(bottom: height()/5),
@@ -113,7 +119,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.next,
                 style: TextStyle(
-                  fontSize: 16.0,
+                  fontSize: 15.0,
                   fontFamily: "BNazanin",
                   fontWeight: FontWeight.w400,
                 ),
@@ -150,8 +156,11 @@ class _AddItemScreenState extends State<AddItemScreen> {
             Container(
               child: Center(
                 child: ClayContainer(
+                  emboss: false,
+                  curveType: CurveType.none,
                   borderRadius: 12.0,
-                  color: baseColor,
+//                  color: baseColor,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   width: 70,
                   child: IconButton(
                     onPressed: () => cardKey.currentState.toggleCard(),
@@ -194,7 +203,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
               child: Center(
                 child: ClayContainer(
                   borderRadius: 12.0,
-                  color: baseColor,
+//                  color: baseColor,
+                  color: Theme.of(context).scaffoldBackgroundColor,
                   width: 70,
                   child: IconButton(
                     onPressed: () => cardKey.currentState.toggleCard(),

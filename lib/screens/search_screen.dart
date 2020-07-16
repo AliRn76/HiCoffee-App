@@ -5,10 +5,10 @@ import 'package:folding_cell/folding_cell.dart';
 
 import 'package:hicoffee/widgets/wave.dart';
 import 'package:hicoffee/widgets/cardLists.dart';
-
+import 'package:hicoffee/model/item.dart';
 
 class SearchScreen extends StatefulWidget {
-  List<String> list;
+  List<Item> list;
   SearchScreen({this.list});
 
   @override
@@ -16,7 +16,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  List<String> tempList = [];
+  List<Item> tempList = [];
   Icon customIcon = Icon(Icons.search);
   TextEditingController editingController = TextEditingController();
 
@@ -53,19 +53,28 @@ class _SearchScreenState extends State<SearchScreen> {
         title: Padding(
           padding: EdgeInsets.all(0.0),
           child: TextField(
-            autofocus: true,
+//            autofocus: true,
+            autofocus: false,
             style: TextStyle(
               fontSize: 17.0,
               fontWeight: FontWeight.w400,
             ),
             maxLines: 1,
+            controller: editingController,
+            decoration: InputDecoration(
+              labelText: "Search",
+//              hintText: "Search",
+              prefixIcon: Hero(
+                tag: "search",
+                child: Icon(Icons.search)),
+            ),
             onChanged: (value) {
-              if (!(value.isEmpty)) {
+              if (value.isNotEmpty) {
                 setState(() {
                   tempList.clear();
                   print(value);
                   for (int i = 0; i < widget.list.length; i++) {
-                    if (widget.list[i].toLowerCase().contains(
+                    if (widget.list[i].name.toLowerCase().contains(
                         value.toLowerCase())) {
                       tempList.add(widget.list[i]);
                     }
@@ -74,12 +83,6 @@ class _SearchScreenState extends State<SearchScreen> {
                 });
               }
             },
-            controller: editingController,
-            decoration: InputDecoration(
-              labelText: "Search",
-//              hintText: "Search",
-              prefixIcon: Icon(Icons.search),
-            ),
           ),
         ),
         actions: [
