@@ -19,27 +19,30 @@ class CardLists extends StatelessWidget {
         return ListView.builder(
           itemCount: list.length,
           itemBuilder: (context, index){
-            return Center(
-              child: SimpleFoldingCell.create(
-                  frontWidget: _buildFrontWidget(list[index].name),
-                  innerWidget: _buildInnerWidget(context, list[index].name),
-                  cellSize: Size(width()/1.2, height()/7),
-                  padding: EdgeInsets.symmetric(
-                    vertical: height()/35,
-                  ),
-                  animationDuration: Duration(milliseconds: 300),
-                  borderRadius: 20,
-                  onOpen: () => print('cell opened'),
-                  onClose: () => print('cell closed')
-              ),
-            );
+            if (list[index].name == null)
+              return Container(height: 100);
+            else
+              return Center(
+                child: SimpleFoldingCell.create(
+                    frontWidget: _buildFrontWidget(list[index]),
+                    innerWidget: _buildInnerWidget(context, list[index]),
+                    cellSize: Size(width()/1.2, height()/7),
+                    padding: EdgeInsets.symmetric(
+                      vertical: height()/35,
+                    ),
+                    animationDuration: Duration(milliseconds: 300),
+                    borderRadius: 20,
+                    onOpen: () => print('cell opened'),
+                    onClose: () => print('cell closed')
+                ),
+              );
           },
         );
       },
     );
   }
 
-  Widget _buildFrontWidget(String name) {
+  Widget _buildFrontWidget(Item item) {
     return Builder(
       builder: (BuildContext context){
         return Container(
@@ -60,18 +63,40 @@ class CardLists extends StatelessWidget {
                   child: Directionality(
                     textDirection: TextDirection.rtl,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Container(
 //                          color: Colors.green,
+                          margin: EdgeInsets.only(right: 20.0),
                           child: Text(
-                            name,
+                            item.name,
                             style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'OpenSans',
                                 fontSize: 20.0,
                                 fontWeight: FontWeight.w800
                             ),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 20.0),
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                "تعداد:  ",
+                                style: TextStyle(
+                                  fontSize: 19.0,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                item.number.toString(),
+                                style: TextStyle(
+                                  fontSize: 19.0,
+                                  color: Colors.white
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -103,7 +128,7 @@ class CardLists extends StatelessWidget {
     );
   }
 
-  Widget _buildInnerWidget(BuildContext context, String name) {
+  Widget _buildInnerWidget(BuildContext context, Item item) {
     double width() => MediaQuery.of(context).size.width;
     double height() => MediaQuery.of(context).size.height;
 
@@ -126,9 +151,9 @@ class CardLists extends StatelessWidget {
                       Container(
                         width: width()/2.8,
                         child: NumberSelection(
-                          initialValue: 1,
-                          maxValue: 5,
-                          minValue: -2,
+                          initialValue: 0,
+                          maxValue: item.number,
+                          minValue: 0,
                           direction: Axis.horizontal,
                           withSpring: false,
                           onChanged: (int value) => print('new value $value'),
@@ -142,20 +167,21 @@ class CardLists extends StatelessWidget {
                         borderRadius: 12.0,
                         color: Colors.greenAccent[200],
                         width: width()/4.5,
-                        height: height()/13,
-                        child: Center(
-                          child: FlatButton(
-                            onPressed: (){print("SOLD");},
-                            child: ClayText(
-                              "Sold",
-                              emboss: true,
-                              depth: 20,
-                              color: Colors.black45,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.2,
-                              ),
+                        height: height()/15,
+                        child: FlatButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)
+                            ),
+                          onPressed: (){print("SOLD");},
+                          child: ClayText(
+                            "Sold",
+                            emboss: true,
+                            depth: 20,
+                            color: Colors.black45,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.2,
                             ),
                           ),
                         ),

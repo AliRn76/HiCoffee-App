@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:hicoffee/widgets/slide_bottom_route.dart';
+import 'package:hicoffee/widgets/slide_right_route.dart';
 import 'package:drawerbehavior/drawerbehavior.dart';
 import 'package:hicoffee/screens/search_screen.dart';
 import 'package:hicoffee/model/item.dart';
@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ],
   );
 
-  List<Item> list = [Item("hello",3), Item("کلمبیا۱۹", 33), Item("اندونزی مدیوم", 30), Item("میلانو", 0), Item("ترک لایت", 25), Item("سالوادور", 0), Item("نیکاراگوئه", 28), Item("پرو", 5), Item("ویتنام", 0), Item("گلد اکوادور(بسته ۵ کیلویی)", 0), Item("چای ماسالا (بسته)", 30), Item("اتیوپی", 30), Item("پی بی", 15), Item("چری", 15), Item("برزیل", 19)];
+  List<Item> list = [Item("hello",3), Item("کلمبیا۱۹", 33), Item("اندونزی مدیوم", 30), Item("میلانو", 0), Item("ترک لایت", 25), Item("سالوادور", 0), Item("نیکاراگوئه", 28), Item("پرو", 5), Item("ویتنام", 0), Item("گلد اکوادور(بسته ۵ کیلویی)", 0), Item("چای ماسالا (بسته)", 30), Item("اتیوپی", 30), Item("پی بی", 15), Item("چری", 15), Item("برزیل", 19), Item(null,0)];
   List<String> tempList = [];
 
   // End of Collecting Data
@@ -180,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() {
             Navigator.push(
               context,
-              SlideBottomRoute(page: AddItemScreen(list: list)),
+              SlideRightRoute(page: AddItemScreen(list: list)),
             );
 //            Navigator.push(
 //              context,
