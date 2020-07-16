@@ -57,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ],
   );
 
-  List<String> list = ['Hello',"سلام","ماگ طرحدار","علی", "ماگ خوب", "Bye", "Ali", "Hamid", "OK", "ITS GOOD", "EVERYThING will be ok", " asdf"];
+  List<String> list = ['Hello', "Bye", "Ali", "Hamid", "OK", "ITS GOOD", "EVERYThING will be ok", " asdf"];
   List<String> tempList = [];
 
   // End of Collecting Data
@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _drawer(){
     return SideDrawer(
-        degree: 45,
+        degree: 145,
         color: Theme.of(context).primaryColor,
         selectedItemId: selectedMenuItemId,
         onMenuItemSelected: (itemId) {

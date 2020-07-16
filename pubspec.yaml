@@ -33,6 +33,7 @@ dependencies:
   folding_cell: ^1.0.0
   flip_card: ^0.4.4
   flutter_fluid_slider: ^1.0.2
+  clay_containers: ^0.2.2
 
 dev_dependencies:
   flutter_test:

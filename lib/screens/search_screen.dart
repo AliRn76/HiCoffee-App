@@ -47,9 +47,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Widget _appBar() {
     return AppBar(
-        backgroundColor: Theme
-            .of(context)
-            .scaffoldBackgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0.0,
         centerTitle: true,
         title: Padding(

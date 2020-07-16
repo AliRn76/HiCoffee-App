@@ -6,6 +6,7 @@ class CardLists extends StatelessWidget {
 
   CardLists({this.list});
 
+
   @override
   Widget build(BuildContext context) {
     return Builder(
@@ -13,18 +14,20 @@ class CardLists extends StatelessWidget {
         return ListView.builder(
           itemCount: list.length,
           itemBuilder: (context, index){
-            return SimpleFoldingCell.create(
-                frontWidget: _buildFrontWidget(list[index]),
-                innerWidget: _buildInnerWidget(list[index]),
-                cellSize: Size(MediaQuery.of(context).size.width, 80),
-                padding: EdgeInsets.symmetric(
-                  horizontal: 20.0,
-                  vertical: 20.0,
-                ),
-                animationDuration: Duration(milliseconds: 300),
-                borderRadius: 20,
-                onOpen: () => print('cell opened'),
-                onClose: () => print('cell closed')
+            return Center(
+              child: SimpleFoldingCell.create(
+                  frontWidget: _buildFrontWidget(list[index]),
+                  innerWidget: _buildInnerWidget(list[index]),
+                  cellSize: Size(MediaQuery.of(context).size.width - MediaQuery.of(context).size.width/6, 80),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                    vertical: 20.0,
+                  ),
+                  animationDuration: Duration(milliseconds: 300),
+                  borderRadius: 20,
+                  onOpen: () => print('cell opened'),
+                  onClose: () => print('cell closed')
+              ),
             );
           },
         );
@@ -39,16 +42,15 @@ Widget _buildFrontWidget(String name) {
   return Builder(
     builder: (BuildContext context){
       return Container(
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            border: Border(
-              bottom: BorderSide(
-                color: Theme.of(context).accentColor,
-                width: 1.0,
-              ),
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          border: Border(
+            bottom: BorderSide(
+              color: Theme.of(context).accentColor,
+              width: 1.0,
             ),
           ),
+        ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -87,7 +89,7 @@ Widget _buildInnerWidget(String name) {
         children: <Widget>[
           Positioned(
             top: 0.0,
-            width: MediaQuery.of(context).size.width - 30,
+            width: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width / 6,
             height: 85.0,
             child: Container(
               color: Colors.purpleAccent[100],
@@ -108,7 +110,7 @@ Widget _buildInnerWidget(String name) {
             height: 85.0,
             child: Container(
               color: Colors.white,
-              width: MediaQuery.of(context).size.width - 30.0,
+              width: MediaQuery.of(context).size.width - MediaQuery.of(context).size.width / 6,
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: EdgeInsets.only(bottom: 10),

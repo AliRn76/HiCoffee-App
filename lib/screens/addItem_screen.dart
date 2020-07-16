@@ -4,6 +4,8 @@ import 'package:hicoffee/screens/search_screen.dart';
 import 'package:hicoffee/widgets/wave.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
+import 'package:clay_containers/clay_containers.dart';
+
 
 class AddItemScreen extends StatefulWidget {
   List<String> list = [];
@@ -18,6 +20,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController description = TextEditingController();
   Icon customIcon = Icon(Icons.search);
+  Color baseColor = Color(0xFFF2F2F2);
   double _value = 0;
   Widget customTitle = Text(
     "Hi Coffee",
@@ -27,6 +30,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
     ),
   );
 
+  double height(){
+    return MediaQuery.of(context).size.height;
+  }
+
+  double width(){
+    return MediaQuery.of(context).size.width;
+  }
 
 
   @override
@@ -46,7 +56,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     direction: FlipDirection.VERTICAL,
                     front: _fromView(),
                     back: _backView(),
-                  ),
+                  ),  
                 ),
                 Wave(),
               ],
@@ -80,93 +90,125 @@ class _AddItemScreenState extends State<AddItemScreen> {
   }
 
   Widget _fromView(){
-    return Container(
-      height: MediaQuery.of(context).size.height - 200,
-
-      width: 250.0,
-      decoration: BoxDecoration(
-        color: Colors.white30,
-        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        border: Border.all(
-          color: Theme.of(context).primaryColor,
-          width: 1.0,
+    return Center(
+      child: Container(
+        margin: EdgeInsets.only(bottom: height()/5),
+        height: height() - height()/1.9,
+        width: width()- width()/2.5,
+        decoration: BoxDecoration(
+          color: Colors.white30,
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          border: Border.all(
+            color: Theme.of(context).primaryColor,
+            width: 1.0,
+          ),
         ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: TextFormField(
-              controller: nameController,
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.next,
-              style: TextStyle(
-                fontSize: 18.0,
-                fontFamily: "BNazanin",
-                fontWeight: FontWeight.w400,
-              ),
-              decoration: InputDecoration(
-                hintText: "Name",
-                contentPadding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 0.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 7.0),
+              child: TextFormField(
+                controller: nameController,
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.next,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontFamily: "BNazanin",
+                  fontWeight: FontWeight.w400,
+                ),
+                decoration: InputDecoration(
+                  hintText: "Name",
+                  contentPadding: EdgeInsets.symmetric(horizontal: 12.0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: FluidSlider(
-              labelsTextStyle: TextStyle(
-                fontSize: 17.0,
-                color: Colors.white,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 7.0),
+              child: FluidSlider(
+                labelsTextStyle: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.white,
+                ),
+                value: _value,
+                valueTextStyle: TextStyle(
+                  fontSize: 16.0,
+                ),
+                onChanged: (double newValue) {
+                  setState(() {
+                    _value = newValue;
+                  });
+                },
+                min: 0.0,
+                max: 100.0,
               ),
-              value: _value,
-              valueTextStyle: TextStyle(
-                fontSize: 17.0,
-              ),
-              onChanged: (double newValue) {
-                setState(() {
-                  _value = newValue;
-                });
-              },
-              min: 0.0,
-              max: 100.0,
             ),
-          ),
-          RaisedButton(
-            color: Colors.lightGreenAccent[100],
-            onPressed: () => cardKey.currentState.toggleCard(),
-            child: Text('Add Item'),
-          ),
-        ],
+            SizedBox(height: height()/12),
+            Container(
+              child: Center(
+                child: ClayContainer(
+                  borderRadius: 12.0,
+                  color: baseColor,
+                  width: 70,
+                  child: IconButton(
+                    onPressed: () => cardKey.currentState.toggleCard(),
+                    icon: Icon(
+                      Icons.add_shopping_cart,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _backView(){
-    return Column(
-      children: <Widget>[
-        Container(
-          height: MediaQuery.of(context).size.height - 200,
-          color: Colors.white12,
-          width: 250.0,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              IconButton(
-                onPressed: () => cardKey.currentState.toggleCard(),
-                icon: Icon(
-                    Icons.adb
-                ),
-              ),
-            ],
+    return Center(
+      child: Container(
+        margin: EdgeInsets.only(bottom: height()/17),
+        decoration: BoxDecoration(
+          color: Colors.white30,
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          border: Border.all(
+            color: Theme.of(context).primaryColor,
+            width: 1.0,
           ),
         ),
-      ],
+        height: height() - height()/1.4,
+        width: width() - width()/2.5,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            SizedBox(height: height()/20),
+            Text(
+              "Successfully Added",
+            ),
+            SizedBox(height: height()/12),
+            Container(
+              child: Center(
+                child: ClayContainer(
+                  borderRadius: 12.0,
+                  color: baseColor,
+                  width: 70,
+                  child: IconButton(
+                    onPressed: () => cardKey.currentState.toggleCard(),
+                    icon: Icon(
+                      Icons.done
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: height()/50),
+          ],
+        ),
+      ),
     );
   }
-
 }
-
