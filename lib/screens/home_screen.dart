@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ],
   );
 
-  List<Item> list = [Item("hello",3), Item("کلمبیا۱۹", 33), Item("اندونزی مدیوم", 30), Item("میلانو", 0), Item("ترک لایت", 25), Item("سالوادور", 0), Item("نیکاراگوئه", 28), Item("پرو", 5), Item("ویتنام", 0), Item("گلد اکوادور(بسته ۵ کیلویی)", 0), Item("چای ماسالا (بسته)", 30), Item("اتیوپی", 30), Item("پی بی", 15), Item("چری", 15), Item("برزیل", 19), Item(null,0)];
+  List<Item> list = [Item("hello",3), Item("کلمبیا۱۹", 33), Item("اندونزی مدیوم", 30), Item("میلانو", 0), Item("کلمشسیب( شسیب یسبییی ییییییییییب بببببببببببببببببیا۱۹", 383), Item("ترک لایت", 25), Item("سالوادور", 0), Item("نیکاراگوئه", 28), Item("پرو", 5), Item("ویتنام", 0), Item("گلد اکوادور(بسته ۵ کیلویی)", 0), Item("چای ماسالا (بسته)", 30), Item("اتیوپی", 30), Item("پی بی", 15), Item("چری", 15), Item("برزیل", 19), Item("%^&*&^%",0)];
   List<String> tempList = [];
 
   // End of Collecting Data
@@ -72,43 +72,43 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-  @override
-  Widget build(BuildContext context) {
-    return DrawerScaffold(
-      appBar: _appBar(),
-      drawers: [
-        _drawer(),
-      ],
-      builder: (context, id) => Scaffold(
-        body: Container(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          child: Stack(
-            children: <Widget>[
-              Center(child: CardLists(list: list)),
-              Wave(),
-            ],
-          ),
-        ),
-        floatingActionButton: _floatingActionButton(),
-      ),
-    );
-  }
 //  @override
 //  Widget build(BuildContext context) {
-//    return Scaffold(
+//    return DrawerScaffold(
 //      appBar: _appBar(),
-//      body: Container(
-//        color: Theme.of(context).scaffoldBackgroundColor,
-//        child: Stack(
-//          children: <Widget>[
-//            Center(child: CardLists(list: list)),
-//            Wave(),
-//          ],
+//      drawers: [
+//        _drawer(),
+//      ],
+//      builder: (context, id) => Scaffold(
+//        body: Container(
+//          color: Theme.of(context).scaffoldBackgroundColor,
+//          child: Stack(
+//            children: <Widget>[
+//              Center(child: CardLists(list: list)),
+//              Wave(),
+//            ],
+//          ),
 //        ),
+//        floatingActionButton: _floatingActionButton(),
 //      ),
-//      floatingActionButton: _floatingActionButton(),
 //    );
 //  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: _appBar(),
+      body: Container(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        child: Stack(
+          children: <Widget>[
+            Center(child: CardLists(list: list)),
+            Wave(),
+          ],
+        ),
+      ),
+      floatingActionButton: _floatingActionButton(),
+    );
+  }
 
 
   Widget _drawer(){

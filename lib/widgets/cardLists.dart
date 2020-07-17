@@ -1,13 +1,17 @@
+import 'dart:developer';
+
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:folding_cell/folding_cell.dart';
 import 'package:flutter/material.dart';
 import 'package:number_selection/number_selection.dart';
 import 'package:hicoffee/model/item.dart';
+import 'package:flip_card/flip_card.dart';
 
 class CardLists extends StatelessWidget {
   List<Item> list = [];
   CardLists({this.list});
+
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +23,28 @@ class CardLists extends StatelessWidget {
         return ListView.builder(
           itemCount: list.length,
           itemBuilder: (context, index){
-            if (list[index].name == null)
-              return Container(height: 100);
+            if(index+1 == list.length)
+              return Column(
+                children: <Widget>[
+                  SimpleFoldingCell.create(
+                      frontWidget: _buildFrontWidget(context, list[index]),
+                      innerWidget: _buildInnerWidget(context, list[index]),
+                      cellSize: Size(width()/1.2, height()/7),
+                      padding: EdgeInsets.symmetric(
+                        vertical: height()/35,
+                      ),
+                      animationDuration: Duration(milliseconds: 300),
+                      borderRadius: 20,
+                      onOpen: () => print('cell opened'),
+                      onClose: () => print('cell closed')
+                  ),
+                  SizedBox(height: 100.0),
+                ],
+              );
             else
               return Center(
                 child: SimpleFoldingCell.create(
-                    frontWidget: _buildFrontWidget(list[index]),
+                    frontWidget: _buildFrontWidget(context, list[index]),
                     innerWidget: _buildInnerWidget(context, list[index]),
                     cellSize: Size(width()/1.2, height()/7),
                     padding: EdgeInsets.symmetric(
@@ -42,7 +62,9 @@ class CardLists extends StatelessWidget {
     );
   }
 
-  Widget _buildFrontWidget(Item item) {
+  Widget _buildFrontWidget(BuildContext context, Item item) {
+    double width() => MediaQuery.of(context).size.width;
+
     return Builder(
       builder: (BuildContext context){
         return Container(
@@ -55,58 +77,60 @@ class CardLists extends StatelessWidget {
                 ),
               ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: Column(
+//              mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Flexible(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Container(
-//                          color: Colors.green,
-                          margin: EdgeInsets.only(right: 20.0),
+                          margin: EdgeInsets.only(right: 15.0, top: 15.0),
+                          width: width()/1.35,
                           child: Text(
                             item.name,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'OpenSans',
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w800
+                              color: Colors.black,
+                              fontFamily: 'BNazanin',
+                              fontSize: 20.0,
+                              fontWeight: FontWeight.w800,
                             ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(left: 20.0),
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                "تعداد:  ",
-                                style: TextStyle(
-                                  fontSize: 19.0,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Text(
-                                item.number.toString(),
-                                style: TextStyle(
-                                  fontSize: 19.0,
-                                  color: Colors.white
-                                ),
-                              ),
-                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                ),
-                Flexible(
-                  child: Container(
-//                height: 40.0,
-//                    color: Colors.red,
+                  Flexible(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 20.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Text(
+                            "تعداد:  ",
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontFamily: 'BNazanin',
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            item.number.toString(),
+                            style: TextStyle(
+                                fontSize: 24.0,
+                                fontFamily: 'BNazanin',
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Flexible(
                     child: IconButton(
                       onPressed: () {
                         final foldingCellState = context
@@ -116,12 +140,12 @@ class CardLists extends StatelessWidget {
                       iconSize: 35.0,
                       icon: Icon(
                         Icons.keyboard_arrow_down,
-                        color: Theme.of(context).accentColor,
+                        color: Colors.black54,
                       ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             )
         );
       },
@@ -149,7 +173,7 @@ class CardLists extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       Container(
-                        width: width()/2.8,
+                        width: width()/3,
                         child: NumberSelection(
                           initialValue: 0,
                           maxValue: item.number,
@@ -195,7 +219,7 @@ class CardLists extends StatelessWidget {
               bottom: 0.0,
               height: height()/7,
               child: Container(
-                color: Colors.white,
+                color: Color(0xffd1fae6	),
                 width: width() - width()/6,
                 alignment: Alignment.bottomCenter,
                 child: Padding(
@@ -241,6 +265,9 @@ class CardLists extends StatelessWidget {
 
 
 }
+
+//TODO: Card Ha Khodeshon Bayad FlipCard Beshan , Ke Baad Az Sold Ye PM Successful Ya Fail Neshon Bede
+//TODO: Edit & Delete Jofteshon Bayad Ye Flip Card Bashan Va Hamonja Poshte Card Ha Edit Ya Deleteshon Kone
 
 
 

@@ -66,7 +66,8 @@ class _SearchScreenState extends State<SearchScreen> {
 //              hintText: "Search",
               prefixIcon: Hero(
                 tag: "search",
-                child: Icon(Icons.search)),
+                child: Icon(Icons.search)
+              ),
             ),
             onChanged: (value) {
               if (value.isNotEmpty) {
@@ -76,10 +77,11 @@ class _SearchScreenState extends State<SearchScreen> {
                   for (int i = 0; i < widget.list.length; i++) {
                     if (widget.list[i].name.toLowerCase().contains(
                         value.toLowerCase())) {
+//                      print("IF ${widget.list[i].name}");
                       tempList.add(widget.list[i]);
                     }
                   }
-                  print(tempList);
+//                  print(tempList);
                 });
               }
             },

@@ -81,5 +81,15 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
+  fonts:
+    - family: BNazanin
+      fonts:
+        - asset: assets/fonts/BNazanin.ttf
+    - family: BNazanin_outline
+      fonts:
+        - asset: assets/fonts/BNazanin_Outline.ttf
+    - family: BTitr_Bold
+      fonts:
+        - asset: assets/fonts/BTitr_Bold.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

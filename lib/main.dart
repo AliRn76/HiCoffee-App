@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Color(0xFFe6f3ff),
 //        primaryColor: Color.fromRGBO(212, 244, 255, 1),
 //        primaryColor: Color(0xFF80ccff), // abi ye kam por rang
-        primaryColor: Color(0xFF99ceff),
+        primaryColor: Color(0xFF66c2ff),
         accentColor: Color(0xFF646B86), // 0xFFEB5757 0xFFE8F4F7
 
 

@@ -16,7 +16,7 @@ class AddItemScreen extends StatefulWidget {
 }
 
 class _AddItemScreenState extends State<AddItemScreen> {
-  GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
+  GlobalKey<FlipCardState> addCardKey = GlobalKey<FlipCardState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController description = TextEditingController();
   Icon customIcon = Icon(Icons.search);
@@ -50,7 +50,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           children: <Widget>[
             Center(
               child: FlipCard(
-                key: cardKey,
+                key: addCardKey,
                 flipOnTouch: false,
                 direction: FlipDirection.VERTICAL,
                 front: _frontView(),
@@ -115,9 +115,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 7.0),
               child: TextFormField(
+                textInputAction: TextInputAction.done,
                 controller: nameController,
                 keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.next,
                 style: TextStyle(
                   fontSize: 15.0,
                   fontFamily: "BNazanin",
@@ -163,7 +163,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   color: Theme.of(context).scaffoldBackgroundColor,
                   width: 70,
                   child: IconButton(
-                    onPressed: () => cardKey.currentState.toggleCard(),
+                    onPressed: () => addCardKey.currentState.toggleCard(),
                     icon: Icon(
                       Icons.add_shopping_cart,
                     ),
@@ -207,7 +207,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   color: Theme.of(context).scaffoldBackgroundColor,
                   width: 70,
                   child: IconButton(
-                    onPressed: () => cardKey.currentState.toggleCard(),
+                    onPressed: () => addCardKey.currentState.toggleCard(),
                     icon: Icon(
                       Icons.done
                     ),
