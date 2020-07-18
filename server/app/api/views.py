@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 
 from app.models import Item
-from app.api.serializers import ItemSerializers
+from app.api.serializers import ItemSerializers, SellItemSerializers
 
 
 @api_view(['GET', ])
@@ -109,7 +109,6 @@ def edit_item(request):
 
 @api_view(['DELETE', ])
 def delete_item(request, item_name):
-
     items = Item.objects.filter(name=item_name)
 
     # If we have two item with same name, delete the first one
@@ -119,7 +118,6 @@ def delete_item(request, item_name):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     result = item.delete()
-
     if result:
         data = {
             "response": "deleted successfully",
@@ -128,3 +126,36 @@ def delete_item(request, item_name):
     else:
         return Response(data=result, status=status.HTTP_409_CONFLICT)
 
+
+@api_view(['POST', ])
+def sell_item(request):
+    # Collecting Data
+    serializer = SellItemSerializers(data=request.data)
+    if serializer.is_valid():
+        item = serializer.save()
+        temp_old_item = Item.objects.filter(name=item.name)
+        # If we had multiple item, sell the first one
+        try:
+            old_item = temp_old_item[0]
+        except Item.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        # Check Is Number Positive
+        new_number = old_item.number - item.number
+        print("sell nubmer: " + str(item.number))
+        print("new nubmer: " + str(new_number))
+        if new_number < 0:
+            print("error, you cant sell that much")
+            return Response(data={"response": "you can not sell that much"}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+        # Update number of item
+        old_item = Item.objects.filter(name=item.name).update(number=new_number)
+
+        # Set Response
+        if old_item:
+            return Response(data={"response": "success"}, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    else:
+        return Response(data=serializer.errors)
