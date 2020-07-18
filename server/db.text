@@ -1,9 +1,9 @@
-Create Database HiCoffee;
+Create Database HiCoffee character set UTF8;
 
 Create Table Item(
 	ID int Not Null Primary Key Auto_Increment,
-	Name varchar(96)
-	
+	Name varchar(96),
+	Number int
 );
 
 Create Table Log(
