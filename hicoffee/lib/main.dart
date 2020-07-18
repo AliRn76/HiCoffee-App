@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       ),
       title: Text('Hello Flutter Europe'),
     );
-    Widget child = HomeScreen();
+    Widget child = LoadingScreen();
     child = CustomDrawer(child: child);
 
     return MaterialApp(
