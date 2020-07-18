@@ -7,7 +7,7 @@ from django.db import models
 
 class Item(models.Model):
     id      = models.AutoField(db_column='ID', primary_key=True)
-    name    = models.CharField(db_column='Name', max_length=96, null=True)
+    name    = models.CharField(db_column='Name', max_length=96, unique=True, null=True)
     number = models.IntegerField(db_column='Number', null=True)
     class Meta:
         db_table = 'Item'

@@ -1,7 +1,9 @@
 from django.urls import path, include
-from app.api.views import test, show_all_items
+from app.api.views import *
 
 urlpatterns = [
-    path('test/', test),
+    path('delete/<str:item_name>', delete_item),
     path('show-all/', show_all_items),
+    path('edit/', edit_item),
+    path('add/', add_item),
 ]

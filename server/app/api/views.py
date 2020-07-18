@@ -13,13 +13,12 @@ from app.api.serializers import ItemSerializers
 
 @api_view(['GET', ])
 def test(request):
-    return Response({"response":"successful"})
+    return Response({"response": "successful"})
 
 
 @api_view(['GET', ])
 @permission_classes((AllowAny,))
 def show_all_items(request):
-    data = {}
     # Collecting Data
     items = Item.objects.all()
 
@@ -31,4 +30,101 @@ def show_all_items(request):
     else:
         data = {"response": "there is no item"}
         return Response(data=data, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['POST', ])
+def add_item(request):
+    # Serialize data
+    serializer = ItemSerializers(data=request.data)
+    if serializer.is_valid():
+        item = serializer.save()
+        # If Name was null or empty
+        if item.name is None or item.name == '':
+            data = {
+                "response": "name can't be null"
+            }
+            return Response(data=data, status=status.HTTP_406_NOT_ACCEPTABLE)
+        # If number was null
+        if item.number is None:
+            item.number = 0
+        item.save()
+        data = {
+            "response": "success",
+            "name": item.name,
+            "number": item.number
+        }
+        return Response(data=data, status=status.HTTP_200_OK)
+    else:
+        return Response(data=serializer.errors)
+
+
+@api_view(['PUT', ])
+def edit_item(request):
+    # Serialize data
+    serializer = ItemSerializers(data=request.data)
+    old_name = request.data.get("old_name")
+
+    try:
+        # Check is old_name valid or not
+        temp_old_item = Item.objects.filter(name=old_name)
+        old_item = temp_old_item[0]
+
+    except Item.DoesNotExist:
+        data = {
+            "response": "old_name does not exist",
+        }
+        return Response(data=data, status=status.HTTP_404_NOT_FOUND)
+
+    # Save the serializer in item
+    if serializer.is_valid():
+        item = serializer.save()
+
+        # If name was not null and doesn't exist --> update it
+        if item.name is not None:
+            name_check = Item.objects.get(name=item.name)
+            if name_check is None:
+                old_item.name = item.name
+            else:
+                data = {
+                    "response": "item with this name already exists.",
+                }
+                return Response(data=data, status=status.HTTP_409_CONFLICT)
+
+        # If Name was not null --> update it
+        if item.number is not None:
+            old_item.number = item.number
+
+        # Update Response, Should be Null
+        response = old_item.save()
+        print("response: ", response)
+        data = {
+            "response": "success",
+            "name": old_item.name,
+            "number": old_item.number
+        }
+        return Response(data=data, status=status.HTTP_202_ACCEPTED)
+    else:
+        return Response(data=serializer.errors)
+
+
+@api_view(['DELETE', ])
+def delete_item(request, item_name):
+
+    items = Item.objects.filter(name=item_name)
+
+    # If we have two item with same name, delete the first one
+    try:
+        item = items[0]
+    except:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    result = item.delete()
+
+    if result:
+        data = {
+            "response": "deleted successfully",
+        }
+        return Response(data=data, status=status.HTTP_200_OK)
+    else:
+        return Response(data=result, status=status.HTTP_409_CONFLICT)
 
