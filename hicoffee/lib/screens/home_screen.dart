@@ -1,27 +1,27 @@
-
-
-
-
+// package
 import 'package:flutter/material.dart';
-import 'package:hicoffee/widgets/slide_right_route.dart';
 import 'package:drawerbehavior/drawerbehavior.dart';
-import 'package:hicoffee/screens/search_screen.dart';
+import 'package:hicoffee/blocs/get_items.dart';
+// model
 import 'package:hicoffee/model/item.dart';
+// widgets
 import 'package:hicoffee/widgets/wave.dart';
 import 'package:hicoffee/widgets/cardLists.dart';
-import 'package:hicoffee/screens/addItem_screen.dart';
 import 'package:hicoffee/widgets/custom_drawer.dart';
+import 'package:hicoffee/widgets/slide_right_route.dart';
+// screens
+import 'package:hicoffee/screens/search_screen.dart';
+import 'package:hicoffee/screens/addItem_screen.dart';
+import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 
+//import 'package:hicoffee/sqlite/database_helper.dart'
 class HomeScreen extends StatefulWidget {
-
-
-//  final AppBar appBar;
-//
-//  HomeScreen({Key key, @required this.appBar}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
+
 
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -65,8 +65,17 @@ class _HomeScreenState extends State<HomeScreen> {
     ],
   );
 
-  List<Item> list = [Item("hello",3), Item("کلمبیا۱۹", 33), Item("اندونزی مدیوم", 30), Item("میلانو", 0), Item("کلمشسیب( شسیب یسبییی ییییییییییب بببببببببببببببببیا۱۹", 383), Item("ترک لایت", 25), Item("سالوادور", 0), Item("نیکاراگوئه", 28), Item("پرو", 5), Item("ویتنام", 0), Item("گلد اکوادور(بسته ۵ کیلویی)", 0), Item("چای ماسالا (بسته)", 30), Item("اتیوپی", 30), Item("پی بی", 15), Item("چری", 15), Item("برزیل", 19), Item("%^&*&^%",0)];
-  List<String> tempList = [];
+//  List<Item> list = [
+//    Item("hello",3),              Item("کلمبیا۱۹", 33),
+//    Item("اندونزی مدیوم", 30),    Item("میلانو", 0),
+//    Item("کلمشسیب( شسیب یسبییی ییییییییییب بببببببببببببببببیا۱۹", 383),
+//    Item("ترک لایت", 25),          Item("سالوادور", 0),
+//    Item("نیکاراگوئه", 28),       Item("پرو", 5),
+//    Item("ویتنام", 0),            Item("گلد اکوادور(بسته ۵ کیلویی)", 0),
+//    Item("چای ماسالا (بسته)", 30), Item("اتیوپی", 30),
+//    Item("پی بی", 15),            Item("چری", 15),
+//    Item("برزیل", 19)];
+//  List<String> tempList = [];
 
   // End of Collecting Data
 
@@ -104,6 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //  }
   @override
   Widget build(BuildContext context) {
+    final GetItems getItems = Provider.of<GetItems>(context);
     return Scaffold(
 //      drawer: Drawer(
 //        elevation: 100.0,
@@ -126,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
         color: Theme.of(context).scaffoldBackgroundColor,
         child: Stack(
           children: <Widget>[
-            Center(child: CardLists(list: list)),
+            Center(child: CardLists(list: getItems.items)),
             Wave(),
           ],
         ),
@@ -167,6 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _appBar(){
+    final GetItems getItems = Provider.of<GetItems>(context);
     return AppBar(
         backgroundColor: Theme
             .of(context)
@@ -188,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(context,
                   PageRouteBuilder(
                       transitionDuration: Duration(milliseconds: 600),
-                      pageBuilder: (_, __, ___) => SearchScreen(list: list)
+                      pageBuilder: (_, __, ___) => SearchScreen(list: getItems.items)
                   ),
 //              Navigator.push(
 //                context,
@@ -205,6 +216,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _floatingActionButton(){
+    final GetItems getItems = Provider.of<GetItems>(context);
     return Align(
       alignment: Alignment(0.9, 0.95),
       child: FloatingActionButton(
@@ -213,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() {
             Navigator.push(
               context,
-              SlideRightRoute(page: AddItemScreen(list: list)),
+              SlideRightRoute(page: AddItemScreen(list: getItems.items)),
             );
 //            Navigator.push(
 //              context,

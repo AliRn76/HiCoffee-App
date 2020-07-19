@@ -1,11 +1,13 @@
-import 'package:wave/wave.dart';
-import 'package:wave/config.dart';
 import 'package:flutter/material.dart';
-import 'package:folding_cell/folding_cell.dart';
+
+import 'package:hicoffee/model/item.dart';
 
 import 'package:hicoffee/widgets/wave.dart';
 import 'package:hicoffee/widgets/cardLists.dart';
-import 'package:hicoffee/model/item.dart';
+
+
+
+
 
 class SearchScreen extends StatefulWidget {
   List<Item> list;
@@ -14,6 +16,8 @@ class SearchScreen extends StatefulWidget {
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
+
+
 
 class _SearchScreenState extends State<SearchScreen> {
   List<Item> tempList = [];
@@ -45,6 +49,7 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
+
   Widget _appBar() {
     return AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -53,7 +58,6 @@ class _SearchScreenState extends State<SearchScreen> {
         title: Padding(
           padding: EdgeInsets.all(0.0),
           child: TextField(
-//            autofocus: true,
             autofocus: false,
             style: TextStyle(
               fontSize: 17.0,

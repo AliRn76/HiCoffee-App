@@ -1,23 +1,32 @@
+import 'dart:convert';
+import 'package:hicoffee/blocs/get_items.dart';
+import 'package:http/http.dart';
 import 'package:flutter/material.dart';
+import 'package:hicoffee/model/item.dart';
 import 'package:hicoffee/screens/home_screen.dart';
+import 'package:provider/provider.dart';
+
 
 class LoadingScreen extends StatefulWidget {
 
-//  final AppBar appBar;
-//  LoadingScreen({Key key, @required this.appBar}) : super(key: key);
-//
   @override
   _LoadingScreenState createState() => _LoadingScreenState();
 }
 
-class _LoadingScreenState extends State<LoadingScreen> {
 
+
+class _LoadingScreenState extends State<LoadingScreen> {
+  List<Item> items;
+
+
+  
   @override
   void initState() {
+
     super.initState();
+    print("Loading initState");
     loading();
   }
-
 
   void loading() async{
     Future.delayed(Duration(seconds: 0), () {
@@ -30,6 +39,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final GetItems getItems = Provider.of<GetItems>(context);
+    getItems.requestItems();
     return Scaffold(
       body: Container(
         color: Theme.of(context).accentColor,
