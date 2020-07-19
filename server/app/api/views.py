@@ -55,7 +55,7 @@ def add_item(request):
         }
         return Response(data=data, status=status.HTTP_200_OK)
     else:
-        return Response(data=serializer.errors)
+        return Response(data=serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
 @api_view(['PUT', ])
@@ -104,7 +104,7 @@ def edit_item(request):
         }
         return Response(data=data, status=status.HTTP_202_ACCEPTED)
     else:
-        return Response(data=serializer.errors)
+        return Response(data=serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
 @api_view(['DELETE', ])
@@ -132,13 +132,16 @@ def sell_item(request):
     # Collecting Data
     serializer = SellItemSerializers(data=request.data)
     if serializer.is_valid():
-        item = serializer.save()
-        temp_old_item = Item.objects.filter(name=item.name)
-        # If we had multiple item, sell the first one
+        temp_old_item = Item.objects.filter(name=serializer.validated_data.get("name"))
         try:
             old_item = temp_old_item[0]
-        except Item.DoesNotExist:
+        except :
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+        item = serializer.save()
+
+        # If we had multiple item, sell the first one
+
 
         # Check Is Number Positive
         new_number = old_item.number - item.number
@@ -158,4 +161,4 @@ def sell_item(request):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     else:
-        return Response(data=serializer.errors)
+        return Response(data=serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
