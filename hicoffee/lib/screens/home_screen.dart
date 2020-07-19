@@ -29,10 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Collection Data
 
-  bool clickedOnSearch;
-  int selectedMenuItemId;
-  bool drawerIsOpen = false;
-  TextEditingController editingController = TextEditingController();
   Icon customIcon = Icon(Icons.search);
   Widget customTitle = Text(
     "Hi Coffee",
@@ -41,9 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
       fontWeight: FontWeight.bold,
     ),
   );
-
-
-  double height() => MediaQuery.of(context).size.height;
 
   final menu = new Menu(
     items: [
@@ -66,18 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
     ],
   );
 
-//  List<Item> list = [
-//    Item("hello",3),              Item("کلمبیا۱۹", 33),
-//    Item("اندونزی مدیوم", 30),    Item("میلانو", 0),
-//    Item("کلمشسیب( شسیب یسبییی ییییییییییب بببببببببببببببببیا۱۹", 383),
-//    Item("ترک لایت", 25),          Item("سالوادور", 0),
-//    Item("نیکاراگوئه", 28),       Item("پرو", 5),
-//    Item("ویتنام", 0),            Item("گلد اکوادور(بسته ۵ کیلویی)", 0),
-//    Item("چای ماسالا (بسته)", 30), Item("اتیوپی", 30),
-//    Item("پی بی", 15),            Item("چری", 15),
-//    Item("برزیل", 19)];
-//  List<String> tempList = [];
-
   // End of Collecting Data
 
 
@@ -85,59 +66,19 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-//    tempList = list;
-    clickedOnSearch = false;
   }
 
 
-
-//  @override
-//  Widget build(BuildContext context) {
-//    return DrawerScaffold(
-//      appBar: _appBar(),
-//      drawers: [
-//        _drawer(),
-//      ],
-//      builder: (context, id) => Scaffold(
-//        body: Container(
-//          color: Theme.of(context).scaffoldBackgroundColor,
-//          child: Stack(
-//            children: <Widget>[
-//              Center(child: CardLists(list: list)),
-//              Wave(),
-//            ],
-//          ),
-//        ),
-//        floatingActionButton: _floatingActionButton(),
-//      ),
-//    );
-//  }
   @override
   Widget build(BuildContext context) {
-    final RequestsProvider getItems = Provider.of<RequestsProvider>(context);
+    final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
     return Scaffold(
-//      drawer: Drawer(
-//        elevation: 100.0,
-//        child: ListView(
-//          padding: EdgeInsets.fromLTRB(10.0, height()/3, 0.0, 0.0),
-//          children: <Widget>[
-//            ListTile(
-//              title: Text("About us"),
-//              onTap: () => print("about us"),
-//            ),
-//            ListTile(
-//              title: Text("Help"),
-//              onTap: () => print("help"),
-//            ),
-//          ],
-//        ),
-//      ),
       appBar: _appBar(),
       body: Container(
         color: Theme.of(context).scaffoldBackgroundColor,
         child: Stack(
           children: <Widget>[
-            Center(child: CardLists(list: getItems.items)),
+            Center(child: CardLists(list: requestsProvider.items)),
             Wave(),
           ],
         ),
@@ -146,36 +87,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
-  Widget _drawer(){
-    return SideDrawer(
-        degree: 45,
-        drawerWidth: MediaQuery.of(context).size.width/2.4,
-        color: Theme.of(context).primaryColor,
-        selectedItemId: selectedMenuItemId,
-        onMenuItemSelected: (itemId) {
-          setState(() {
-            selectedMenuItemId = itemId;
-          });
-        },
-        menu: menu,
-        itemBuilder:
-            (BuildContext context, MenuItem itemMenu, bool isSelected) {
-          return Container(
-            color: isSelected
-                ? Theme.of(context).accentColor.withOpacity(0.7)
-                : Colors.transparent,
-            padding: EdgeInsets.fromLTRB(24, 16, 24, 16),
-            child: Text(
-              itemMenu.title,
-              style: Theme.of(context).textTheme.subhead.copyWith(
-//                      color: isSelected ? Colors.black87 : Colors.black54),
-                  color: Colors.black87),
-            ),
-          );
-        }
-    );
-  }
 
   Widget _appBar(){
     final RequestsProvider getItems = Provider.of<RequestsProvider>(context);
@@ -202,9 +113,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       transitionDuration: Duration(milliseconds: 600),
                       pageBuilder: (_, __, ___) => SearchScreen(list: getItems.items)
                   ),
-//              Navigator.push(
-//                context,
-//                MaterialPageRoute(builder: (context) => SearchScreen(list: list)),
               );
             },
             icon: Hero(
@@ -216,10 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-//  void show_all()async{
-//    var result = await DatabaseHelper().selectItems();
-//    print("*Result: $result");
-//  }
+
   Widget _floatingActionButton(){
     final RequestsProvider getItems = Provider.of<RequestsProvider>(context);
     return Align(

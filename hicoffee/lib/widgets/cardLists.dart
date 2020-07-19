@@ -4,19 +4,42 @@ import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:folding_cell/folding_cell.dart';
 import 'package:flutter/material.dart';
+import 'package:hicoffee/blocs/requests_provider.dart';
 import 'package:number_selection/number_selection.dart';
 import 'package:hicoffee/model/item.dart';
 import 'package:flip_card/flip_card.dart';
+import 'package:provider/provider.dart';
 
 class CardLists extends StatelessWidget {
   List<Item> list = [];
   CardLists({this.list});
+
+  Color acceptColor = Colors.greenAccent[200];
+  Color deleteColor = Colors.redAccent[400];
+  Color editColor = Colors.grey[600];
+  Color errorColor = Colors.redAccent[200];
+
+
+  void deleteItem(BuildContext context, Item item, RequestsProvider requestsProvider) async{
+    int statusCode = await requestsProvider.reqDeleteItem(item);
+    if(statusCode == 200){
+      Scaffold.of(context).showSnackBar(
+          _snackBar("Deleted Successfully", deleteColor)
+      );
+    }else{
+      Scaffold.of(context).showSnackBar(
+          _snackBar("Couldn't Delete That Item", errorColor)
+      );
+    }
+  }
 
 
   @override
   Widget build(BuildContext context) {
     double width() => MediaQuery.of(context).size.width;
     double height() => MediaQuery.of(context).size.height;
+
+
 
     return Builder(
       builder: (BuildContext context){
@@ -152,9 +175,7 @@ class CardLists extends StatelessWidget {
   Widget _buildInnerWidget(BuildContext context, Item item) {
     double width() => MediaQuery.of(context).size.width;
     double height() => MediaQuery.of(context).size.height;
-    Color acceptColor = Colors.greenAccent[200];
-    Color deleteColor = Colors.redAccent[400];
-    Color editColor = Colors.grey[600];
+    final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
 
     return Builder(
       builder: (BuildContext context){
@@ -234,9 +255,9 @@ class CardLists extends StatelessWidget {
                         icon: Icon(Icons.delete),
                         iconSize: 27.0,
                         color: deleteColor,
-                        onPressed: () => Scaffold.of(context).showSnackBar(
-                            _snackBar("Deleted", deleteColor)
-                        ),
+                        onPressed: () {
+                          deleteItem(context, item, requestsProvider);
+                        },
                       ),
                       FlatButton(
                         onPressed: () {
@@ -269,6 +290,7 @@ class CardLists extends StatelessWidget {
     );
   }
 
+
   Widget _snackBar(String message, Color color){
     return SnackBar(
       duration: Duration(seconds: 2),
@@ -285,7 +307,12 @@ class CardLists extends StatelessWidget {
     );
 
   }
+
 }
+
+
+
+
 
 //TODO: Card Ha Khodeshon Bayad FlipCard Beshan , Ke Baad Az Sold Ye PM Successful Ya Fail Neshon Bede
 //TODO: Edit & Delete Jofteshon Bayad Ye Flip Card Bashan Va Hamonja Poshte Card Ha Edit Ya Deleteshon Kone

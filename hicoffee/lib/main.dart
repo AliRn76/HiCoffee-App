@@ -12,8 +12,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Widget child = LoadingScreen();
-    child = CustomDrawer(child: child);
+
 
     return MultiProvider(
       providers: [
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Color(0xFF66c2ff),
           accentColor: Color(0xFF646B86),
         ),
-        home: child,
+        home: LoadingScreen(),
       ),
     );
 

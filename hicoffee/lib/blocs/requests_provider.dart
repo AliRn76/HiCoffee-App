@@ -62,20 +62,29 @@ class RequestsProvider extends ChangeNotifier{
 
 
   void reqAddItem(Item item) async{
-
     Map<String, dynamic> reqBody = item.toMap();
     String jsonBody = jsonEncode(reqBody);
     Map<String, String> reqHeader = {"Content-type": "application/json", "Accept": "application/json"};
-
     Response response = await post("http://al1.best:85/api/add/", body:jsonBody, headers: reqHeader);
+
     if(response.statusCode == 201){
       _items.add(item);
       notifyListeners();
+    }else{
+      print("Error In Add Item");
     }
   }
 
-  void reqDeleteItem(String name) async{
-    Response response = await get("http://al1.best:85/api/delete/$name");
+  Future<int> reqDeleteItem(Item item) async{
+//    Map<String, String> reqHeader = {"Content-type": "application/json", "Accept": "application/json"};
+    Response response = await delete("http://al1.best:85/api/delete/${item.name}");
+    print(response.body);
+    print(response.statusCode);
+    if(response.statusCode == 200){
+      _items.remove(item);
+      notifyListeners();
+    }
+    return response.statusCode;
   }
 
   void reqEditItem() async{

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:hicoffee/blocs/requests_provider.dart';
+import 'package:hicoffee/widgets/custom_drawer.dart';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:hicoffee/model/item.dart';
@@ -34,10 +35,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void loading() async{
+    Widget child = HomeScreen();
+    child = CustomDrawer(child: child);
     Future.delayed(Duration(seconds: 0), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => child),
       );
     });
   }
