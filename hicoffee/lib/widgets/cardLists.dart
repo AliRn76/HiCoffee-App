@@ -33,6 +33,18 @@ class CardLists extends StatelessWidget {
     }
   }
 
+  void sellItem(BuildContext context, Item item, RequestsProvider requestsProvider) async{
+    int statusCode = await requestsProvider.reqSellItem(item);
+    if(statusCode == 200){
+      Scaffold.of(context).showSnackBar(
+          _snackBar("Sold Successfully", acceptColor)
+      );
+    }else{
+      Scaffold.of(context).showSnackBar(
+          _snackBar("Couldn't Delete That Item", errorColor)
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -173,6 +185,7 @@ class CardLists extends StatelessWidget {
   }
 
   Widget _buildInnerWidget(BuildContext context, Item item) {
+    int value;
     double width() => MediaQuery.of(context).size.width;
     double height() => MediaQuery.of(context).size.height;
     final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
@@ -202,7 +215,7 @@ class CardLists extends StatelessWidget {
                           minValue: 0,
                           direction: Axis.horizontal,
                           withSpring: false,
-                          onChanged: (int value) => print('new value $value'),
+                          onChanged: (value) => print('new value $value'),
                         ),
                       ),
                       ClayContainer(
@@ -218,9 +231,10 @@ class CardLists extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)
                             ),
-                          onPressed: () => Scaffold.of(context).showSnackBar(
-                              _snackBar("Sold", acceptColor)
-                          ),
+                          onPressed: (){
+                              Item item_for_sell = Item(item.name, value);
+                              sellItem(context, item_for_sell, requestsProvider);
+                          },
                           child: ClayText(
                             "Sold",
                             emboss: true,

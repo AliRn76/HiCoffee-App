@@ -62,7 +62,7 @@ class RequestsProvider extends ChangeNotifier{
 
 
   void reqAddItem(Item item) async{
-    Map<String, dynamic> reqBody = item.toMap();
+    Map<String, dynamic> reqBody = item.toJson();
     String jsonBody = jsonEncode(reqBody);
     Map<String, String> reqHeader = {"Content-type": "application/json", "Accept": "application/json"};
     Response response = await post("http://al1.best:85/api/add/", body:jsonBody, headers: reqHeader);
@@ -75,8 +75,8 @@ class RequestsProvider extends ChangeNotifier{
     }
   }
 
+
   Future<int> reqDeleteItem(Item item) async{
-//    Map<String, String> reqHeader = {"Content-type": "application/json", "Accept": "application/json"};
     Response response = await delete("http://al1.best:85/api/delete/${item.name}");
     print(response.body);
     print(response.statusCode);
@@ -87,12 +87,27 @@ class RequestsProvider extends ChangeNotifier{
     return response.statusCode;
   }
 
+
+  Future<int> reqSellItem(Item item) async{
+    Map<String, dynamic> reqBody = item.toJson();
+    String jsonBody = jsonEncode(reqBody);
+    Map<String, String> reqHeader = {"Content-type": "application/json", "Accept": "application/json"};
+    Response response = await post("http://al1.best:85/api/sell/", body:jsonBody, headers:reqHeader);
+    if(response.statusCode == 200){
+      for(int i=0 ; i<_items.length ; i++){
+        if (_items[i].name == item.name)
+          _items[i].number = item.number;
+      }
+      notifyListeners();
+    }
+    return response.statusCode;
+  }
+
+
   void reqEditItem() async{
     Response response = await get("http://al1.best:85/api/edit/");
   }
 
-  void reqSellItem() async{
-    Response response = await get("http://al1.best:85/api/sell/");
-  }
+
 
 }
