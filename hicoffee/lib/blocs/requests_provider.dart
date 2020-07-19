@@ -6,11 +6,11 @@ import 'package:hicoffee/sqlite/database_helper.dart';
 import 'package:http/http.dart';
 
 
-class GetItems extends ChangeNotifier{
+class RequestsProvider extends ChangeNotifier{
 
   // Ta tooye main GetItems() seda zade mishe , inja tooye constructor in 2 ta
   // function ro ejra mikone (faghat nmidonm chera 2 bar ejrash mikone - ziad mohem nist :D)
-  GetItems() {
+  RequestsProvider() {
     // Use the local db
     selectAll();
     // Get data from server
@@ -58,4 +58,32 @@ class GetItems extends ChangeNotifier{
       });
     }
   }
+
+
+
+  void reqAddItem(Item item) async{
+
+    Map<String, dynamic> reqBody = item.toMap();
+    String jsonBody = jsonEncode(reqBody);
+    Map<String, String> reqHeader = {"Content-type": "application/json", "Accept": "application/json"};
+
+    Response response = await post("http://al1.best:85/api/add/", body:jsonBody, headers: reqHeader);
+    if(response.statusCode == 201){
+      _items.add(item);
+      notifyListeners();
+    }
+  }
+
+  void reqDeleteItem(String name) async{
+    Response response = await get("http://al1.best:85/api/delete/$name");
+  }
+
+  void reqEditItem() async{
+    Response response = await get("http://al1.best:85/api/edit/");
+  }
+
+  void reqSellItem() async{
+    Response response = await get("http://al1.best:85/api/sell/");
+  }
+
 }

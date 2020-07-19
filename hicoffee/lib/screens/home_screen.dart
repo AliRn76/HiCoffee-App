@@ -1,7 +1,7 @@
 // package
 import 'package:flutter/material.dart';
 import 'package:drawerbehavior/drawerbehavior.dart';
-import 'package:hicoffee/blocs/get_items.dart';
+import 'package:hicoffee/blocs/requests_provider.dart';
 // model
 import 'package:hicoffee/model/item.dart';
 // widgets
@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //  }
   @override
   Widget build(BuildContext context) {
-    final GetItems getItems = Provider.of<GetItems>(context);
+    final RequestsProvider getItems = Provider.of<RequestsProvider>(context);
     return Scaffold(
 //      drawer: Drawer(
 //        elevation: 100.0,
@@ -178,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _appBar(){
-    final GetItems getItems = Provider.of<GetItems>(context);
+    final RequestsProvider getItems = Provider.of<RequestsProvider>(context);
     return AppBar(
         backgroundColor: Theme
             .of(context)
@@ -221,19 +221,18 @@ class _HomeScreenState extends State<HomeScreen> {
 //    print("*Result: $result");
 //  }
   Widget _floatingActionButton(){
-    final GetItems getItems = Provider.of<GetItems>(context);
+    final RequestsProvider getItems = Provider.of<RequestsProvider>(context);
     return Align(
       alignment: Alignment(0.9, 0.95),
       child: FloatingActionButton(
         splashColor: Colors.blue,
         onPressed: (){
-//          show_all();
-//          setState(() {
-//            Navigator.push(
-//              context,
-//              SlideRightRoute(page: AddItemScreen(list: getItems.items)),
-//            );
-//          });
+          setState(() {
+            Navigator.push(
+              context,
+              SlideRightRoute(page: AddItemScreen(list: getItems.items)),
+            );
+          });
         },
         elevation: 20.0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,

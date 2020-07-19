@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hicoffee/blocs/get_items.dart';
+import 'package:hicoffee/blocs/requests_provider.dart';
 import 'package:hicoffee/widgets/custom_drawer.dart';
 import 'package:hicoffee/screens/home_screen.dart';
 import 'package:hicoffee/screens/loading_screen.dart';
@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<GetItems>.value(
-            value: GetItems(),
+        ChangeNotifierProvider<RequestsProvider>.value(
+            value: RequestsProvider(),
         ),
       ],
       child: MaterialApp(

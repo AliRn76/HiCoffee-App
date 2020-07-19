@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hicoffee/blocs/requests_provider.dart';
 import 'package:hicoffee/screens/search_screen.dart';
 import 'package:hicoffee/widgets/wave.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:hicoffee/model/item.dart';
+import 'package:provider/provider.dart';
 
 class AddItemScreen extends StatefulWidget {
   List<Item> list = [];
@@ -38,6 +40,15 @@ class _AddItemScreenState extends State<AddItemScreen> {
     return MediaQuery.of(context).size.width;
   }
 
+  void tryAddItem(RequestsProvider requestsProvider){
+//    print(nameController.text);
+//    print(_value);
+    Item item = Item(nameController.text, _value.toInt());
+    print(item.name );
+    print(item.number);
+    requestsProvider.reqAddItem(item);
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +106,9 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
   }
 
+
   Widget _frontView(){
+    final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
     return Center(
       child: Container(
         margin: EdgeInsets.only(bottom: height()/5),
@@ -163,7 +176,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   color: Theme.of(context).scaffoldBackgroundColor,
                   width: 70,
                   child: IconButton(
-                    onPressed: () => addCardKey.currentState.toggleCard(),
+                    onPressed: () {
+                      tryAddItem(requestsProvider);
+                      return addCardKey.currentState.toggleCard();
+                    },
                     icon: Icon(
                       Icons.add_shopping_cart,
                     ),
