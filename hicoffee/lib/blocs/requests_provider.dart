@@ -91,12 +91,13 @@ class RequestsProvider extends ChangeNotifier{
   Future<int> reqSellItem(Item item) async{
     Map<String, dynamic> reqBody = item.toJson();
     String jsonBody = jsonEncode(reqBody);
+    print(jsonBody);
     Map<String, String> reqHeader = {"Content-type": "application/json", "Accept": "application/json"};
     Response response = await post("http://al1.best:85/api/sell/", body:jsonBody, headers:reqHeader);
     if(response.statusCode == 200){
       for(int i=0 ; i<_items.length ; i++){
         if (_items[i].name == item.name)
-          _items[i].number = item.number;
+          _items[i].number = _items[i].number - item.number;
       }
       notifyListeners();
     }

@@ -215,7 +215,9 @@ class CardLists extends StatelessWidget {
                           minValue: 0,
                           direction: Axis.horizontal,
                           withSpring: false,
-                          onChanged: (value) => print('new value $value'),
+                          onChanged: (_value) {
+                            value = _value;
+                          },
                         ),
                       ),
                       ClayContainer(
