@@ -15,7 +15,8 @@ import 'package:hicoffee/screens/addItem_screen.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 
-//import 'package:hicoffee/sqlite/database_helper.dart'
+import 'package:hicoffee/sqlite/database_helper.dart';
+
 class HomeScreen extends StatefulWidget {
 
   @override
@@ -215,6 +216,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+//  void show_all()async{
+//    var result = await DatabaseHelper().selectItems();
+//    print("*Result: $result");
+//  }
   Widget _floatingActionButton(){
     final GetItems getItems = Provider.of<GetItems>(context);
     return Align(
@@ -222,17 +227,13 @@ class _HomeScreenState extends State<HomeScreen> {
       child: FloatingActionButton(
         splashColor: Colors.blue,
         onPressed: (){
-          setState(() {
-            Navigator.push(
-              context,
-              SlideRightRoute(page: AddItemScreen(list: getItems.items)),
-            );
+//          show_all();
+//          setState(() {
 //            Navigator.push(
 //              context,
-//              MaterialPageRoute(builder: (context) => AddItemScreen(list: list)),
+//              SlideRightRoute(page: AddItemScreen(list: getItems.items)),
 //            );
-
-          });
+//          });
         },
         elevation: 20.0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,

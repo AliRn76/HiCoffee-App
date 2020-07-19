@@ -1,3 +1,4 @@
+import 'package:hicoffee/model/item.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dart:async';
@@ -17,7 +18,7 @@ class DatabaseHelper{
 
   factory DatabaseHelper(){
     if(_databaseHelper == null){
-      _databaseHelper = DatabaseHelper()._CreateInstance();
+      _databaseHelper = DatabaseHelper._CreateInstance();
     }
     return _databaseHelper;
   }
@@ -57,5 +58,30 @@ class DatabaseHelper{
     );
     return result;
   }
+
+  // Insert All Items
+  Future<List<Map<String, dynamic>>> insertItems(List<Item> items) async{
+    deleteItems();
+    Database db = await this.database;
+    var result;
+    for(int i=0 ; i<items.length ; i++){
+      result = await db.rawQuery(
+        "Insert Into $tbl_item"
+            "($col_name, $col_number)"
+            "Values ('${items[i].name}', '${items[i].number}');"
+      );
+    }
+    return result;
+  }
+
+  // Delete All Items
+  Future<List<Map<String, dynamic>>> deleteItems() async{
+    Database db = await this.database;
+    var result = await db.rawQuery(
+        "Delete From $tbl_item;"
+    );
+    return result;
+  }
+
 
 }

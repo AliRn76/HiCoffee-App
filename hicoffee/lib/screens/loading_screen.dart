@@ -6,6 +6,7 @@ import 'package:hicoffee/model/item.dart';
 import 'package:hicoffee/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'package:hicoffee/sqlite/database_helper.dart';
 
 class LoadingScreen extends StatefulWidget {
 
@@ -22,7 +23,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
   
   @override
   void initState() {
-
+//    final GetItems getItems = Provider.of<GetItems>(context, listen: false);
+//    // Use the local db
+//    getItems.selectAll();
+//    // Get data from server
+//    getItems.requestItems();
     super.initState();
     print("Loading initState");
     loading();
@@ -39,8 +44,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final GetItems getItems = Provider.of<GetItems>(context);
-    getItems.requestItems();
     return Scaffold(
       body: Container(
         color: Theme.of(context).accentColor,
