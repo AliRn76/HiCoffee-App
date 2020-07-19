@@ -28,7 +28,7 @@ class CardLists extends StatelessWidget {
       );
     }else{
       Scaffold.of(context).showSnackBar(
-          _snackBar("Couldn't Delete That Item", errorColor)
+          _snackBar("Couldn't Delete,  Error: $statusCode", errorColor)
       );
     }
   }
@@ -41,7 +41,7 @@ class CardLists extends StatelessWidget {
       );
     }else{
       Scaffold.of(context).showSnackBar(
-          _snackBar("Couldn't Delete That Item", errorColor)
+          _snackBar("Couldn't Sell,  Error: $statusCode", errorColor)
       );
     }
   }

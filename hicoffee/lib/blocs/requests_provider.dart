@@ -67,7 +67,7 @@ class RequestsProvider extends ChangeNotifier{
     Map<String, String> reqHeader = {"Content-type": "application/json", "Accept": "application/json"};
     Response response = await post("http://al1.best:85/api/add/", body:jsonBody, headers: reqHeader);
 
-    if(response.statusCode == 201){
+    if(response.statusCode == 200){
       _items.add(item);
       notifyListeners();
     }else{
