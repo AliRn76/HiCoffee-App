@@ -132,28 +132,28 @@ def sell_item(request):
     # Collecting Data
     serializer = SellItemSerializers(data=request.data)
     if serializer.is_valid():
-        temp_old_item = Item.objects.filter(name=serializer.validated_data.get("name"))
+        name = serializer.data.get("name")
+        number = serializer.data.get("number")
+
         try:
-            old_item = temp_old_item[0]
-        except :
+            # If we had multiple item, sell the first one
+            temp = Item.objects.filter(name=name)
+            item = temp[0]
+        except:
             return Response(status=status.HTTP_404_NOT_FOUND)
+        try:
+            # Check Is Number Positive
+            new_number = item.number - number
+            print("sell nubmer: " + str(item.number))
+            print("new nubmer: " + str(new_number))
+            if new_number < 0:
+                print("error, you cant sell that much")
+                return Response(data={"response": "you can not sell that much"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
-        item = serializer.save()
-
-        # If we had multiple item, sell the first one
-
-
-        # Check Is Number Positive
-        new_number = old_item.number - item.number
-        print("sell nubmer: " + str(item.number))
-        print("new nubmer: " + str(new_number))
-        if new_number < 0:
-            print("error, you cant sell that much")
-            return Response(data={"response": "you can not sell that much"}, status=status.HTTP_406_NOT_ACCEPTABLE)
-
-        # Update number of item
-        old_item = Item.objects.filter(name=item.name).update(number=new_number)
-
+            # Update number of item
+            old_item = Item.objects.filter(name=name).update(number=new_number)
+        except:
+            return Response(status=status.HTTP_409_CONFLICT)
         # Set Response
         if old_item:
             return Response(data={"response": "success"}, status=status.HTTP_200_OK)
