@@ -8,7 +8,7 @@ import 'package:drawerbehavior/drawerbehavior.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import 'package:loading_text/loading_text.dart';
+//import 'package:loading_text/loading_text.dart';
 import 'dart:async';
 
 import 'package:hicoffee/blocs/connection_provider.dart';
@@ -149,7 +149,6 @@ class _HomeScreenState extends State<HomeScreen> {
 //    print(connectivityService.connectionStatusController.stream);
   Widget setTitle(){
     final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
-    print("NETWORK CONNECTION: ${networkProvider.connection}");
     if(networkProvider.connection != null){
       if(networkProvider.connection){
         return Text(
@@ -164,18 +163,18 @@ class _HomeScreenState extends State<HomeScreen> {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text(
+              "Connecting  ",
+              style: TextStyle(
+                fontSize: 16.0,
+                color: Colors.black,
+                fontFamily: "Aria",
+                fontWeight: FontWeight.w500,
+              ),
+            ),
             SpinKitFadingCircle(
               color: Colors.black,
               size: 20.0,
-            ),
-            Text(
-              "  Connecting",
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.black,
-                fontFamily: "BNazanin‌‌",
-                fontWeight: FontWeight.w500,
-              ),
             ),
           ],
         );
@@ -184,19 +183,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _appBar(){
-    final RequestsProvider getItems = Provider.of<RequestsProvider>(context);
-//    final RequestsProvider getItems = Provider.of<RequestsProvider>(context);
-//    final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
-
-//    final ConnectionProvider connectionProvider = Provider.of<ConnectionProvider>(context);
-    return AppBar(
+      return AppBar(
         backgroundColor: Theme
             .of(context)
             .scaffoldBackgroundColor,
         elevation: 0.0,
         centerTitle: true,
         title: setTitle(),
-//        title: setTitle(),
         leading: Builder(
           builder: (context) {
             return IconButton(
@@ -261,7 +254,6 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 
-//TODO: Card Ha Khodeshon Bayad FlipCard Beshan , Ke Baad Az Sold Ye PM Successful Ya Fail Neshon Bede
 //TODO: Edit & Delete Jofteshon Bayad Ye Flip Card Bashan Va Hamonja Poshte Card Ha Edit Ya Deleteshon Kone
 
 
@@ -269,6 +261,5 @@ class _HomeScreenState extends State<HomeScreen> {
 //TODO: Item haye Drawer Moonde
 
 
-//TODO: ba StreamProvider in connectivity ro Fix konm
-//TODO: Age net nabood , hey Try again nakone baraye request ha
-
+//TODO: Jaye number selection mishe az number picker estefade kard
+//TODO: hamon position payinish faghat bargarde va poshtesh beshe item ro edit ya delete kard

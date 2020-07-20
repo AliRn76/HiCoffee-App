@@ -8,7 +8,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:hicoffee/model/item.dart';
-import 'package:loading_text/loading_text.dart';
+//import 'package:loading_text/loading_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -24,7 +24,6 @@ class AddItemScreen extends StatefulWidget {
 class _AddItemScreenState extends State<AddItemScreen> {
   GlobalKey<FlipCardState> addCardKey = GlobalKey<FlipCardState>();
   TextEditingController nameController = TextEditingController();
-  TextEditingController description = TextEditingController();
   Icon customIcon = Icon(Icons.search);
   Color baseColor = Color(0xFFF2F2F2);
   double _value = 0;
@@ -35,8 +34,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
   double width() => MediaQuery.of(context).size.width;
 
 
-  void tryAddItem(RequestsProvider requestsProvider) async{
-    if(widget.connection == false){
+  void tryAddItem(RequestsProvider requestsProvider, NetworkProvider networkProvider) async{
+    if(networkProvider.connection == false){
       setState(() {
         responseIcon = Icon(Icons.done, color: Color(0xFF66c2ff),);
         responseMessage = "ابتدا به اینترنت متصل شوید";
@@ -146,6 +145,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   Widget _frontView(){
     final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
+    final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
     return Center(
       child: Container(
         margin: EdgeInsets.only(bottom: height()/5),
@@ -164,20 +164,23 @@ class _AddItemScreenState extends State<AddItemScreen> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 7.0),
-              child: TextFormField(
-                textInputAction: TextInputAction.done,
-                controller: nameController,
-                keyboardType: TextInputType.text,
-                style: TextStyle(
-                  fontSize: 15.0,
-                  fontFamily: "BNazanin",
-                  fontWeight: FontWeight.w400,
-                ),
-                decoration: InputDecoration(
-                  hintText: "Name",
-                  contentPadding: EdgeInsets.symmetric(horizontal: 12.0),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: TextFormField(
+                  textInputAction: TextInputAction.done,
+                  controller: nameController,
+                  keyboardType: TextInputType.text,
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontFamily: "BNazanin",
+                    fontWeight: FontWeight.w400,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: "نام محصول",
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12.0),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                 ),
               ),
@@ -217,7 +220,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           borderRadius: BorderRadius.circular(12)
                       ),
                       onPressed: () {
-                        tryAddItem(requestsProvider);
+                        tryAddItem(requestsProvider, networkProvider);
                         return addCardKey.currentState.toggleCard();
                       },
                     child: Text(
@@ -289,51 +292,37 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   Widget setTitle(){
     final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
-//    print("NETWORK CONNECTION: ${networkProvider.connection}");
-//    connection = networkProvider.initConnectivity()
     if(networkProvider.connection != null){
-      widget.connection = networkProvider.connection;
-    }
-    if(widget.connection){
-      return Text(
-        "Hi Coffee",
-        style: TextStyle(
-            fontSize: 28.0,
-            //      fontWeight: FontWeight.bold,
-            fontFamily: "Waltograph"
-        ),
-      );
-    }else{
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          SpinKitFadingCircle(
-            color: Colors.black,
-            size: 20.0,
+      if(networkProvider.connection){
+        return Text(
+          "Hi Coffee",
+          style: TextStyle(
+              fontSize: 28.0,
+              //      fontWeight: FontWeight.bold,
+              fontFamily: "Waltograph"
           ),
-          Text(
-            "  Connecting",
-            style: TextStyle(
-              fontSize: 14.0,
+        );
+      }else{
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SpinKitFadingCircle(
               color: Colors.black,
-              fontFamily: "BNazanin‌‌",
-              fontWeight: FontWeight.w500,
+              size: 20.0,
             ),
-          ),
-        ],
-      );
+            Text(
+              "  Connecting",
+              style: TextStyle(
+                fontSize: 14.0,
+                color: Colors.black,
+                fontFamily: "BNazanin‌‌",
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        );
 
-//      return LoadingText(
-//        text: "Connecting ",
-//        textStyle: TextStyle(
-//          fontSize: 14.0,
-//          color: Colors.black,
-//          fontFamily: "BNazanin‌‌",
-//          fontWeight: FontWeight.w500,
-//        ),
-//        dots: ".",
-//        duration: Duration(milliseconds: 400),
-//      );
+      }
     }
   }
 }

@@ -24,7 +24,6 @@ class _SearchScreenState extends State<SearchScreen> {
   Icon customIcon = Icon(Icons.search);
   TextEditingController editingController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,8 +64,10 @@ class _SearchScreenState extends State<SearchScreen> {
               fontWeight: FontWeight.w400,
             ),
             maxLines: 1,
+            textDirection: TextDirection.rtl,
             controller: editingController,
             decoration: InputDecoration(
+              alignLabelWithHint: true,
               labelText: "Search",
 //              hintText: "Search",
               prefixIcon: Hero(
