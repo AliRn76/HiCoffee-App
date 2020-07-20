@@ -33,7 +33,7 @@ class CardLists extends StatelessWidget {
       foldingCellState?.toggleFold();
     }else{
       Scaffold.of(context).showSnackBar(
-          _snackBar("حذف ناموفق بود - خطا: $statusCode", errorColor)
+          _snackBar("حذف ناموفق بود - خطا $statusCode", errorColor)
       );
     }
   }
@@ -50,7 +50,7 @@ class CardLists extends StatelessWidget {
         foldingCellState?.toggleFold();
       }else{
         Scaffold.of(context).showSnackBar(
-            _snackBar("فروش ناموفق بود - خطا: $statusCode", errorColor)
+            _snackBar("فروش ناموفق بود - خطا $statusCode", errorColor)
         );
       }
     }

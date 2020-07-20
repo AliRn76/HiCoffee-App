@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hicoffee/blocs/connection_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
 import 'package:hicoffee/screens/search_screen.dart';
 import 'package:hicoffee/widgets/wave.dart';
@@ -7,11 +8,14 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:hicoffee/model/item.dart';
+import 'package:loading_text/loading_text.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class AddItemScreen extends StatefulWidget {
   List<Item> list = [];
-  AddItemScreen({this.list});
+  bool connection;
+  AddItemScreen({this.list, this.connection});
 
   @override
   _AddItemScreenState createState() => _AddItemScreenState();
@@ -27,29 +31,25 @@ class _AddItemScreenState extends State<AddItemScreen> {
   String responseMessage = "لطفا صبر کنید";
   Color responseColor = Colors.black;
   Icon responseIcon = Icon(Icons.done, color: Color(0xFF66c2ff),);
+  double height() => MediaQuery.of(context).size.height;
+  double width() => MediaQuery.of(context).size.width;
 
-  Widget customTitle = Text(
-    "Hi Coffee",
-    style: TextStyle(
-      fontSize: 19.0,
-      fontWeight: FontWeight.bold,
-    ),
-  );
-
-  double height(){
-    return MediaQuery.of(context).size.height;
-  }
-
-  double width(){
-    return MediaQuery.of(context).size.width;
-  }
 
   void tryAddItem(RequestsProvider requestsProvider) async{
-    setState(() {
-      responseIcon = Icon(Icons.done, color: Color(0xFF66c2ff),);
-      responseMessage = "لطفا صبر کنید";
-      responseColor = Color(0xFF66c2ff);
-    });
+    if(widget.connection == false){
+      setState(() {
+        responseIcon = Icon(Icons.done, color: Color(0xFF66c2ff),);
+        responseMessage = "ابتدا به اینترنت متصل شوید";
+        responseColor = Colors.redAccent[400];
+        responseIcon = Icon(Icons.close, color: responseColor);
+      });
+    }else{
+      setState(() {
+        responseIcon = Icon(Icons.done, color: Color(0xFF66c2ff),);
+        responseMessage = "لطفا صبر کنید";
+        responseColor = Color(0xFF66c2ff);
+      });
+    }
     int statusCode;
     Item item = Item(nameController.text, _value.toInt());
     if(item.name == ''){
@@ -81,6 +81,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
       });
     }
   }
+
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +121,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
             .scaffoldBackgroundColor,
         elevation: 0.0,
         centerTitle: true,
-        title: customTitle,
+        title: setTitle(),
         actions: [
           IconButton(
             onPressed: () {
@@ -278,5 +285,55 @@ class _AddItemScreenState extends State<AddItemScreen> {
         ),
       ),
     );
+  }
+
+  Widget setTitle(){
+    final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
+//    print("NETWORK CONNECTION: ${networkProvider.connection}");
+//    connection = networkProvider.initConnectivity()
+    if(networkProvider.connection != null){
+      widget.connection = networkProvider.connection;
+    }
+    if(widget.connection){
+      return Text(
+        "Hi Coffee",
+        style: TextStyle(
+            fontSize: 28.0,
+            //      fontWeight: FontWeight.bold,
+            fontFamily: "Waltograph"
+        ),
+      );
+    }else{
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          SpinKitFadingCircle(
+            color: Colors.black,
+            size: 20.0,
+          ),
+          Text(
+            "  Connecting",
+            style: TextStyle(
+              fontSize: 14.0,
+              color: Colors.black,
+              fontFamily: "BNazanin‌‌",
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      );
+
+//      return LoadingText(
+//        text: "Connecting ",
+//        textStyle: TextStyle(
+//          fontSize: 14.0,
+//          color: Colors.black,
+//          fontFamily: "BNazanin‌‌",
+//          fontWeight: FontWeight.w500,
+//        ),
+//        dots: ".",
+//        duration: Duration(milliseconds: 400),
+//      );
+    }
   }
 }

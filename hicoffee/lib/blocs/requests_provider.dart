@@ -36,8 +36,7 @@ class RequestsProvider extends ChangeNotifier{
     items = result.map((m) => Item.fromMap(m)).toList();
   }
 
-  // Req bede va briz too items
-  // Age req 200 bood , insert kon too db
+  // Req bede va briz too items , Age req 200 bood --> insert kon too db
   void requestItems() async{
     try{
       Response response = await get("http://al1.best:85/api/show-all/");

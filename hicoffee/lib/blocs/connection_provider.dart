@@ -59,6 +59,13 @@ import 'dart:async';
 //
 
 
+
+
+
+
+
+
+
 //
 //enum ConnectivityStatus {
 //  WiFi,
@@ -91,4 +98,111 @@ import 'dart:async';
 //    }
 //  }
 //}
+
+
+
+
+
+
+
+//class NetworkProvider{
+//
+//  StreamSubscription<ConnectivityResult> _subscription;
+//
+//  StreamSubscription<ConnectivityResult> get subscription => _subscription;
+//
+//
+//  NetworkProvider(){
+//    _invokeNetworkStatusListen();
+//  }
+//
+//  void _invokeNetworkStatusListen() async{
+//    _subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+//      print("RESULT IS : $result");
+//    });
+//  }
+//
+//
+//  void disposeStreams(){
+//    _subscription.cancel();
+//  }
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+class NetworkProvider extends ChangeNotifier{
+
+  StreamSubscription<ConnectivityResult> _subscription;
+  bool _connection;
+
+  StreamSubscription<ConnectivityResult> get subscription => _subscription;
+  bool get connection => _connection;
+
+//  set connection(bool value){
+//    _connection = value;
+//    notifyListeners();
+//  }
+
+
+  NetworkProvider(){
+    initConnectivity();
+    _invokeNetworkStatusListen();
+  }
+
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result;
+    try {
+      result = await Connectivity().checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+    if(result.toString() == "ConnectivityResult.none")
+      _connection = false;
+    else
+      _connection = true;
+    notifyListeners();
+  }
+
+
+  void _invokeNetworkStatusListen() async{
+    _subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      print("RESULT: $result");
+      if(result.toString() == "ConnectivityResult.none")
+        _connection = false;
+      else
+        _connection = true;
+      notifyListeners();
+//      notifyListeners();
+    });
+  }
+
+
+  void disposeStreams(){
+    _subscription.cancel();
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 

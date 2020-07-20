@@ -1,3 +1,4 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:hicoffee/blocs/connection_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
@@ -19,9 +20,11 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<RequestsProvider>.value(
-            value: RequestsProvider(),
-        ),
+        ChangeNotifierProvider<NetworkProvider>.value(value: NetworkProvider()),
+//        StreamProvider<ConnectivityResult>.value(
+//          value: NetworkProvider().networkStatusController.stream,
+//        ),
+        ChangeNotifierProvider<RequestsProvider>.value(value: RequestsProvider(),),
       ],
       child: MaterialApp(
         title: 'HiCoffee App',

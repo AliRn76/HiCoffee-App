@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:drawerbehavior/drawerbehavior.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:loading_text/loading_text.dart';
 import 'dart:async';
@@ -41,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //  StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   Icon customIcon = Icon(Icons.search);
-
+//  bool connection;
 
   final menu = Menu(
     items: [
@@ -102,6 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
+//    final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
     return Scaffold(
       appBar: _appBar(),
       body: Container(
@@ -117,37 +119,74 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+
+//  @override
+//  Widget build(BuildContext context) {
+//    final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
+//    final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
+//    return StreamProvider<ConnectivityResult>.value(
+//      value: networkProvider.networkStatusController.stream,
+//      child: Consumer<ConnectivityResult>(
+//        builder: (context, value, _){
+//          if(value == null){
+//            return Text(
+//                "YOU ARE ONLINE"
+//            );
+//          }else{
+//            return Text(
+//                "YOU ARE OFFLINE"
+//            );
+//          }
+//        },
+//      ),
+//    );
+//  }
+
+
+
+
 //  Widget setTitle(ConnectivityService connectivityService){
 //    print(connectivityService.connectionStatusController.stream);
   Widget setTitle(){
-//    if(connectivityService.toString() == "ConnectivityResult.none"){
-////    if(_connectionStatus == "ConnectivityResult.none"){
-//      return LoadingText(
-//        text: "Connecting ",
-//        textStyle: TextStyle(
-//          fontSize: 14.0,
-//          color: Colors.black,
-//          fontFamily: "BNazanin‌‌",
-//          fontWeight: FontWeight.w500,
-//        ),
-//        dots: ".",
-//        duration: Duration(milliseconds: 400),
-//      );
-//    }else{
-//      return Text(
-//        "Hi Coffee",
-//        style: TextStyle(
-//            fontSize: 28.0,
-//            //      fontWeight: FontWeight.bold,
-//            fontFamily: "Waltograph"
-//        ),
-//      );
-//    }
+    final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
+    print("NETWORK CONNECTION: ${networkProvider.connection}");
+    if(networkProvider.connection != null){
+      if(networkProvider.connection){
+        return Text(
+          "Hi Coffee",
+          style: TextStyle(
+              fontSize: 28.0,
+              //      fontWeight: FontWeight.bold,
+              fontFamily: "Waltograph"
+          ),
+        );
+      }else{
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SpinKitFadingCircle(
+              color: Colors.black,
+              size: 20.0,
+            ),
+            Text(
+              "  Connecting",
+              style: TextStyle(
+                fontSize: 14.0,
+                color: Colors.black,
+                fontFamily: "BNazanin‌‌",
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        );
+      }
+    }
   }
 
   Widget _appBar(){
     final RequestsProvider getItems = Provider.of<RequestsProvider>(context);
-//    final ConnectivityService connectivityService = Provider.of<ConnectivityService>(context);
+//    final RequestsProvider getItems = Provider.of<RequestsProvider>(context);
+//    final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
 
 //    final ConnectionProvider connectionProvider = Provider.of<ConnectionProvider>(context);
     return AppBar(
@@ -156,8 +195,8 @@ class _HomeScreenState extends State<HomeScreen> {
             .scaffoldBackgroundColor,
         elevation: 0.0,
         centerTitle: true,
-//        title: setTitle(connectivityService),
         title: setTitle(),
+//        title: setTitle(),
         leading: Builder(
           builder: (context) {
             return IconButton(
@@ -187,6 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _floatingActionButton(){
     final RequestsProvider getItems = Provider.of<RequestsProvider>(context);
+    final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
     return Align(
       alignment: Alignment(0.9, 0.95),
       child: FloatingActionButton(
@@ -195,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() {
             Navigator.push(
               context,
-              SlideRightRoute(page: AddItemScreen(list: getItems.items)),
+              SlideRightRoute(page: AddItemScreen(list: getItems.items, connection: networkProvider.connection,)),
             );
           });
         },
@@ -228,4 +268,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //TODO: Edit Moonde
 //TODO: Item haye Drawer Moonde
 
+
+//TODO: ba StreamProvider in connectivity ro Fix konm
+//TODO: Age net nabood , hey Try again nakone baraye request ha
 
