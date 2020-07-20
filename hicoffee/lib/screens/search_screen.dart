@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hicoffee/blocs/requests_provider.dart';
 
 import 'package:hicoffee/model/item.dart';
 
 import 'package:hicoffee/widgets/wave.dart';
 import 'package:hicoffee/widgets/cardLists.dart';
+import 'package:provider/provider.dart';
 
 
 
 
 
 class SearchScreen extends StatefulWidget {
-  List<Item> list;
-  SearchScreen({this.list});
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -51,6 +51,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
 
   Widget _appBar() {
+    final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
     return AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0.0,
@@ -78,11 +79,11 @@ class _SearchScreenState extends State<SearchScreen> {
                 setState(() {
                   tempList.clear();
                   print(value);
-                  for (int i = 0; i < widget.list.length; i++) {
-                    if (widget.list[i].name.toLowerCase().contains(
+                  for (int i = 0; i < requestsProvider.items.length; i++) {
+                    if (requestsProvider.items[i].name.toLowerCase().contains(
                         value.toLowerCase())) {
 //                      print("IF ${widget.list[i].name}");
-                      tempList.add(widget.list[i]);
+                      tempList.add(requestsProvider.items[i]);
                     }
                   }
 //                  print(tempList);

@@ -24,6 +24,10 @@ class _AddItemScreenState extends State<AddItemScreen> {
   Icon customIcon = Icon(Icons.search);
   Color baseColor = Color(0xFFF2F2F2);
   double _value = 0;
+  String responseMessage = "لطفا صبر کنید";
+  Color responseColor = Colors.black;
+  Icon responseIcon = Icon(Icons.done, color: Color(0xFF66c2ff),);
+
   Widget customTitle = Text(
     "Hi Coffee",
     style: TextStyle(
@@ -40,14 +44,42 @@ class _AddItemScreenState extends State<AddItemScreen> {
     return MediaQuery.of(context).size.width;
   }
 
-  void tryAddItem(RequestsProvider requestsProvider){
-//    print(nameController.text);
-//    print(_value);
+  void tryAddItem(RequestsProvider requestsProvider) async{
+    setState(() {
+      responseIcon = Icon(Icons.done, color: Color(0xFF66c2ff),);
+      responseMessage = "لطفا صبر کنید";
+      responseColor = Color(0xFF66c2ff);
+    });
+    int statusCode;
     Item item = Item(nameController.text, _value.toInt());
-    print(item.name );
-    print(item.number);
-    requestsProvider.reqAddItem(item);
-
+    if(item.name == ''){
+      setState(() {
+        responseMessage = "ابتدا نام محصول را پر کنید";
+        responseColor = Colors.redAccent[400];
+        responseIcon = Icon(Icons.close, color: responseColor);
+      });
+    } else{
+      print(item.name );
+      print(item.number);
+      statusCode = await requestsProvider.reqAddItem(item);
+      print(statusCode);
+      setState(() {
+        if(statusCode == 201){
+          responseMessage = "باموفقیت اضافه شد";
+          responseColor = Colors.greenAccent[400];
+          responseIcon = Icon(Icons.done_all, color: responseColor);
+        }else if(statusCode == 406){
+          responseMessage = "نام محصول تکراری است";
+          responseColor = Colors.redAccent[400];
+          responseIcon = Icon(Icons.close, color: responseColor);
+        }
+        else{
+          responseMessage = "یه چیزی این وسط اشتباه کار میکنه - خطا $statusCode";
+          responseColor = Colors.redAccent[400];
+          responseIcon = Icon(Icons.clear, color: responseColor);
+        }
+      });
+    }
   }
 
   @override
@@ -75,7 +107,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
     );
   }
 
-
   Widget _appBar(){
     return AppBar(
         backgroundColor: Theme
@@ -90,7 +121,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
               Navigator.push(context,
                 PageRouteBuilder(
                     transitionDuration: Duration(milliseconds: 600),
-                    pageBuilder: (_, __, ___) => SearchScreen(list: widget.list)
+                    pageBuilder: (_, __, ___) => SearchScreen(  )
                 ),
 //              Navigator.push(
 //                context,
@@ -105,7 +136,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
         ]
     );
   }
-
 
   Widget _frontView(){
     final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
@@ -175,14 +205,23 @@ class _AddItemScreenState extends State<AddItemScreen> {
 //                  color: baseColor,
                   color: Theme.of(context).scaffoldBackgroundColor,
                   width: 70,
-                  child: IconButton(
-                    onPressed: () {
-                      tryAddItem(requestsProvider);
-                      return addCardKey.currentState.toggleCard();
-                    },
-                    icon: Icon(
-                      Icons.add_shopping_cart,
-                    ),
+                  child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)
+                      ),
+                      onPressed: () {
+                        tryAddItem(requestsProvider);
+                        return addCardKey.currentState.toggleCard();
+                      },
+                    child: Text(
+                      "ثبت",
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontFamily: "BNazanin",
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                      ),
+                    )
                   ),
                 ),
               ),
@@ -201,7 +240,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           color: Colors.white30,
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
           border: Border.all(
-            color: Theme.of(context).primaryColor,
+            color: responseColor,
             width: 1.0,
           ),
         ),
@@ -212,7 +251,12 @@ class _AddItemScreenState extends State<AddItemScreen> {
           children: <Widget>[
             SizedBox(height: height()/20),
             Text(
-              "Successfully Added",
+              responseMessage,
+              style: TextStyle(
+                fontSize: 18.0,
+                fontFamily: "BNazanin",
+                fontWeight: FontWeight.bold,
+              ),
             ),
             SizedBox(height: height()/12),
             Container(
@@ -224,9 +268,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                   width: 70,
                   child: IconButton(
                     onPressed: () => addCardKey.currentState.toggleCard(),
-                    icon: Icon(
-                      Icons.done
-                    ),
+                    icon: responseIcon,
                   ),
                 ),
               ),

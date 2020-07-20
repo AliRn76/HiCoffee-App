@@ -17,32 +17,42 @@ class CardLists extends StatelessWidget {
   Color acceptColor = Colors.greenAccent[200];
   Color deleteColor = Colors.redAccent[400];
   Color editColor = Colors.grey[600];
-  Color errorColor = Colors.redAccent[200];
+  Color errorColor = Colors.redAccent[100];
 
 
   void deleteItem(BuildContext context, Item item, RequestsProvider requestsProvider) async{
     int statusCode = await requestsProvider.reqDeleteItem(item);
     if(statusCode == 200){
       Scaffold.of(context).showSnackBar(
-          _snackBar("Deleted Successfully", deleteColor)
+          _snackBar("با موفقیت حذف شد", deleteColor)
       );
+      list.remove(item);
+      requestsProvider.items.remove(item);
+      final foldingCellState = context
+          .findAncestorStateOfType<SimpleFoldingCellState>();
+      foldingCellState?.toggleFold();
     }else{
       Scaffold.of(context).showSnackBar(
-          _snackBar("Couldn't Delete,  Error: $statusCode", errorColor)
+          _snackBar("حذف ناموفق بود - خطا: $statusCode", errorColor)
       );
     }
   }
 
   void sellItem(BuildContext context, Item item, RequestsProvider requestsProvider) async{
-    int statusCode = await requestsProvider.reqSellItem(item);
-    if(statusCode == 200){
-      Scaffold.of(context).showSnackBar(
-          _snackBar("Sold Successfully", acceptColor)
-      );
-    }else{
-      Scaffold.of(context).showSnackBar(
-          _snackBar("Couldn't Sell,  Error: $statusCode", errorColor)
-      );
+    if(item.number != null){
+      int statusCode = await requestsProvider.reqSellItem(item);
+      if(statusCode == 200){
+        Scaffold.of(context).showSnackBar(
+            _snackBar("با موفقیت فروخته شد", acceptColor)
+        );
+        final foldingCellState = context
+            .findAncestorStateOfType<SimpleFoldingCellState>();
+        foldingCellState?.toggleFold();
+      }else{
+        Scaffold.of(context).showSnackBar(
+            _snackBar("فروش ناموفق بود - خطا: $statusCode", errorColor)
+        );
+      }
     }
   }
 
@@ -50,8 +60,6 @@ class CardLists extends StatelessWidget {
   Widget build(BuildContext context) {
     double width() => MediaQuery.of(context).size.width;
     double height() => MediaQuery.of(context).size.height;
-
-
 
     return Builder(
       builder: (BuildContext context){
@@ -100,7 +108,6 @@ class CardLists extends StatelessWidget {
   Widget _buildFrontWidget(BuildContext context, Item item) {
     double width() => MediaQuery.of(context).size.width;
     double height() => MediaQuery.of(context).size.height;
-
     return Builder(
       builder: (BuildContext context){
         return Container(
@@ -189,7 +196,6 @@ class CardLists extends StatelessWidget {
     double width() => MediaQuery.of(context).size.width;
     double height() => MediaQuery.of(context).size.height;
     final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
-
     return Builder(
       builder: (BuildContext context){
         return Stack(
@@ -308,15 +314,21 @@ class CardLists extends StatelessWidget {
 
 
   Widget _snackBar(String message, Color color){
+    Color fontColor;
+    if(color == acceptColor){
+      fontColor = Colors.black;
+    }
     return SnackBar(
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 1, milliseconds: 500),
       backgroundColor: color,
       content: Text(
         message,
         textAlign: TextAlign.center,
         style: TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.bold
+          color: fontColor,
+          fontSize: 18.0,
+          fontWeight: FontWeight.bold,
+          fontFamily: "BNazanin",
         ),
       ),
 

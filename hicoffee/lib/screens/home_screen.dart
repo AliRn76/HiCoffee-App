@@ -1,6 +1,16 @@
 // package
+import 'dart:io';
+
+import 'package:connectivity/connectivity.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:drawerbehavior/drawerbehavior.dart';
+import 'package:flutter/services.dart';
+
+import 'package:loading_text/loading_text.dart';
+import 'dart:async';
+
+import 'package:hicoffee/blocs/connection_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
 // model
 import 'package:hicoffee/model/item.dart';
@@ -26,47 +36,67 @@ class HomeScreen extends StatefulWidget {
 
 
 class _HomeScreenState extends State<HomeScreen> {
-
-  // Collection Data
+//  final Connectivity _connectivity = Connectivity();
+//  String _connectionStatus;
+//  StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   Icon customIcon = Icon(Icons.search);
-  Widget customTitle = Text(
-    "Hi Coffee",
-    style: TextStyle(
-      fontSize: 19.0,
-      fontWeight: FontWeight.bold,
-    ),
-  );
 
-  final menu = new Menu(
+
+  final menu = Menu(
     items: [
-      new MenuItem(
-        id: 'home',
-        title: 'Home',
-      ),
-      new MenuItem(
-        id: 'nightmode',
-        title: 'Night Mode',
-      ),
-      new MenuItem(
-        id: 'terms',
-        title: 'Terms of Service',
-      ),
-      new MenuItem(
-        id: 'about',
-        title: 'About us',
-      ),
+      MenuItem(id: 'home',      title: 'Home'),
+      MenuItem(id: 'nightmode', title: 'Night Mode'),
+      MenuItem(id: 'terms',     title: 'Terms of Service'),
+      MenuItem(id: 'about',     title: 'About us'),
     ],
   );
 
-  // End of Collecting Data
 
 
 
   @override
   void initState() {
     super.initState();
+//    initConnectivity();
+//    _connectivitySubscription =
+//        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
+
+  @override
+  void dispose() {
+//    _connectivitySubscription.cancel();
+    super.dispose();
+  }
+
+//  Future<void> initConnectivity() async {
+//    ConnectivityResult result;
+//    try {
+//      result = await _connectivity.checkConnectivity();
+//    } on PlatformException catch (e) {
+//      print(e.toString());
+//    }
+//    if (!mounted) {
+//      return Future.value(null);
+//    }
+//    return _updateConnectionStatus(result);
+//  }
+
+
+//  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+//    switch (result) {
+//      case ConnectivityResult.wifi:
+//      case ConnectivityResult.mobile:
+//      case ConnectivityResult.none:
+//        setState(() => _connectionStatus = result.toString());
+//        break;
+//      default:
+//        setState(() => _connectionStatus = 'Failed to get connectivity.');
+//        break;
+//    }
+//  }
+
+
 
 
   @override
@@ -87,16 +117,47 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+//  Widget setTitle(ConnectivityService connectivityService){
+//    print(connectivityService.connectionStatusController.stream);
+  Widget setTitle(){
+//    if(connectivityService.toString() == "ConnectivityResult.none"){
+////    if(_connectionStatus == "ConnectivityResult.none"){
+//      return LoadingText(
+//        text: "Connecting ",
+//        textStyle: TextStyle(
+//          fontSize: 14.0,
+//          color: Colors.black,
+//          fontFamily: "BNazanin‌‌",
+//          fontWeight: FontWeight.w500,
+//        ),
+//        dots: ".",
+//        duration: Duration(milliseconds: 400),
+//      );
+//    }else{
+//      return Text(
+//        "Hi Coffee",
+//        style: TextStyle(
+//            fontSize: 28.0,
+//            //      fontWeight: FontWeight.bold,
+//            fontFamily: "Waltograph"
+//        ),
+//      );
+//    }
+  }
 
   Widget _appBar(){
     final RequestsProvider getItems = Provider.of<RequestsProvider>(context);
+//    final ConnectivityService connectivityService = Provider.of<ConnectivityService>(context);
+
+//    final ConnectionProvider connectionProvider = Provider.of<ConnectionProvider>(context);
     return AppBar(
         backgroundColor: Theme
             .of(context)
             .scaffoldBackgroundColor,
         elevation: 0.0,
         centerTitle: true,
-        title: customTitle,
+//        title: setTitle(connectivityService),
+        title: setTitle(),
         leading: Builder(
           builder: (context) {
             return IconButton(
@@ -111,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(context,
                   PageRouteBuilder(
                       transitionDuration: Duration(milliseconds: 600),
-                      pageBuilder: (_, __, ___) => SearchScreen(list: getItems.items)
+                      pageBuilder: (_, __, ___) => SearchScreen()
                   ),
               );
             },
@@ -123,7 +184,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ]
     );
   }
-
 
   Widget _floatingActionButton(){
     final RequestsProvider getItems = Provider.of<RequestsProvider>(context);
@@ -155,6 +215,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+
+
 }
 
 
