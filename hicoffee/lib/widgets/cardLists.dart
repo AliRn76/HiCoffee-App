@@ -1,14 +1,17 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:folding_cell/folding_cell.dart';
 import 'package:flutter/material.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
+import 'package:hicoffee/screens/addItem_screen.dart';
 import 'package:number_selection/number_selection.dart';
 import 'package:hicoffee/model/item.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:provider/provider.dart';
+import 'package:hicoffee/screens/editItem_screen.dart';
 
 class CardLists extends StatelessWidget {
   List<Item> list = [];
@@ -235,6 +238,15 @@ class CardLists extends StatelessWidget {
                         color: acceptColor,
                         width: width()/4.5,
                         height: height()/15,
+//                        child: IconButton(
+//                          icon: Icon(Icons.monetization_on),
+//                          iconSize: 28.0,
+//                          color: Colors.grey[800],
+//                          onPressed: (){
+//                            Item item_for_sell = Item(item.name, value);
+//                            sellItem(context, item_for_sell, requestsProvider);
+//                          },
+//                        ),
                         child: FlatButton(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)
@@ -249,9 +261,10 @@ class CardLists extends StatelessWidget {
                             depth: 20,
                             color: Colors.black45,
                             style: TextStyle(
-                              fontSize: 16.0,
+//                              fontFamily: "BNazanin",
+                              fontSize: 18.0,
                               fontWeight: FontWeight.bold,
-                              letterSpacing: 1.2,
+                            letterSpacing: 1.2,
                             ),
                           ),
                         ),
@@ -267,43 +280,8 @@ class CardLists extends StatelessWidget {
               child: Container(
                 color: Color(0xffd1fae6	),
                 width: width() - width()/6,
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: EdgeInsets.only(bottom: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(Icons.delete),
-                        iconSize: 27.0,
-                        color: deleteColor,
-                        onPressed: () {
-                          deleteItem(context, item, requestsProvider);
-                        },
-                      ),
-                      FlatButton(
-                        onPressed: () {
-                          final foldingCellState = context
-                              .findAncestorStateOfType<SimpleFoldingCellState>();
-                          foldingCellState?.toggleFold();
-                        },
-                        child: Icon(
-                          Icons.keyboard_arrow_up,
-                          size: 40.0,
-                          color: Colors.blueAccent[200],
-                        ),
-                      ),
-                      IconButton(
-                        color: editColor,
-                        iconSize: 27.0,
-                        icon: Icon(Icons.edit),
-                        onPressed: () => Scaffold.of(context).showSnackBar(
-                            _snackBar("Edited", editColor)
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+//                alignment: Alignment.bottomCenter,
+                child: _flipCard(context, item),
               ),
             ),
           ],
@@ -312,6 +290,72 @@ class CardLists extends StatelessWidget {
     );
   }
 
+  Widget _flipCard(BuildContext context, Item item){
+    GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
+    final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
+    return FlipCard(
+      flipOnTouch: false,
+      key: cardKey,
+      front: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          IconButton(
+            icon: Icon(Icons.delete),
+            iconSize: 27.0,
+            color: deleteColor,
+            onPressed: () => cardKey.currentState.toggleCard(),
+          ),
+          FlatButton(
+            onPressed: () {
+              final foldingCellState = context
+                  .findAncestorStateOfType<SimpleFoldingCellState>();
+              foldingCellState?.toggleFold();
+            },
+            child: Icon(
+              Icons.keyboard_arrow_up,
+              size: 40.0,
+              color: Colors.blueAccent[200],
+            ),
+          ),
+          EditItemScreen(item: item),
+        ],
+      ),
+      back: Container(
+        color: Colors.red[100],
+        child: Directionality(
+          textDirection: TextDirection.rtl,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Text(
+                "آیا از حذف اطمینان دارید؟",
+                style: TextStyle(
+                  fontSize: 17.0,
+                  fontFamily: "BNazanin",
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.close),
+                color: deleteColor,
+                iconSize: 26.0,
+                onPressed: () => cardKey.currentState.toggleCard(),
+              ),
+              IconButton(
+                icon: Icon(Icons.check),
+                color: Colors.green,
+                iconSize: 26.0,
+                onPressed: () {
+                  deleteItem(context, item, requestsProvider);
+                  return cardKey.currentState.toggleCard();
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget _snackBar(String message, Color color){
     Color fontColor;

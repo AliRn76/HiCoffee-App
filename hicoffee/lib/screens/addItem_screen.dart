@@ -25,7 +25,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
   GlobalKey<FlipCardState> addCardKey = GlobalKey<FlipCardState>();
   TextEditingController nameController = TextEditingController();
   Icon customIcon = Icon(Icons.search);
-  Color baseColor = Color(0xFFF2F2F2);
   double _value = 0;
   String responseMessage = "لطفا صبر کنید";
   Color responseColor = Colors.black;
