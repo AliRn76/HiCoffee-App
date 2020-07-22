@@ -68,7 +68,7 @@ class DatabaseHelper{
       result = await db.rawQuery(
         "Insert Into $tbl_item"
             "($col_name, $col_number)"
-            "Values ('${items[i].name}', '${items[i].number}');"
+            "Values ('${items[i].name}', ${items[i].number});"
       );
     }
     return result;
@@ -84,4 +84,48 @@ class DatabaseHelper{
   }
 
 
+  // Delete One Item
+  Future<List<Map<String, dynamic>>> deleteItem(Item item) async{
+    Database db = await this.database;
+    var result = await db.rawQuery(
+        "Delete From $tbl_item Where $col_name == '${item.name}';"
+    );
+    return result;
+  }
+
+  // Insert One Item
+  Future<List<Map<String, dynamic>>> insertItem(Item item) async{
+    Database db = await this.database;
+    var result = await db.rawQuery(
+        "Insert Into $tbl_item ($col_name, $col_number)"
+            "VALUES ('${item.name}', ${item.number});"
+    );
+    return result;
+  }
+
+
+  // Update One Item (Sell)
+  Future<List<Map<String, dynamic>>> updateItem(Item item, int sellValue) async{
+    Database db = await this.database;
+    int newValue = item.number - sellValue;
+    var result = await db.rawQuery(
+        "UPDATE $tbl_item "
+            "SET $col_number = $newValue "
+            "WHERE $col_name = '${item.name}'; ");
+    return result;
+  }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

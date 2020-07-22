@@ -46,9 +46,10 @@ class RequestsProvider extends ChangeNotifier{
       // Serialize data
       items = data.map((m) => Item.fromJson(m)).toList();
       print("items: $items");
+      // Add the items in local db
       if (response.statusCode == 200){
         var result = await DatabaseHelper().insertItems(items);
-        print("*Inser Result: $result");
+        print("*Insers db Result: $result");
       }
     }on Exception{
       print("** Try Again To Send Get Request");
@@ -66,6 +67,10 @@ class RequestsProvider extends ChangeNotifier{
     Response response = await post("http://al1.best:85/api/add/", body:jsonBody, headers: reqHeader);
 
     if(response.statusCode == 201){
+      // Add to local db
+      var result = await DatabaseHelper().insertItem(item);
+      print("Insert db Result: $result");
+      // Update the provider
       _items.add(item);
       notifyListeners();
     }else{
@@ -80,6 +85,10 @@ class RequestsProvider extends ChangeNotifier{
     print(response.body);
     print(response.statusCode);
     if(response.statusCode == 200){
+      // Delete from local db
+      var result = await DatabaseHelper().deleteItem(item);
+      print("Delete db Result: $result");
+      // Update the provider
       _items.remove(item);
       notifyListeners();
     }
@@ -87,16 +96,21 @@ class RequestsProvider extends ChangeNotifier{
   }
 
 
-  Future<int> reqSellItem(Item item) async{
-    Map<String, dynamic> reqBody = item.toJson();
+  Future<int> reqSellItem(Item item, int sellValue) async{
+    Item newItem = Item(item.name, sellValue);
+    Map<String, dynamic> reqBody = newItem.toJson();
     String jsonBody = jsonEncode(reqBody);
     print(jsonBody);
     Map<String, String> reqHeader = {"Content-type": "application/json", "Accept": "application/json"};
     Response response = await post("http://al1.best:85/api/sell/", body:jsonBody, headers:reqHeader);
     if(response.statusCode == 200){
+      // Update the local db
+      var result = await DatabaseHelper().updateItem(item, sellValue);
+      print("Sell db Result: $result");
+      // Update the provider
       for(int i=0 ; i<_items.length ; i++){
         if (_items[i].name == item.name)
-          _items[i].number = _items[i].number - item.number;
+          _items[i].number = _items[i].number - sellValue;
       }
       notifyListeners();
     }

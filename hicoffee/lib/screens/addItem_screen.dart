@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hicoffee/blocs/connection_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
 import 'package:hicoffee/screens/search_screen.dart';
+import 'package:hicoffee/sqlite/database_helper.dart';
 import 'package:hicoffee/widgets/wave.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
@@ -34,6 +35,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
 
   void tryAddItem(RequestsProvider requestsProvider, NetworkProvider networkProvider) async{
+    int statusCode;
+    Item item = Item(nameController.text, _value.toInt());
     if(networkProvider.connection == false){
       setState(() {
         responseIcon = Icon(Icons.done, color: Color(0xFF66c2ff),);
@@ -48,15 +51,13 @@ class _AddItemScreenState extends State<AddItemScreen> {
         responseColor = Color(0xFF66c2ff);
       });
     }
-    int statusCode;
-    Item item = Item(nameController.text, _value.toInt());
     if(item.name == ''){
       setState(() {
         responseMessage = "ابتدا نام محصول را پر کنید";
         responseColor = Colors.redAccent[400];
         responseIcon = Icon(Icons.close, color: responseColor);
       });
-    } else{
+    }else{
       print(item.name );
       print(item.number);
       statusCode = await requestsProvider.reqAddItem(item);
@@ -66,6 +67,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
           responseMessage = "باموفقیت اضافه شد";
           responseColor = Colors.greenAccent[400];
           responseIcon = Icon(Icons.done_all, color: responseColor);
+          nameController.clear();
+          _value = 0;
         }else if(statusCode == 406){
           responseMessage = "نام محصول تکراری است";
           responseColor = Colors.redAccent[400];

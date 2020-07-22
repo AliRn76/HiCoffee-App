@@ -18,7 +18,7 @@ class LoadingScreen extends StatefulWidget {
 
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  List<Item> items;
+//  List<Item> items;
 
 
   

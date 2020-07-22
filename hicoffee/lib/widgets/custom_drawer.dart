@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hicoffee/screens/aboutUs_screen.dart';
+import 'package:hicoffee/screens/home_screen.dart';
 
 class CustomDrawer extends StatefulWidget {
   final Widget child;
@@ -140,10 +142,9 @@ class MyDrawer extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.home),
                 title: Text('Home'),
-              ),
-              ListTile(
-                leading: Icon(Icons.settings_ethernet),
-                title: Text('Ping'),
+                onTap: (){
+                  Navigator.pop(context);
+                },
               ),
               ListTile(
                 leading: Icon(Icons.description),
@@ -152,6 +153,14 @@ class MyDrawer extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.developer_mode),
                 title: Text('About us'),
+                  onTap: (){
+                    CustomDrawer.of(context).close();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AboutUsScreen()
+                        )
+                    );
+                  },
               ),
             ],
           ),

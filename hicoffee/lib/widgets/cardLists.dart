@@ -41,9 +41,9 @@ class CardLists extends StatelessWidget {
     }
   }
 
-  void sellItem(BuildContext context, Item item, RequestsProvider requestsProvider) async{
+  void sellItem(BuildContext context, Item item, int sellValue, RequestsProvider requestsProvider) async{
     if(item.number != null){
-      int statusCode = await requestsProvider.reqSellItem(item);
+      int statusCode = await requestsProvider.reqSellItem(item, sellValue);
       if(statusCode == 200){
         Scaffold.of(context).showSnackBar(
             _snackBar("با موفقیت فروخته شد", acceptColor)
@@ -251,9 +251,7 @@ class CardLists extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)
                             ),
-                          onPressed: (){
-                              Item item_for_sell = Item(item.name, value);
-                              sellItem(context, item_for_sell, requestsProvider);
+                          onPressed: (){sellItem(context, item, value, requestsProvider);
                           },
                           child: ClayText(
                             "Sold",

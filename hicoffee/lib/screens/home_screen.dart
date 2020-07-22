@@ -151,12 +151,15 @@ class _HomeScreenState extends State<HomeScreen> {
     final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
     if(networkProvider.connection != null){
       if(networkProvider.connection){
-        return Text(
-          "Hi Coffee",
-          style: TextStyle(
-              fontSize: 28.0,
-              //      fontWeight: FontWeight.bold,
-              fontFamily: "Waltograph"
+        return Hero(
+          tag: "title",
+          child: Text(
+            "Hi Coffee",
+            style: TextStyle(
+                fontSize: 28.0,
+                //      fontWeight: FontWeight.bold,
+                fontFamily: "Waltograph"
+            ),
           ),
         );
       }else{
@@ -253,13 +256,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
 }
 
-
-//TODO: Edit & Delete Jofteshon Bayad Ye Flip Card Bashan Va Hamonja Poshte Card Ha Edit Ya Deleteshon Kone
-
-
 //TODO: Edit Moonde
 //TODO: Item haye Drawer Moonde
 
 
 //TODO: Jaye number selection mishe az number picker estefade kard
 //TODO: hamon position payinish faghat bargarde va poshtesh beshe item ro edit ya delete kard
+
+//TODO: vaghti ye item edit mikone age response 200 bood,to db update beshe
