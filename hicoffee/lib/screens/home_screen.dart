@@ -151,15 +151,12 @@ class _HomeScreenState extends State<HomeScreen> {
     final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
     if(networkProvider.connection != null){
       if(networkProvider.connection){
-        return Hero(
-          tag: "title",
-          child: Text(
-            "Hi Coffee",
-            style: TextStyle(
-                fontSize: 28.0,
-                //      fontWeight: FontWeight.bold,
-                fontFamily: "Waltograph"
-            ),
+        return Text(
+          "Hi Coffee",
+          style: TextStyle(
+              fontSize: 28.0,
+              //      fontWeight: FontWeight.bold,
+              fontFamily: "Waltograph"
           ),
         );
       }else{

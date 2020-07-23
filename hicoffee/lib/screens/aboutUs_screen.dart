@@ -26,8 +26,8 @@ class _AboutUsScreenState extends State<AboutUsScreen>  with SingleTickerProvide
 
   @override
   void initState() {
-    _animationController = AnimationController(// t
-      duration: Duration(seconds: 5),// he SingleTickerProviderStateMixin
+    _animationController = AnimationController(
+      duration: Duration(seconds: 10),// the SingleTickerProviderStateMixin
       vsync: this,
     )..addListener(() {
       setState(() {});
@@ -143,7 +143,7 @@ class _AboutUsScreenState extends State<AboutUsScreen>  with SingleTickerProvide
             children: <Widget>[
               Container(
                 width: 8.0,
-                height: height()/6,
+                height: height()/4.5,
                 color: Colors.blue,
               ),
               SizedBox(width: width()/8),
@@ -153,9 +153,9 @@ class _AboutUsScreenState extends State<AboutUsScreen>  with SingleTickerProvide
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    SizedBox(width: width()/16),
+//                    SizedBox(width: width()/16),
                     Text(
-                      "Donate Me   ",
+                      "You Can Donate Here  ",
                       style: TextStyle(
                         fontFamily: "Milton",
                         fontSize: 20.0,
@@ -169,24 +169,24 @@ class _AboutUsScreenState extends State<AboutUsScreen>  with SingleTickerProvide
                     Center(
                       child: ClayContainer(
                         color: Theme.of(context).scaffoldBackgroundColor,
-                        height: 95,
-                        width: 95,
+                        height: 85,
+                        width: 85,
                         borderRadius: 200,
                         curveType: CurveType.concave,
                         spread: 30,
                         depth: calculatedFirstDepth.toInt(),
                         child: Center(
                           child: ClayContainer(
-                            height: 80,
-                            width: 80,
+                            height: 75,
+                            width: 75,
                             borderRadius: 200,
                             depth: calculatedSecondDepth.toInt(),
                             curveType: CurveType.convex,
                             color: Theme.of(context).scaffoldBackgroundColor,
                             child: Center(
                               child: ClayContainer(
-                                  height: 65,
-                                  width: 65,
+                                  height: 63,
+                                  width: 63,
                                   borderRadius: 200,
                                   color: Theme.of(context).scaffoldBackgroundColor,
                                   depth: calculatedThirdDepth.toInt(),
