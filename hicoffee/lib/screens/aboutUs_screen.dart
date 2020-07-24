@@ -223,12 +223,12 @@ class _AboutUsScreenState extends State<AboutUsScreen>  with SingleTickerProvide
             children: <Widget>[
               Container(
                 width: 8.0,
-                height: height()/6,
+                height: height()/8,
               ),
               SizedBox(width: width()/8),
               Container(
                 width: width() - width()/8 - 8,
-                height: height()/6,
+                height: height()/8,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[

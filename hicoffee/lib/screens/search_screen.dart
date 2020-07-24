@@ -22,10 +22,23 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   List<Item> tempList = [];
   Icon customIcon = Icon(Icons.search);
-  TextEditingController editingController = TextEditingController();
+  var focus = FocusNode();
+  TextEditingController searchController = TextEditingController();
+
+
+
+  @override
+  void initState() {
+    Future.delayed(const Duration(seconds: 1), () {
+      FocusScope.of(context).requestFocus(focus);
+    });
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: _appBar(),
       body: Container(
@@ -65,7 +78,8 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             maxLines: 1,
             textDirection: TextDirection.rtl,
-            controller: editingController,
+            controller: searchController,
+            focusNode: focus,
             decoration: InputDecoration(
               alignLabelWithHint: true,
               labelText: "Search",
@@ -96,7 +110,7 @@ class _SearchScreenState extends State<SearchScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              editingController.clear();
+              searchController.clear();
             },
             icon: Icon(Icons.cancel),
           )

@@ -5,6 +5,7 @@ import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:folding_cell/folding_cell.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
 import 'package:hicoffee/screens/addItem_screen.dart';
 import 'package:number_selection/number_selection.dart';
@@ -114,81 +115,82 @@ class CardLists extends StatelessWidget {
     return Builder(
       builder: (BuildContext context){
         return Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              border: Border(
-                bottom: BorderSide(
-                  color: Theme.of(context).accentColor,
-                  width: 1.5,
+
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+            border: Border(
+              bottom: BorderSide(
+                color: Theme.of(context).accentColor,
+                width: 1.5,
+              ),
+            ),
+          ),
+          child: Directionality(
+            textDirection: TextDirection.rtl,
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: height()/60, right: width()/25),
+                  width: width()/1.35,
+                  child: Text(
+                    item.name,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'BTitr_Bold',
+                      fontSize: 18.0,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(top: height()/60, right: width()/25),
-                    width: width()/1.35,
-                    child: Text(
-                      item.name,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'BTitr_Bold',
-                        fontSize: 18.0,
+                Padding(
+                  padding: EdgeInsets.only(left: width()/20, top: height()/15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Text(
+                        "تعداد:  ",
+                        style: TextStyle(
+                          fontSize: 22.0,
+                          fontFamily: 'BNazanin',
+                          color: Colors.white,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
-                    ),
+                      Text(
+                        item.number.toString(),
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontFamily: 'BTitr_Bold',
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: width()/20, top: height()/15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          "تعداد:  ",
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontFamily: 'BNazanin',
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                          ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: height()/13),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: () {
+                          final foldingCellState = context
+                              .findAncestorStateOfType<SimpleFoldingCellState>();
+                          foldingCellState?.toggleFold();
+                        },
+                        iconSize: 35.0,
+                        icon: Icon(
+                          Icons.keyboard_arrow_down,
+                          color: Colors.lightBlue[700],
                         ),
-                        Text(
-                          item.number.toString(),
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontFamily: 'BTitr_Bold',
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: height()/13),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        IconButton(
-                          onPressed: () {
-                            final foldingCellState = context
-                                .findAncestorStateOfType<SimpleFoldingCellState>();
-                            foldingCellState?.toggleFold();
-                          },
-                          iconSize: 35.0,
-                          icon: Icon(
-                            Icons.keyboard_arrow_down,
-                            color: Colors.lightBlue[700],
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                )
+              ],
             ),
+          ),
         );
       },
     );
@@ -253,18 +255,23 @@ class CardLists extends StatelessWidget {
                             ),
                           onPressed: (){sellItem(context, item, value, requestsProvider);
                           },
-                          child: ClayText(
-                            "Sold",
-                            emboss: true,
-                            depth: 20,
-                            color: Colors.black45,
-                            style: TextStyle(
-//                              fontFamily: "BNazanin",
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                            letterSpacing: 1.2,
-                            ),
+                          child: FaIcon(
+                            FontAwesomeIcons.coins,
+                            color:  Colors.amber[100],
+//                            color: Colors.black54,
                           ),
+//                          child: ClayText(
+//                            "Sold",
+//                            emboss: true,
+//                            depth: 20,
+//                            color: Colors.black45,
+//                            style: TextStyle(
+////                              fontFamily: "BNazanin",
+//                              fontSize: 18.0,
+//                              fontWeight: FontWeight.bold,
+//                            letterSpacing: 1.2,
+//                            ),
+//                          ),
                         ),
                       ),
                     ],
@@ -276,7 +283,7 @@ class CardLists extends StatelessWidget {
               bottom: 0.0,
               height: height()/7,
               child: Container(
-                color: Color(0xffd1fae6	),
+                color: Color(0xffd1fae6),
                 width: width() - width()/6,
 //                alignment: Alignment.bottomCenter,
                 child: _flipCard(context, item),

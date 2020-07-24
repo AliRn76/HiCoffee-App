@@ -37,7 +37,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void loading() async{
     Widget child = HomeScreen();
     child = CustomDrawer(child: child);
-    Future.delayed(Duration(seconds: 0), () {
+    Future.delayed(Duration(seconds: 6), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => child),
@@ -48,8 +48,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Theme.of(context).accentColor,
+      body: Center(
+        child: Image.asset("assets/gifs/coffee.gif"),
       ),
     );
   }
