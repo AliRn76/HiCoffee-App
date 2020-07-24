@@ -12,6 +12,9 @@ class Item(models.Model):
     class Meta:
         db_table = 'Item'
 
+    def __str__(self):
+        return str(self.name) + " " + str(self.number)
+
 
 class Log(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)

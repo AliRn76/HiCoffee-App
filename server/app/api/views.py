@@ -62,14 +62,12 @@ def add_item(request):
 def edit_item(request):
     # Serialize data
     serializer = ItemSerializers(data=request.data)
-    old_name = request.data.get("old_name")
-
     try:
         # Check is old_name valid or not
+        old_name = request.data.get("old_name")
         temp_old_item = Item.objects.filter(name=old_name)
         old_item = temp_old_item[0]
-
-    except Item.DoesNotExist:
+    except:
         data = {
             "response": "old_name does not exist",
         }
@@ -77,13 +75,16 @@ def edit_item(request):
 
     # Save the serializer in item
     if serializer.is_valid():
-        item = serializer.save()
+        name = serializer.data.get("name")
+        number = serializer.data.get("number")
 
         # If name was not null and doesn't exist --> update it
-        if item.name is not None:
-            name_check = Item.objects.get(name=item.name)
-            if name_check is None:
-                old_item.name = item.name
+        if name is not None:
+            try:
+                name_check = Item.objects.get(name=name)
+            except:
+            # if name_check is None:
+                old_item.name = name
             else:
                 data = {
                     "response": "item with this name already exists.",
@@ -91,8 +92,8 @@ def edit_item(request):
                 return Response(data=data, status=status.HTTP_409_CONFLICT)
 
         # If Name was not null --> update it
-        if item.number is not None:
-            old_item.number = item.number
+        if number is not None:
+            old_item.number = number
 
         # Update Response, Should be Null
         response = old_item.save()
