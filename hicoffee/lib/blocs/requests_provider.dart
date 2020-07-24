@@ -119,8 +119,27 @@ class RequestsProvider extends ChangeNotifier{
   }
 
 
-  void reqEditItem() async{
-    Response response = await get("http://al1.best:85/api/edit/");
+  Future<int> reqEditItem(String oldName, String newName, int newNumber) async{
+    var reqBody = Map<String, dynamic>();
+    reqBody['name'] = newName;
+    reqBody['number'] = newNumber;
+    reqBody['old_name'] = oldName;
+    String jsonBody = jsonEncode(reqBody);
+    print(jsonBody);
+    Map<String, String> reqHeader = {"Content-type": "application/json", "Accept": "application/json"};
+    Response response = await put("http://al1.best:85/api/edit/", body:jsonBody, headers: reqHeader);
+    if(response.statusCode == 200){
+      // Update the local db
+//      var result = await DatabaseHelper().updateItem(item, sellValue);
+//      print("Sell db Result: $result");
+      // Update the provider
+      for(int i=0 ; i<_items.length ; i++){
+//        if (_items[i].name == oldName)
+//          _items[i].number = _items[i].number - sellValue;
+      }
+      notifyListeners();
+    }
+    return response.statusCode;
   }
 
 

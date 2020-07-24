@@ -330,7 +330,29 @@ class CardLists extends StatelessWidget {
 //            icon: Icon(Icons.edit),
 //            onPressed: (){},
 //          ),
-          EditItemScreen(item: item),
+//          EditItemScreen(item: item),
+          IconButton(
+            color: editColor,
+            iconSize: 27.0,
+            icon: Icon(Icons.edit),
+            onPressed: (){
+              showDialog(
+                context: context,
+                builder: (BuildContext context){
+                  return BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+                    child: AlertDialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        side: BorderSide(width: 2, color: Theme.of(context).primaryColor),
+                      ),
+                      content: EditItemScreen(item: item),
+                    ),
+                  );
+                }
+              );
+            },
+          ),
         ],
       ),
       back: Container(
@@ -372,9 +394,8 @@ class CardLists extends StatelessWidget {
 
   Widget _snackBar(String message, Color color){
     Color fontColor;
-    if(color == acceptColor){
+    if(color == acceptColor)
       fontColor = Colors.black;
-    }
     return SnackBar(
       duration: Duration(seconds: 1, milliseconds: 500),
       backgroundColor: color,
