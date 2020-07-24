@@ -94,46 +94,26 @@ class _AboutUsScreenState extends State<AboutUsScreen>  with SingleTickerProvide
             children: <Widget>[
               Container(
                 width: 8.0,
-                height: height()/6,
+                height: height()/11,
                 color: Theme.of(context).accentColor,
               ),
               SizedBox(width: width()/8),
-              Container(
-                width: width() - width()/8 - 8,
-                height: height()/6,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "Hi !   I'm Ali",
-                      style: TextStyle(
-                        fontFamily: "Milton",
-                        fontSize: 20.0,
+              Align(
+                alignment: Alignment(-1, 0),
+                child: Container(
+                  width: width() - width()/8 - 8,
+                  height: height()/11,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Hi !   I'm Ali",
+                        style: TextStyle(
+                          fontFamily: "Milton",
+                          fontSize: 20.0,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Container(
-                width: 8.0,
-                height: height()/6,
-                color: Colors.greenAccent[200],
-              ),
-              SizedBox(width: width()/8),
-              Container(
-                width: width() - width()/8 - 8,
-                height: height()/6,
-                child: Text(
-                  "I work with:\n\n"
-                      "    1.   Flutter in Client-Side\n"
-                      "    2.   Django in Server-Side",
-                  style: TextStyle(
-                    fontFamily: "Milton",
-                    fontSize: 20.0,
+                    ],
                   ),
                 ),
               ),
@@ -143,78 +123,107 @@ class _AboutUsScreenState extends State<AboutUsScreen>  with SingleTickerProvide
             children: <Widget>[
               Container(
                 width: 8.0,
-                height: height()/4.5,
+                height: height()/4,
+                color: Colors.greenAccent[200],
+              ),
+              SizedBox(width: width()/8),
+              Container(
+                width: width() - width()/8 - 8,
+                height: height()/4,
+                child: Align(
+                  alignment: Alignment(-1.0, 0.0),
+                  child: Text(
+                    "I work with:\n\n"
+                        "    1.   Flutter in Client-Side\n"
+                        "    2.   Django in Server-Side",
+                    style: TextStyle(
+                      fontFamily: "Milton",
+                      fontSize: 20.0,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Container(
+                width: 8.0,
+                height: height()/6,
                 color: Colors.blue,
               ),
               SizedBox(width: width()/8),
               Container(
                 width: width() - width()/8 - 8,
                 height: height()/6,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
+                child: Align(
+                  alignment: Alignment(-1, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
 //                    SizedBox(width: width()/16),
-                    Text(
-                      "You Can Donate Me Here  ",
-                      style: TextStyle(
-                        fontFamily: "Milton",
-                        fontSize: 20.0,
+                      Text(
+                        "Donate Me  ",
+                        style: TextStyle(
+                          fontFamily: "Milton",
+                          fontSize: 20.0,
+                        ),
                       ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward,
-                      size: 22.0,
-                    ),
-                    SizedBox(width: 10.0),
-                    Center(
-                      child: ClayContainer(
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        height: 85,
-                        width: 85,
-                        borderRadius: 200,
-                        curveType: CurveType.concave,
-                        spread: 30,
-                        depth: calculatedFirstDepth.toInt(),
-                        child: Center(
-                          child: ClayContainer(
-                            height: 75,
-                            width: 75,
-                            borderRadius: 200,
-                            depth: calculatedSecondDepth.toInt(),
-                            curveType: CurveType.convex,
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                            child: Center(
-                              child: ClayContainer(
-                                  height: 60,
-                                  width: 60,
-                                  borderRadius: 200,
-                                  color: Theme.of(context).scaffoldBackgroundColor,
-                                  depth: calculatedThirdDepth.toInt(),
-                                  curveType: CurveType.concave,
-                                  child: Center(
-                                      child: ClayContainer(
-                                        height: 50,
-                                        width: 50,
-                                        borderRadius: 200,
-                                        color: Theme.of(context).scaffoldBackgroundColor,
-                                        depth: calculatedFourthDepth.toInt(),
-                                        curveType: CurveType.convex,
-                                        child: IconButton(
-                                          icon: FaIcon(FontAwesomeIcons.handHoldingUsd),
-                                          onPressed: () => launch('https://idpay.ir/alirn'),
-                                          color: Colors.blue[600],
-                                          splashColor: Colors.blue,
-                                          hoverColor: Colors.blue,
-                                        ),
-                                      )
-                                  )
+                      Icon(
+                        Icons.arrow_forward,
+                        size: 22.0,
+                      ),
+                      SizedBox(width: 10.0),
+                      Center(
+                        child: ClayContainer(
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                          height: 85,
+                          width: 85,
+                          borderRadius: 200,
+                          curveType: CurveType.concave,
+                          spread: 30,
+                          depth: calculatedFirstDepth.toInt(),
+                          child: Center(
+                            child: ClayContainer(
+                              height: 75,
+                              width: 75,
+                              borderRadius: 200,
+                              depth: calculatedSecondDepth.toInt(),
+                              curveType: CurveType.convex,
+                              color: Theme.of(context).scaffoldBackgroundColor,
+                              child: Center(
+                                child: ClayContainer(
+                                    height: 60,
+                                    width: 60,
+                                    borderRadius: 200,
+                                    color: Theme.of(context).scaffoldBackgroundColor,
+                                    depth: calculatedThirdDepth.toInt(),
+                                    curveType: CurveType.concave,
+                                    child: Center(
+                                        child: ClayContainer(
+                                          height: 50,
+                                          width: 50,
+                                          borderRadius: 200,
+                                          color: Theme.of(context).scaffoldBackgroundColor,
+                                          depth: calculatedFourthDepth.toInt(),
+                                          curveType: CurveType.convex,
+                                          child: IconButton(
+                                            icon: FaIcon(FontAwesomeIcons.handHoldingUsd),
+                                            onPressed: () => launch('https://idpay.ir/alirn'),
+                                            color: Colors.blue[600],
+                                            splashColor: Colors.blue,
+                                            hoverColor: Colors.blue,
+                                          ),
+                                        )
+                                    )
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -230,7 +239,7 @@ class _AboutUsScreenState extends State<AboutUsScreen>  with SingleTickerProvide
                 width: width() - width()/8 - 8,
                 height: height()/8,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,

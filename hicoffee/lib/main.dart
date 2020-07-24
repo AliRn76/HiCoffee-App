@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<RequestsProvider>.value(value: RequestsProvider(),),
       ],
       child: MaterialApp(
-        title: 'HiCoffee App',
+        title: 'Hi Coffee',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           scaffoldBackgroundColor: Color(0xFFe6f3ff),

@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.8.1+1
+version: 1.9.2+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -98,10 +98,10 @@ flutter:
     - family: Waltograph
       fonts:
         - asset: assets/fonts/waltograph42.otf
-    - family: WaltographUI
+#    - family: WaltographUI
 #      fonts:
 #        - asset: assets/fonts/waltographUI.ttf
-#    - family: BTitr_Bold
+    - family: BTitr_Bold
       fonts:
         - asset: assets/fonts/BTitr_Bold.ttf
     - family: Milton
