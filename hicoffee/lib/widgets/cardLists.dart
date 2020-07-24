@@ -64,7 +64,6 @@ class CardLists extends StatelessWidget {
   Widget build(BuildContext context) {
     double width() => MediaQuery.of(context).size.width;
     double height() => MediaQuery.of(context).size.height;
-
     return Builder(
       builder: (BuildContext context){
         return ListView.builder(
@@ -299,6 +298,7 @@ class CardLists extends StatelessWidget {
     GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
     final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
     return FlipCard(
+      direction: FlipDirection.HORIZONTAL,
       flipOnTouch: false,
       key: cardKey,
       front: Row(
@@ -322,6 +322,12 @@ class CardLists extends StatelessWidget {
               color: Colors.blueAccent[200],
             ),
           ),
+//          IconButton(
+//            color: editColor,
+//            iconSize: 27.0,
+//            icon: Icon(Icons.edit),
+//            onPressed: (){},
+//          ),
           EditItemScreen(item: item),
         ],
       ),

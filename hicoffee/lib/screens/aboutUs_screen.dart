@@ -27,7 +27,7 @@ class _AboutUsScreenState extends State<AboutUsScreen>  with SingleTickerProvide
   @override
   void initState() {
     _animationController = AnimationController(
-      duration: Duration(seconds: 10),// the SingleTickerProviderStateMixin
+      duration: Duration(seconds: 6),// the SingleTickerProviderStateMixin
       vsync: this,
     )..addListener(() {
       setState(() {});
@@ -155,7 +155,7 @@ class _AboutUsScreenState extends State<AboutUsScreen>  with SingleTickerProvide
                   children: <Widget>[
 //                    SizedBox(width: width()/16),
                     Text(
-                      "You Can Donate Here  ",
+                      "You Can Donate Me Here  ",
                       style: TextStyle(
                         fontFamily: "Milton",
                         fontSize: 20.0,
@@ -185,8 +185,8 @@ class _AboutUsScreenState extends State<AboutUsScreen>  with SingleTickerProvide
                             color: Theme.of(context).scaffoldBackgroundColor,
                             child: Center(
                               child: ClayContainer(
-                                  height: 63,
-                                  width: 63,
+                                  height: 60,
+                                  width: 60,
                                   borderRadius: 200,
                                   color: Theme.of(context).scaffoldBackgroundColor,
                                   depth: calculatedThirdDepth.toInt(),

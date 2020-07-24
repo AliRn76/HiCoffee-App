@@ -7,26 +7,30 @@ import 'package:flutter/material.dart';
 import 'package:drawerbehavior/drawerbehavior.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
+import 'package:provider/provider.dart';
 //import 'package:loading_text/loading_text.dart';
+import 'package:http/http.dart';
 import 'dart:async';
 
 import 'package:hicoffee/blocs/connection_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
+
 // model
 import 'package:hicoffee/model/item.dart';
+
 // widgets
 import 'package:hicoffee/widgets/wave.dart';
 import 'package:hicoffee/widgets/cardLists.dart';
 import 'package:hicoffee/widgets/custom_drawer.dart';
 import 'package:hicoffee/widgets/slide_right_route.dart';
+
 // screens
 import 'package:hicoffee/screens/search_screen.dart';
 import 'package:hicoffee/screens/addItem_screen.dart';
-import 'package:http/http.dart';
-import 'package:provider/provider.dart';
 
+// database
 import 'package:hicoffee/sqlite/database_helper.dart';
+
 
 class HomeScreen extends StatefulWidget {
 
@@ -261,3 +265,5 @@ class _HomeScreenState extends State<HomeScreen> {
 //TODO: hamon position payinish faghat bargarde va poshtesh beshe item ro edit ya delete kard
 
 //TODO: vaghti ye item edit mikone age response 200 bood,to db update beshe
+
+//TODO: age number 0 bood , sell request nafreste

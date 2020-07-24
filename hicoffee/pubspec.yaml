@@ -1,5 +1,5 @@
 name: hicoffee
-description: A new Flutter application.
+description: A Flutter application for HiCoffee.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.7.1+1
+version: 1.8.1+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -43,7 +43,7 @@ dependencies:
   numberpicker: ^1.2.0
   flutter_spinkit: ^4.1.2
   url_launcher: ^5.5.0
-
+#  intro_slider: ^2.3.1
   font_awesome_flutter: ^8.8.1
 
 dev_dependencies:

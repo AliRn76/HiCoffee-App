@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hicoffee/model/item.dart';
 import 'package:hicoffee/sqlite/database_helper.dart';
 import 'package:http/http.dart';
-
+import 'package:hicoffee/blocs/connection_provider.dart';
 
 class RequestsProvider extends ChangeNotifier{
 
@@ -19,6 +19,7 @@ class RequestsProvider extends ChangeNotifier{
 
   // Tarif avalie
   List<Item> _items = [];
+  NetworkProvider networkProvider;
 
   // Har vaght items ro khast _items ro behesh midam
   List get items => _items;
@@ -40,8 +41,8 @@ class RequestsProvider extends ChangeNotifier{
   void requestItems() async{
     try{
       Response response = await get("http://al1.best:85/api/show-all/");
-      print("response: $response");
-      List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+      print("response: ${response.statusCode}");
+      List<dynamic> data = await jsonDecode(utf8.decode(response.bodyBytes));
       print("data: $data");
       // Serialize data
       items = data.map((m) => Item.fromJson(m)).toList();
