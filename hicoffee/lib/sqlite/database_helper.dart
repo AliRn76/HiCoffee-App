@@ -115,6 +115,17 @@ class DatabaseHelper{
     return result;
   }
 
+  // Update One Item (Edit)
+  Future<List<Map<String, dynamic>>> editItem(String oldName, String newName, int newNumber) async{
+    Database db = await this.database;
+    var result = await db.rawQuery(
+        "UPDATE $tbl_item "
+            "SET $col_name = '$newName' ,"
+                "$col_number = '$newNumber' "
+            "WHERE $col_name = '$oldName'; ");
+    return result;
+  }
+
 }
 
 

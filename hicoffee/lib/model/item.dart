@@ -21,7 +21,7 @@ class Item{
     number = map['Number'];
   }
 
-  // convet to map , f
+  // convert to map
   Map<String, dynamic> toJson() {
     var map = Map<String, dynamic>();
     map['name'] = name;

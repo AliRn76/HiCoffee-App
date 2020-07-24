@@ -28,7 +28,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
     Color acceptColor = Colors.greenAccent[200];
     Color deleteColor = Colors.redAccent[400];
     Color editColor = Colors.grey[600];
-    int _value = 0;
+    int _value = widget.item.number;
     String responseMessage = "لطفا صبر کنید";
     Color responseColor = Theme.of(context).primaryColor;
     Icon responseIcon = Icon(Icons.done, color: Color(0xFF66c2ff),);
@@ -46,6 +46,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
       print(old_name);
       print(name);
       print(number);
+//      if (name == old_name)
+//        name = null;
       if(networkProvider.connection == false){
         setter(() {
           responseMessage = "ابتدا به اینترنت متصل شوید";
@@ -67,15 +69,18 @@ class _EditItemScreenState extends State<EditItemScreen> {
         });
       }else{
         statusCode = await requestsProvider.reqEditItem(old_name, name, number);
-        print(statusCode);
+        print("Edit statusCode: $statusCode");
         setter(() {
-          if(statusCode == 201){
-            responseMessage = "باموفقیت اضافه شد";
-            responseColor = Colors.greenAccent[400];
-            responseIcon = Icon(Icons.done_all, color: responseColor);
-            nameController.clear();
-            _value = 0;
+          if(statusCode == 202){
+            print("tooye 202");
+//            _snackBar(responseMessage, responseColor);
+            return Navigator.pop(context, true);
+//            Scaffold.of(context).showSnackBar(_snackBar(responseMessage, responseColor));
+//            responseMessage = "باموفقیت ویرایش شد";
+//            responseColor = Colors.greenAccent[400];
+//            responseIcon = Icon(Icons.done_all, color: responseColor);
           }else if(statusCode == 406){
+
             responseMessage = "نام محصول تکراری است";
             responseColor = Colors.redAccent[400];
             responseIcon = Icon(Icons.close, color: responseColor);
@@ -167,7 +172,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                               ),
                               onPressed: () {
                                 tryEditItem(requestsProvider, networkProvider, setter);
-                                editCardKey.currentState.toggleCard();
+                                return editCardKey.currentState.toggleCard();
                               },
                               child: Text(
                                 "ویرایش",
@@ -223,5 +228,22 @@ class _EditItemScreenState extends State<EditItemScreen> {
         ),
       ),
     );
+  }
+
+  Widget _snackBar(String message, Color color){
+    return SnackBar(
+      duration: Duration(seconds: 2, milliseconds: 500),
+      backgroundColor: color,
+      content: Text(
+        message,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 18.0,
+          fontWeight: FontWeight.bold,
+          fontFamily: "BNazanin",
+        ),
+      ),
+    );
+
   }
 }
