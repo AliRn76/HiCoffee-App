@@ -257,13 +257,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
 }
 
-//TODO: Edit Moonde
-//TODO: Item haye Drawer Moonde
+//TODO: add the log part in server
 
+//TODO: fix the logs
 
-//TODO: Jaye number selection mishe az number picker estefade kard
-//TODO: hamon position payinish faghat bargarde va poshtesh beshe item ro edit ya delete kard
+//TODO: set the Icon
+//TODO: fix the 202 message in editing
 
-//TODO: vaghti ye item edit mikone age response 200 bood,to db update beshe
+//TODO: create login page
+//TODO: clean the database
+//TODO: publish the app in bazar or something
 
-//TODO: age number 0 bood , sell request nafreste

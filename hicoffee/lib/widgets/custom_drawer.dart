@@ -141,13 +141,6 @@ class MyDrawer extends StatelessWidget {
 //                width: 200,
 //              ),
               ListTile(
-                leading: Icon(Icons.home),
-                title: Text('Home'),
-                onTap: (){
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
                 leading: Icon(Icons.description),
                 title: Text('Log'),
                 onTap: (){
