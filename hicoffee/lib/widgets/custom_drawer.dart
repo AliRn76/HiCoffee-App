@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hicoffee/screens/aboutUs_screen.dart';
 import 'package:hicoffee/screens/home_screen.dart';
+import 'package:hicoffee/screens/loading_screen.dart';
 import 'package:hicoffee/screens/log_screen.dart';
+import 'package:hicoffee/screens/login_screen.dart';
+import 'package:hicoffee/sqlite/database_helper.dart';
 
 class CustomDrawer extends StatefulWidget {
   final Widget child;
@@ -160,6 +164,19 @@ class MyDrawer extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => AboutUsScreen()
+                        )
+                    );
+                  },
+              ),
+              ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Log out'),
+                  onTap: (){
+                    var result = DatabaseHelper().deleteToken();
+                    CustomDrawer.of(context).close();
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginScreen()
                         )
                     );
                   },

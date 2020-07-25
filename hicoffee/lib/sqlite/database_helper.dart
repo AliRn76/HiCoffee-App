@@ -38,7 +38,7 @@ class DatabaseHelper{
   // Create Database
   Future<Database> initializeDatabase() async{
     String databasePath = await getDatabasesPath();
-    String path = join(databasePath, 'HiCoffee.db');
+    String path = join(databasePath, 'HiCoffee2.db');
 
     Database database = await openDatabase(path, version: 2, onCreate: _createDB);
     return database;
@@ -149,7 +149,17 @@ class DatabaseHelper{
   Future<List<Map<String, dynamic>>> selectToken() async{
     Database db = await this.database;
     var result = await db.rawQuery(
-        "Select $col_token From $tbl_item"
+        "Select $col_token From $tbl_user"
+    );
+    print("result in db: $result");
+    return result;
+  }
+
+  // Delete Token
+  Future<List<Map<String, dynamic>>> deleteToken() async{
+    Database db = await this.database;
+    var result = await db.rawQuery(
+        "Delete From $tbl_user"
     );
     return result;
   }

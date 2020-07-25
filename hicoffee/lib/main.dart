@@ -1,6 +1,7 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:hicoffee/blocs/connection_provider.dart';
+import 'package:hicoffee/blocs/login_provider.dart';
 import 'package:hicoffee/blocs/logs_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
 import 'package:hicoffee/widgets/custom_drawer.dart';
@@ -23,10 +24,12 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<NetworkProvider>.value(value: NetworkProvider()),
         ChangeNotifierProvider<LogsProvider>.value(value: LogsProvider()),
+        ChangeNotifierProvider<LoginProvider>.value(value: LoginProvider()),
+        ChangeNotifierProvider<RequestsProvider>.value(value: RequestsProvider()),
+        /// Sample of Stream Provider
 //        StreamProvider<ConnectivityResult>.value(
 //          value: NetworkProvider().networkStatusController.stream,
 //        ),
-        ChangeNotifierProvider<RequestsProvider>.value(value: RequestsProvider()),
       ],
       child: MaterialApp(
         title: 'Hi Coffee',

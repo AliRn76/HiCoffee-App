@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hicoffee/screens/home_screen.dart';
 import 'package:hicoffee/sqlite/database_helper.dart';
+import 'package:hicoffee/widgets/custom_drawer.dart';
 import 'package:http/http.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -21,7 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
   String password;
 
   void login() async{
-    print("Username: $username    Password: $password");
+    Widget child = HomeScreen();
+    child = CustomDrawer(child: child);
     String token;
     var reqBody = Map<String, dynamic>();
     reqBody['username'] = username;
@@ -35,27 +37,28 @@ class _LoginScreenState extends State<LoginScreen> {
     Map<String, String> reqHeader = {"Content-type": "application/json", "Accept": "application/json"};
     Response response = await post("http://al1.best:85/api/login/", body:jsonBody, headers: reqHeader);
     dynamic data = await jsonDecode(utf8.decode(response.bodyBytes));
-    print(data);
-//    if(response.statusCode == 202){
-//      // Update the local db
-//      var result = await DatabaseHelper().insertToken(token);
-//      print("Login db Result: $result");
-//      notifyListeners();
-//    }
-//    return response.statusCode;
-
+    token = data["token"];
+    print("Login statusCode: ${response.statusCode}");
+    if(response.statusCode == 200){
+      // Update the local db
+      var result = await DatabaseHelper().insertToken(token);
+      print("insert Token to db: $result");
+      // Go to HomeScreen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => child),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Container(
         height: size.height,
         width: double.infinity,
-//        color: Colors.white,
-//      color: Theme.of(context).scaffoldBackgroundColor,
-//      backgroundColor: kPrimaryColor,
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
@@ -65,6 +68,17 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Image.asset(
                 "assets/images/main_top.png",
                 width: size.width * 0.35,
+              ),
+            ),
+            Positioned(
+              top: 40,
+              child: Text(
+                "LOGIN",
+                style: TextStyle(
+                    fontSize: 20.0,
+//                      fontFamily: "Milton",
+                    fontWeight: FontWeight.bold
+                ),
               ),
             ),
             Positioned(
@@ -79,18 +93,14 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    "LOGIN",
-//                    style: TextStyle(
-//                      fontFamily: "Milton",
-////                    fontWeight: FontWeight.bold
-//                    ),
-                  ),
                   SizedBox(height: size.height * 0.03),
-//                SvgPicture.asset(
-//                  "assets/icons/login.svg",
-//                  height: size.height * 0.35,
-//                ),
+                  Align(
+                    alignment: Alignment(0.65,0),
+                    child: Image.asset(
+                      "assets/images/login_logo.png",
+                      height: size.height * 0.30,
+                    ),
+                  ),
                   SizedBox(height: size.height * 0.03),
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 10),
@@ -101,6 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(29),
                     ),
                     child: TextField(
+                      textInputAction: TextInputAction.next,
                       onChanged: (value) => setState(() => username = value),
                       cursorColor: kPrimaryColor,
                       decoration: InputDecoration(
@@ -149,10 +160,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: kPrimaryColor,
                       onPressed: () {
                         login();
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                        );
                       },
                       child: Text(
                         "LOGIN",

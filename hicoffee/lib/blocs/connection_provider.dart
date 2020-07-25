@@ -142,22 +142,18 @@ import 'dart:async';
 
 class NetworkProvider extends ChangeNotifier{
 
+
   StreamSubscription<ConnectivityResult> _subscription;
   bool _connection;
 
   StreamSubscription<ConnectivityResult> get subscription => _subscription;
   bool get connection => _connection;
 
-//  set connection(bool value){
-//    _connection = value;
-//    notifyListeners();
-//  }
-
-
   NetworkProvider(){
     initConnectivity();
     _invokeNetworkStatusListen();
   }
+
 
 
   Future<void> initConnectivity() async {
@@ -183,7 +179,6 @@ class NetworkProvider extends ChangeNotifier{
       else
         _connection = true;
       notifyListeners();
-//      notifyListeners();
     });
   }
 
