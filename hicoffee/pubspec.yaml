@@ -45,6 +45,7 @@ dependencies:
   url_launcher: ^5.5.0
 #  intro_slider: ^2.3.1
   font_awesome_flutter: ^8.8.1
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:

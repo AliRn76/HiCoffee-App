@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hicoffee/blocs/logs_provider.dart';
 import 'package:hicoffee/model/log.dart';
+import 'package:provider/provider.dart';
 
 class LogScreen extends StatefulWidget {
   @override
@@ -7,22 +9,25 @@ class LogScreen extends StatefulWidget {
 }
 
 class _LogScreenState extends State<LogScreen> {
-  List<Log> logs = [Log("ماگ قهوه ای فروحته شد.","sell"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"), Log("ماگ زدر تعداد: ۲ حذف شد","delete"),  Log("نام: قهوه برزیل، تعداد: ۲ به نام: برزیل ۳، تعداد: ۳ ویرایش شد","edit"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"), Log("ماگ قهوه ای فروحته شد","sell"), Log("ماگ زدر تعداد: ۲ حذف شد","delete"),  Log("نام: قهوه برزیل، تعداد: ۲ به نام: برزیل ۳، تعداد: ۳ ویرایش شد","edit"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"),
-    Log("ماگ قهوه ای فروحته شد.","sell"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"), Log("ماگ زدر تعداد: ۲ حذف شد","delete"),  Log("نام: قهوه برزیل، تعداد: ۲ به نام: برزیل ۳، تعداد: ۳ ویرایش شد","edit"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"), Log("ماگ قهوه ای فروحته شد","sell"), Log("ماگ زدر تعداد: ۲ حذف شد","delete"),  Log("نام: قهوه برزیل، تعداد: ۲ به نام: برزیل ۳، تعداد: ۳ ویرایش شد","edit"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"),];
+  List<Log> logs = [];
+
+//  List<Log> logs = [Log("ماگ قهوه ای فروحته شد.","sell"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"), Log("ماگ زدر تعداد: ۲ حذف شد","delete"),  Log("نام: قهوه برزیل، تعداد: ۲ به نام: برزیل ۳، تعداد: ۳ ویرایش شد","edit"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"), Log("ماگ قهوه ای فروحته شد","sell"), Log("ماگ زدر تعداد: ۲ حذف شد","delete"),  Log("نام: قهوه برزیل، تعداد: ۲ به نام: برزیل ۳، تعداد: ۳ ویرایش شد","edit"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"),
+//    Log("ماگ قهوه ای فروحته شد.","sell"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"), Log("ماگ زدر تعداد: ۲ حذف شد","delete"),  Log("نام: قهوه برزیل، تعداد: ۲ به نام: برزیل ۳، تعداد: ۳ ویرایش شد","edit"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"), Log("ماگ قهوه ای فروحته شد","sell"), Log("ماگ زدر تعداد: ۲ حذف شد","delete"),  Log("نام: قهوه برزیل، تعداد: ۲ به نام: برزیل ۳، تعداد: ۳ ویرایش شد","edit"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"),];
   Color borderColor;
   Color backColor;
 
   @override
   Widget build(BuildContext context) {
+    final LogsProvider logsProvider = Provider.of<LogsProvider>(context);
     return Scaffold(
       appBar: _appBar(),
       body: Center(
         child: Builder(
           builder: (BuildContext context){
             return ListView.builder(
-                itemCount: logs.length,
+                itemCount: logsProvider.logs.length,
                 itemBuilder: (context, index){
-                  return _showLog(logs[index]);
+                  return _showLog(logsProvider.logs[index]);
                 }
             );
           },
