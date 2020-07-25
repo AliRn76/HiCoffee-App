@@ -7,7 +7,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 
-from app.models import Item
+from app.models import Item, Log
 from app.api.serializers import ItemSerializers, SellItemSerializers
 
 
@@ -48,6 +48,13 @@ def add_item(request):
         if item.number is None:
             item.number = 0
         item.save()
+        # Save the Log
+        log = Log.objects.create(
+            text    = "نام: {}، تعداد: {}، ثبت شد.".format(item.name, item.number),
+            type    = "add",
+        )
+        log_response = log.save()
+        print("log_response: {}".format(log_response))
         data = {
             "response": "success",
             "name": item.name,
@@ -93,10 +100,18 @@ def edit_item(request):
 
         # If Name was not null --> update it
         if number is not None:
+            old_number = old_item.number
             old_item.number = number
 
         # Update Response, Should be Null
         response = old_item.save()
+        # Save the Log
+        log = Log.objects.create(
+            text="نام: {}، تعداد: {} به نام: {}، تعداد: {} ویرایش شد.".format(old_name, old_number, name, number),
+            type="edit",
+        )
+        log_response = log.save()
+        print("log_response: {}".format(log_response))
         print("response: ", response)
         data = {
             "response": "success",
@@ -117,9 +132,16 @@ def delete_item(request, item_name):
         item = items[0]
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
-
+    number = item.number
     result = item.delete()
     if result:
+        # Save the Log
+        log = Log.objects.create(
+            text="نام: {}، تعداد: {} حذف شد.".format(item_name, number),
+            type="delete",
+        )
+        log_response = log.save()
+        print("log_response: {}".format(log_response))
         data = {
             "response": "deleted successfully",
         }
@@ -157,6 +179,13 @@ def sell_item(request):
             return Response(status=status.HTTP_409_CONFLICT)
         # Set Response
         if old_item:
+            # Save the Log
+            log = Log.objects.create(
+                text="نام: {}، {} عدد فروخته شد.".format(name, number),
+                type="sell",
+            )
+            log_response = log.save()
+            print("log_response: {}".format(log_response))
             return Response(data={"response": "success"}, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)

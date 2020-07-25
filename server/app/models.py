@@ -19,10 +19,13 @@ class Item(models.Model):
 class Log(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)
     text = models.TextField(db_column='Text', blank=True, null=True)
+    type = models.CharField(db_column='Type', max_length=96, blank=True, null=True)
 
     class Meta:
         db_table = 'Log'
 
+    def __str__(self):
+        return str(self.type) + " " + self.text
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
