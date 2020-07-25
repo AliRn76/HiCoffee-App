@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from app.models import Item
+from app.models import Item, Log
 
 
 class ItemSerializers(serializers.ModelSerializer):
@@ -18,3 +18,8 @@ class SellItemSerializers(serializers.ModelSerializer):
                 'validators': [],
             }
         }
+
+class LogSerializers(serializers.ModelSerializer):
+    class Meta:
+        model   = Log
+        fields  = ['text', 'type', 'date']

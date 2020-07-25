@@ -20,7 +20,7 @@ class Log(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)
     text = models.TextField(db_column='Text', blank=True, null=True)
     type = models.CharField(db_column='Type', max_length=96, blank=True, null=True)
-
+    date = models.DateTimeField(db_column='Date', null=True)
     class Meta:
         db_table = 'Log'
 

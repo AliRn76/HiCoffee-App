@@ -3,12 +3,13 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 from django.core.files.base import ContentFile
+from django.utils.datetime_safe import datetime
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 
 from app.models import Item, Log
-from app.api.serializers import ItemSerializers, SellItemSerializers
+from app.api.serializers import ItemSerializers, SellItemSerializers, LogSerializers
 
 
 @api_view(['GET', ])
@@ -52,6 +53,7 @@ def add_item(request):
         log = Log.objects.create(
             text    = "نام: {}، تعداد: {}، ثبت شد.".format(item.name, item.number),
             type    = "add",
+            date=datetime.now()
         )
         log_response = log.save()
         print("log_response: {}".format(log_response))
@@ -109,6 +111,7 @@ def edit_item(request):
         log = Log.objects.create(
             text="نام: {}، تعداد: {} به نام: {}، تعداد: {} ویرایش شد.".format(old_name, old_number, name, number),
             type="edit",
+            date=datetime.now()
         )
         log_response = log.save()
         print("log_response: {}".format(log_response))
@@ -139,6 +142,7 @@ def delete_item(request, item_name):
         log = Log.objects.create(
             text="نام: {}، تعداد: {} حذف شد.".format(item_name, number),
             type="delete",
+            date=datetime.now()
         )
         log_response = log.save()
         print("log_response: {}".format(log_response))
@@ -183,6 +187,7 @@ def sell_item(request):
             log = Log.objects.create(
                 text="نام: {}، {} عدد فروخته شد.".format(name, number),
                 type="sell",
+                date=datetime.now()
             )
             log_response = log.save()
             print("log_response: {}".format(log_response))
@@ -192,3 +197,18 @@ def sell_item(request):
 
     else:
         return Response(data=serializer.errors, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+
+@api_view(['GET', ])
+def show_all_logs(request):
+    # Collecting Data
+    logs = Log.objects.all().order_by('-date')
+    print(logs)
+    # Serialize and Response
+    if logs:
+        serializer = LogSerializers(logs, many=True)
+        data = serializer.data
+        return Response(data=data, status=status.HTTP_200_OK)
+    else:
+        data = {"response": "there is no item"}
+        return Response(data=data, status=status.HTTP_404_NOT_FOUND)
