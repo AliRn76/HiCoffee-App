@@ -1,4 +1,4 @@
-import 'package:hicoffee/model/item.dart';
+import 'package:hicoffee/model/item_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'dart:async';
@@ -13,6 +13,10 @@ class DatabaseHelper{
   String col_id     = "ID";
   String col_name   = "Name";
   String col_number = "Number";
+
+  String tbl_user   = "User";
+//  String col_id     = "ID";
+  String col_token  = "Token";
 
   DatabaseHelper._CreateInstance();
 
@@ -36,17 +40,22 @@ class DatabaseHelper{
     String databasePath = await getDatabasesPath();
     String path = join(databasePath, 'HiCoffee.db');
 
-    Database database = await openDatabase(path, version: 1, onCreate: _createDB);
+    Database database = await openDatabase(path, version: 2, onCreate: _createDB);
     return database;
   }
 
   // Create Tables
   void _createDB(Database db, int version) async{
     await db.execute(
-        'CREATE TABLE $tbl_item ('
+        'CREATE TABLE IF NOT EXISTS $tbl_item ('
             '$col_id INTEGER PRIMARY KEY AUTOINCREMENT,'
             '$col_name TEXT,'
             '$col_number INTEGER)'
+    );
+    await db.execute(
+        'CREATE TABLE IF NOT EXISTS $tbl_user ('
+            '$col_id INTEGER PRIMARY KEY AUTOINCREMENT,'
+            '$col_token TEXT)'
     );
   }
 
@@ -126,6 +135,24 @@ class DatabaseHelper{
     return result;
   }
 
+  // Insert Token
+  Future<List<Map<String, dynamic>>> insertToken(String token) async{
+    Database db = await this.database;
+    var result = await db.rawQuery(
+        "Insert Into $tbl_user ($col_token)"
+            "VALUES ('$token');"
+    );
+    return result;
+  }
+
+  // Select Token
+  Future<List<Map<String, dynamic>>> selectToken() async{
+    Database db = await this.database;
+    var result = await db.rawQuery(
+        "Select $col_token From $tbl_item"
+    );
+    return result;
+  }
 }
 
 

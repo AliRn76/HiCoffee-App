@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
 
-import 'package:hicoffee/model/item.dart';
+import 'package:hicoffee/model/item_model.dart';
 
 import 'package:hicoffee/widgets/wave.dart';
 import 'package:hicoffee/widgets/cardLists.dart';

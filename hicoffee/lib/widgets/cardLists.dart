@@ -6,10 +6,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:folding_cell/folding_cell.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hicoffee/blocs/logs_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
 import 'package:hicoffee/screens/addItem_screen.dart';
 import 'package:number_selection/number_selection.dart';
-import 'package:hicoffee/model/item.dart';
+import 'package:hicoffee/model/item_model.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:provider/provider.dart';
 import 'package:hicoffee/screens/editItem_screen.dart';
@@ -24,9 +25,10 @@ class CardLists extends StatelessWidget {
   Color errorColor = Colors.redAccent[100];
 
 
-  void deleteItem(BuildContext context, Item item, RequestsProvider requestsProvider) async{
+  void deleteItem(context, item, requestsProvider, logsProvider) async{
     int statusCode = await requestsProvider.reqDeleteItem(item);
     if(statusCode == 200){
+      logsProvider.reqShowLogs();
       Scaffold.of(context).showSnackBar(
           _snackBar("با موفقیت حذف شد", deleteColor)
       );
@@ -42,12 +44,13 @@ class CardLists extends StatelessWidget {
     }
   }
 
-  void sellItem(BuildContext context, Item item, int sellValue, RequestsProvider requestsProvider) async{
+  void sellItem(context, item, sellValue, requestsProvider, logsProvider) async{
     if(sellValue == 0)
       return;
     if(sellValue != null){
       int statusCode = await requestsProvider.reqSellItem(item, sellValue);
       if(statusCode == 200){
+        logsProvider.reqShowLogs();
         Scaffold.of(context).showSnackBar(
             _snackBar("با موفقیت فروخته شد", acceptColor)
         );
@@ -116,7 +119,6 @@ class CardLists extends StatelessWidget {
     return Builder(
       builder: (BuildContext context){
         return Container(
-
           decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
             border: Border(
@@ -202,6 +204,7 @@ class CardLists extends StatelessWidget {
     double width() => MediaQuery.of(context).size.width;
     double height() => MediaQuery.of(context).size.height;
     final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
+    final LogsProvider logsProvider = Provider.of<LogsProvider>(context);
     return Builder(
       builder: (BuildContext context){
         return Stack(
@@ -254,8 +257,7 @@ class CardLists extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)
                             ),
-                          onPressed: (){sellItem(context, item, value, requestsProvider);
-                          },
+                          onPressed: () => sellItem(context, item, value, requestsProvider, logsProvider),
                           child: FaIcon(
                             FontAwesomeIcons.coins,
                             color:  Colors.amber[100],
@@ -299,6 +301,7 @@ class CardLists extends StatelessWidget {
   Widget _flipCard(BuildContext context, Item item){
     GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
     final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
+    final LogsProvider logsProvider = Provider.of<LogsProvider>(context);
     return FlipCard(
       direction: FlipDirection.HORIZONTAL,
       flipOnTouch: false,
@@ -381,7 +384,7 @@ class CardLists extends StatelessWidget {
                 color: Colors.green,
                 iconSize: 26.0,
                 onPressed: () {
-                  deleteItem(context, item, requestsProvider);
+                  deleteItem(context, item, requestsProvider, logsProvider);
                   return cardKey.currentState.toggleCard();
                 },
               ),

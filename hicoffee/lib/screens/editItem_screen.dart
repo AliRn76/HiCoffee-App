@@ -5,8 +5,9 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
 import 'package:hicoffee/blocs/connection_provider.dart';
+import 'package:hicoffee/blocs/logs_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
-import 'package:hicoffee/model/item.dart';
+import 'package:hicoffee/model/item_model.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 
@@ -25,6 +26,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
     TextEditingController nameController = TextEditingController(text: widget.item.name);
     final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
     final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
+    final LogsProvider logsProvider = Provider.of<LogsProvider>(context);
     Color acceptColor = Colors.greenAccent[200];
     Color deleteColor = Colors.redAccent[400];
     Color editColor = Colors.grey[600];
@@ -38,7 +40,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
 
 
 
-    void tryEditItem(RequestsProvider requestsProvider, NetworkProvider networkProvider ,StateSetter setter) async{
+    void tryEditItem(requestsProvider, networkProvider, setter, logsProvider) async{
       int statusCode;
       String old_name = widget.item.name;
       String name = nameController.text;
@@ -72,6 +74,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
         print("Edit statusCode: $statusCode");
         setter(() {
           if(statusCode == 202){
+            logsProvider.reqShowLogs();
             print("tooye 202");
 //            _snackBar(responseMessage, responseColor);
             return Navigator.pop(context, true);
@@ -171,7 +174,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                   borderRadius: BorderRadius.circular(12)
                               ),
                               onPressed: () {
-                                tryEditItem(requestsProvider, networkProvider, setter);
+                                tryEditItem(requestsProvider, networkProvider, setter, logsProvider);
                                 return editCardKey.currentState.toggleCard();
                               },
                               child: Text(

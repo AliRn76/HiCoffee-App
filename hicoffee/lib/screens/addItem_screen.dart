@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hicoffee/blocs/connection_provider.dart';
+import 'package:hicoffee/blocs/logs_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
 import 'package:hicoffee/screens/search_screen.dart';
 import 'package:hicoffee/sqlite/database_helper.dart';
@@ -8,7 +9,7 @@ import 'package:hicoffee/widgets/wave.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
 import 'package:clay_containers/clay_containers.dart';
-import 'package:hicoffee/model/item.dart';
+import 'package:hicoffee/model/item_model.dart';
 //import 'package:loading_text/loading_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -23,6 +24,7 @@ class AddItemScreen extends StatefulWidget {
 }
 
 class _AddItemScreenState extends State<AddItemScreen> {
+
   GlobalKey<FlipCardState> addCardKey = GlobalKey<FlipCardState>();
   TextEditingController nameController = TextEditingController();
   Icon customIcon = Icon(Icons.search);
@@ -34,7 +36,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   double width() => MediaQuery.of(context).size.width;
 
 
-  void tryAddItem(RequestsProvider requestsProvider, NetworkProvider networkProvider) async{
+  void tryAddItem(requestsProvider, networkProvider, logsProvider) async{
     int statusCode;
     Item item = Item(nameController.text, _value.toInt());
     if(networkProvider.connection == false){
@@ -69,6 +71,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           responseIcon = Icon(Icons.done_all, color: responseColor);
           nameController.clear();
           _value = 0;
+          logsProvider.reqShowLogs();
         }else if(statusCode == 406){
           responseMessage = "نام محصول تکراری است";
           responseColor = Colors.redAccent[400];
@@ -148,6 +151,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   Widget _frontView(){
     final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
     final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
+    final LogsProvider logsProvider = Provider.of<LogsProvider>(context);
     return Center(
       child: Container(
         margin: EdgeInsets.only(bottom: height()/5),
@@ -222,7 +226,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                           borderRadius: BorderRadius.circular(12)
                       ),
                       onPressed: () {
-                        tryAddItem(requestsProvider, networkProvider);
+                        tryAddItem(requestsProvider, networkProvider, logsProvider);
                         return addCardKey.currentState.toggleCard();
                       },
                     child: Text(

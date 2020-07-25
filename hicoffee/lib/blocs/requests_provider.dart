@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:hicoffee/model/item.dart';
+import 'package:hicoffee/model/item_model.dart';
 import 'package:hicoffee/sqlite/database_helper.dart';
 import 'package:http/http.dart';
 import 'package:hicoffee/blocs/connection_provider.dart';

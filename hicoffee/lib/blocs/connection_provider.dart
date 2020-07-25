@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:hicoffee/model/item.dart';
+import 'package:hicoffee/model/item_model.dart';
 import 'package:hicoffee/sqlite/database_helper.dart';
 import 'package:http/http.dart';
 import 'dart:async';

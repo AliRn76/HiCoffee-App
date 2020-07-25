@@ -1,4 +1,5 @@
 
+import 'package:hicoffee/screens/login_screen.dart';
 import 'package:hicoffee/widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:hicoffee/screens/home_screen.dart';
@@ -27,7 +28,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
     Future.delayed(Duration(seconds: 5, milliseconds: 150), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => child),
+//        MaterialPageRoute(builder: (context) => child),
+        MaterialPageRoute(builder: (context) => LoginScreen()),
       );
     });
   }

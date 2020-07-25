@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hicoffee/blocs/logs_provider.dart';
-import 'package:hicoffee/model/log.dart';
+import 'package:hicoffee/model/log_model.dart';
 import 'package:provider/provider.dart';
 
 class LogScreen extends StatefulWidget {
@@ -62,9 +62,15 @@ class _LogScreenState extends State<LogScreen> {
           color: backColor,
           borderRadius: BorderRadius.circular(7.0),
           border: Border.all(
-            color: borderColor,
-            width: 2.0,
+              color: borderColor,
+              width: 2.0,
           ),
+//          border: Border(
+//            right: BorderSide(
+//              color: borderColor,
+//              width: 4.0,
+//            )
+//          ),
         ),
         child: Directionality(
           textDirection: TextDirection.rtl,

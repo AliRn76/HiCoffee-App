@@ -99,13 +99,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.3"
-  drawerbehavior:
-    dependency: "direct main"
-    description:
-      name: drawerbehavior
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.3"
   flip_card:
     dependency: "direct main"
     description:
@@ -184,13 +177,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1+1"
-  intl:
-    dependency: "direct main"
-    description:
-      name: intl
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.16.1"
   matcher:
     dependency: transitive
     description:

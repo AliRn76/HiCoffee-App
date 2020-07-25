@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:drawerbehavior/drawerbehavior.dart';
+//import 'package:drawerbehavior/drawerbehavior.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +16,7 @@ import 'package:hicoffee/blocs/connection_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
 
 // model
-import 'package:hicoffee/model/item.dart';
+import 'package:hicoffee/model/item_model.dart';
 
 // widgets
 import 'package:hicoffee/widgets/wave.dart';
@@ -47,18 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Icon customIcon = Icon(Icons.search);
 //  bool connection;
-
-  final menu = Menu(
-    items: [
-      MenuItem(id: 'home',      title: 'Home'),
-      MenuItem(id: 'nightmode', title: 'Night Mode'),
-      MenuItem(id: 'terms',     title: 'Terms of Service'),
-      MenuItem(id: 'about',     title: 'About us'),
-    ],
-  );
-
-
-
 
   @override
   void initState() {
@@ -259,12 +247,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-//TODO: fix the logs
+//TODO: Create db table for logs
+//TODO: age item i add ya edit ya chizi shod , log ham update beshe , fekr konm ye req befreste rahat tar bashe
+//TODO: tarikh ro be log ha ezafe konm
 
 //TODO: set the Icon
 //TODO: fix the 202 message in editing
 
 //TODO: create login page
+//TODO: tamiz kardan code ha
 //TODO: clean the database
 //TODO: publish the app in bazar or something
 
