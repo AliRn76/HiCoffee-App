@@ -45,7 +45,7 @@ class CardLists extends StatelessWidget {
   void sellItem(BuildContext context, Item item, int sellValue, RequestsProvider requestsProvider) async{
     if(sellValue == 0)
       return;
-    if(item.number != null){
+    if(sellValue != null){
       int statusCode = await requestsProvider.reqSellItem(item, sellValue);
       if(statusCode == 200){
         Scaffold.of(context).showSnackBar(

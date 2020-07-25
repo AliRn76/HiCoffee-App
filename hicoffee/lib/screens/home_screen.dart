@@ -257,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 }
 
-//TODO: add the log part in server
+
 
 //TODO: fix the logs
 
@@ -267,4 +267,6 @@ class _HomeScreenState extends State<HomeScreen> {
 //TODO: create login page
 //TODO: clean the database
 //TODO: publish the app in bazar or something
+
+
 

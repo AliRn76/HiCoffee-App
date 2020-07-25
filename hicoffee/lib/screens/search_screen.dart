@@ -81,7 +81,7 @@ class _SearchScreenState extends State<SearchScreen> {
             controller: searchController,
             focusNode: focus,
             decoration: InputDecoration(
-              alignLabelWithHint: true,
+              alignLabelWithHint: false,
               labelText: "Search",
 //              hintText: "Search",
               prefixIcon: Hero(

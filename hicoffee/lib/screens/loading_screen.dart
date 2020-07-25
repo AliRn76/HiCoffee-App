@@ -24,7 +24,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void loading() async{
     Widget child = HomeScreen();
     child = CustomDrawer(child: child);
-    Future.delayed(Duration(seconds: 5, milliseconds: 500), () {
+    Future.delayed(Duration(seconds: 5, milliseconds: 150), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => child),
