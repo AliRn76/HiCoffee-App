@@ -108,8 +108,10 @@ def edit_item(request):
         # Update Response, Should be Null
         response = old_item.save()
         # Save the Log
+        if name is None:
+            new_name = old_name
         log = Log.objects.create(
-            text="نام: {}، تعداد: {} به نام: {}، تعداد: {} ویرایش شد.".format(old_name, old_number, name, number),
+            text="{}  تعداد: {} به {}، تعداد: {} ویرایش شد.".format(old_name, old_number, new_name, number),
             type="edit",
             date=datetime.now()
         )
@@ -140,7 +142,7 @@ def delete_item(request, item_name):
     if result:
         # Save the Log
         log = Log.objects.create(
-            text="نام: {}، تعداد: {} حذف شد.".format(item_name, number),
+            text="{} تعداد: {} حذف شد.".format(item_name, number),
             type="delete",
             date=datetime.now()
         )
@@ -185,7 +187,7 @@ def sell_item(request):
         if old_item:
             # Save the Log
             log = Log.objects.create(
-                text="نام: {}، {} عدد فروخته شد.".format(name, number),
+                text="{} {} عدد فروخته شد.".format(name, number),
                 type="sell",
                 date=datetime.now()
             )
@@ -212,3 +214,5 @@ def show_all_logs(request):
     else:
         data = {"response": "there is no item"}
         return Response(data=data, status=status.HTTP_404_NOT_FOUND)
+
+
