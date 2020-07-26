@@ -245,9 +245,6 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 
-
-//TODO: Create db table for logs
-
 //TODO: moghe login age net nabood ye error riz bede, jaye progress shodan
 
 //TODO: set the Icon
