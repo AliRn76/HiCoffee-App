@@ -44,6 +44,9 @@ dependencies:
   url_launcher: ^5.5.0
   font_awesome_flutter: ^8.8.1
 #  intl: ^0.16.1
+  shamsi_date: ^0.8.1
+  jalali_date: ^0.1.5
+  progress_button: ^0.0.2
 
 dev_dependencies:
   flutter_test:

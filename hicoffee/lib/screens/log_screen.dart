@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hicoffee/blocs/logs_provider.dart';
 import 'package:hicoffee/model/log_model.dart';
 import 'package:provider/provider.dart';
+//import 'package:intl/intl.dart';
 
 class LogScreen extends StatefulWidget {
   @override
@@ -56,51 +57,53 @@ class _LogScreenState extends State<LogScreen> {
       backColor = Colors.yellow[50];
     }
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: backColor,
-          borderRadius: BorderRadius.circular(7.0),
-          border: Border.all(
-              color: borderColor,
-              width: 2.0,
-          ),
-//          border: Border(
-//            right: BorderSide(
-//              color: borderColor,
-//              width: 4.0,
-//            )
-//          ),
-        ),
-        child: Directionality(
-          textDirection: TextDirection.rtl,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-//              child: TextField(
-//
-//                style: TextStyle(
-//                  fontSize: 17.0,
-//                  fontWeight: FontWeight.w400,
-//                ),
-//                maxLines: 1,
-//                textDirection: TextDirection.rtl,
-//                decoration: InputDecoration(
-//
-//                  alignLabelWithHint: false,
-//                  labelText: "Tarikh",
-//                  prefixIcon: Icon(Icons.search)
-//                ),
-//              ),
-            child: Text(
-              log.text,
-              style: TextStyle(
-                fontFamily: "BNazanin",
-                fontSize: 19.0,
-                fontWeight: FontWeight.bold,
+      padding: EdgeInsets.all(8.0),
+      child: Stack(
+        children: <Widget>[
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: backColor,
+              borderRadius: BorderRadius.circular(7.0),
+              border: Border.all(
+                color: borderColor,
+                width: 2.0,
+              ),
+            ),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: Padding(
+                padding: EdgeInsets.all(15.0),
+                child: Text(
+                  log.text,
+                  style: TextStyle(
+                    fontFamily: "BNazanin",
+                    fontSize: 19.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           ),
-        ),
+          Positioned(
+            bottom: -3.2,
+            left: 15,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 3),
+              color: backColor,
+              child: Text(
+                log.date,
+                style: TextStyle(
+                  fontFamily: "BNazanin",
+
+                  fontWeight: FontWeight.bold,
+                  color: borderColor,
+                  fontSize: 17
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

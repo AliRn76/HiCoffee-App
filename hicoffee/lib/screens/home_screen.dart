@@ -242,18 +242,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 
-
 }
 
 
 
 //TODO: Create db table for logs
-//TODO: age item i add ya edit ya chizi shod , log ham update beshe , fekr konm ye req befreste rahat tar bashe
-//TODO: tarikh ro be log ha ezafe konm
 
-//TODO: moghe Login , ye loading rooye button neshon bede
-//TODO: age login nashod ye error bede
-//TODO: oon visibility e password ro dorost konm
+//TODO: moghe login age net nabood ye error riz bede, jaye progress shodan
 
 //TODO: set the Icon
 //TODO: fix the 202 message in editing

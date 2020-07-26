@@ -1,11 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hicoffee/screens/home_screen.dart';
 import 'package:hicoffee/sqlite/database_helper.dart';
 import 'package:hicoffee/widgets/custom_drawer.dart';
 import 'package:http/http.dart';
+import 'package:progress_button/progress_button.dart';
+
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -20,6 +23,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Color kPrimaryLightColor = Colors.white;
   String username;
   String password;
+  ButtonState buttonState = ButtonState.normal;
+  Color buttonColor = Color(0xFF66c2ff);
+  bool obscureText = true;
 
   void login() async{
     Widget child = HomeScreen();
@@ -28,10 +34,11 @@ class _LoginScreenState extends State<LoginScreen> {
     var reqBody = Map<String, dynamic>();
     reqBody['username'] = username;
     reqBody['password'] = password;
-    if(username == null)
+    if(username == null || username.isEmpty)
       return;
-    if(password == null)
+    if(password == null || password.isEmpty)
       return;
+    setState(() => buttonState = ButtonState.inProgress);
     String jsonBody = jsonEncode(reqBody);
     print(jsonBody);
     Map<String, String> reqHeader = {"Content-type": "application/json", "Accept": "application/json"};
@@ -48,7 +55,23 @@ class _LoginScreenState extends State<LoginScreen> {
         context,
         MaterialPageRoute(builder: (context) => child),
       );
+    }else{
+      setState((){
+        buttonState = ButtonState.error;
+        buttonColor = Colors.red[400];
+      });
+      Future.delayed(Duration(milliseconds: 600), () {
+        setState(() => buttonColor = Color(0xFF66c2ff));
+      });
     }
+  }
+
+
+  void showPassword(){
+    setState(() => obscureText = false);
+    Future.delayed(Duration(seconds: 1), () {
+      setState(() => obscureText = true);
+    });
   }
 
   @override
@@ -133,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(29),
                   ),
                   child: TextField(
-                    obscureText: true,
+                    obscureText: obscureText,
                     onChanged: (value) => setState(() => password = value),
                     cursorColor: kPrimaryColor,
                     decoration: InputDecoration(
@@ -142,9 +165,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         Icons.lock,
                         color: kPrimaryColor,
                       ),
-                      suffixIcon: Icon(
-                        Icons.visibility,
-                        color: kPrimaryColor,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          Icons.visibility,
+                          color: kPrimaryColor,
+                        ),
+                        onPressed: () => showPassword(),
                       ),
                       border: InputBorder.none,
                     ),
@@ -155,16 +181,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: size.width * 0.8,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(29),
-                    child: FlatButton(
-                      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-                      color: kPrimaryColor,
-                      onPressed: () {
-                        login();
-                      },
-                      child: Text(
-                        "LOGIN",
-                        style: TextStyle(color: Colors.white),
-                      ),
+                    child: ProgressButton(
+                      child: loginChild(),
+                      onPressed: () => login(),
+                      buttonState: buttonState,
+                      backgroundColor: buttonColor,
                     ),
                   ),
                 ),
@@ -180,5 +201,23 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+
+  Widget loginChild(){
+    if(buttonState == ButtonState.inProgress){
+      return SpinKitDualRing(
+        color: Colors.white,
+        size: 20.0,
+      );
+    }else{
+      return Text(
+        "LOGIN",
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w500,
+        ),
+      );
+    }
   }
 }
