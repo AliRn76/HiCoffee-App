@@ -33,8 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool obscureText = true;
 
   void login(networkProvider) async{
-    LogsProvider logsProvider;
-    RequestsProvider requestsProvider;
+    LogsProvider logsProvider = LogsProvider();
+    RequestsProvider requestsProvider = RequestsProvider();
     Widget child = HomeScreen();
     child = CustomDrawer(child: child);
     String token;

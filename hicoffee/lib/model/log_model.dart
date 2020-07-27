@@ -1,5 +1,5 @@
 
-//import 'package:intl/intl.dart';
+import 'package:intl/intl.dart';
 //import 'package:shamsi_date/shamsi_date.dart';
 import 'package:jalali_date/jalali_date.dart';
 class Log{
@@ -18,11 +18,11 @@ class Log{
     text = json['text'];
     type = json['type'];
     date = json['date'];
-    if(json['date'] != null)
-//      date = DateFormat("yyyy/MM/d  H:m").format(DateTime.parse(json['date']));
-      date = PersianDate.fromDateTime(DateTime.parse(json['date'])).toString(showTime: true, second: false);
+    if(json['date'] != null) {
+      date = PersianDate.fromDateTime(DateTime.parse(json['date']).toLocal()).toString(
+          showTime: true, second: false);
 //    print(PersianDate.now().toString(showTime: false));
-    else
+    }else
       date = json['date'];
 
   }

@@ -28,8 +28,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
     final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
     final LogsProvider logsProvider = Provider.of<LogsProvider>(context);
     Color acceptColor = Colors.greenAccent[200];
-    Color deleteColor = Colors.redAccent[400];
-    Color editColor = Colors.grey[600];
+    Color errorColor = Colors.redAccent[400];
     int _value = widget.item.number;
     String responseMessage = "لطفا صبر کنید";
     Color responseColor = Theme.of(context).primaryColor;
@@ -48,12 +47,14 @@ class _EditItemScreenState extends State<EditItemScreen> {
       print(old_name);
       print(name);
       print(number);
-//      if (name == old_name)
-//        name = null;
+      if (name == old_name && number == widget.item.number){
+        editCardKey.currentState.toggleCard();
+        return;
+      }
       if(networkProvider.connection == false){
         setter(() {
           responseMessage = "ابتدا به اینترنت متصل شوید";
-          responseColor = Colors.redAccent[400];
+          responseColor = errorColor;
           responseIcon = Icon(Icons.close, color: responseColor);
         });
       }else{
@@ -66,7 +67,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
       if(name == ''){
         setter(() {
           responseMessage = "ابتدا نام محصول را پر کنید";
-          responseColor = Colors.redAccent[400];
+          responseColor = errorColor;
           responseIcon = Icon(Icons.close, color: responseColor);
         });
       }else{
@@ -75,22 +76,45 @@ class _EditItemScreenState extends State<EditItemScreen> {
         setter(() {
           if(statusCode == 202){
             logsProvider.reqShowLogs();
-            print("tooye 202");
-//            _snackBar(responseMessage, responseColor);
-            return Navigator.pop(context, true);
-//            Scaffold.of(context).showSnackBar(_snackBar(responseMessage, responseColor));
-//            responseMessage = "باموفقیت ویرایش شد";
-//            responseColor = Colors.greenAccent[400];
-//            responseIcon = Icon(Icons.done_all, color: responseColor);
+            Navigator.pop(context, true);
+            responseMessage = "باموفقیت ویرایش شد";
+            showDialog(
+                context: context,
+                builder: (BuildContext context){
+                  return BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+                    child: AlertDialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        side: BorderSide(width: 4, color: acceptColor),
+                      ),
+                      content: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            responseMessage,
+                            style: TextStyle(
+                              fontFamily: "BNazanin",
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).accentColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+            );
           }else if(statusCode == 406){
 
             responseMessage = "نام محصول تکراری است";
-            responseColor = Colors.redAccent[400];
+            responseColor = errorColor;
             responseIcon = Icon(Icons.close, color: responseColor);
           }
           else{
             responseMessage = "یه چیزی این وسط اشتباه کار میکنه \n خطا $statusCode";
-            responseColor = Colors.redAccent[400];
+            responseColor = errorColor;
             responseIcon = Icon(Icons.clear, color: responseColor);
           }
         });

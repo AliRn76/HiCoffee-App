@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:folding_cell/folding_cell.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hicoffee/blocs/connection_provider.dart';
 import 'package:hicoffee/blocs/logs_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
 import 'package:hicoffee/screens/addItem_screen.dart';
@@ -25,29 +26,41 @@ class CardLists extends StatelessWidget {
   Color errorColor = Colors.redAccent[100];
 
 
-  void deleteItem(context, item, requestsProvider, logsProvider) async{
-    int statusCode = await requestsProvider.reqDeleteItem(item);
-    if(statusCode == 200){
-      logsProvider.reqShowLogs();
+  void deleteItem(context, item, requestsProvider, logsProvider, networkProvider) async{
+    if(networkProvider.connection == false){
       Scaffold.of(context).showSnackBar(
-          _snackBar("با موفقیت حذف شد", deleteColor)
+          _snackBar("ابتدا به اینترنت متصل شوید", errorColor)
       );
-      list.remove(item);
-      requestsProvider.items.remove(item);
-      final foldingCellState = context
-          .findAncestorStateOfType<SimpleFoldingCellState>();
-      foldingCellState?.toggleFold();
     }else{
-      Scaffold.of(context).showSnackBar(
-          _snackBar("حذف ناموفق بود - خطا $statusCode", errorColor)
-      );
+      int statusCode = await requestsProvider.reqDeleteItem(item);
+      if(statusCode == 200){
+        logsProvider.reqShowLogs();
+        Scaffold.of(context).showSnackBar(
+            _snackBar("با موفقیت حذف شد", deleteColor)
+        );
+        list.remove(item);
+        requestsProvider.items.remove(item);
+        final foldingCellState = context
+            .findAncestorStateOfType<SimpleFoldingCellState>();
+        foldingCellState?.toggleFold();
+      }else{
+        Scaffold.of(context).showSnackBar(
+            _snackBar("حذف ناموفق بود - خطا $statusCode", errorColor)
+        );
+      }
     }
   }
 
-  void sellItem(context, item, sellValue, requestsProvider, logsProvider) async{
+  void sellItem(context, item, sellValue, requestsProvider, logsProvider, networkProvider) async{
     if(sellValue == 0)
       return;
-    if(sellValue != null){
+    if(sellValue == null)
+      return;
+    if(networkProvider.connection == false){
+      Scaffold.of(context).showSnackBar(
+          _snackBar("ابتدا به اینترنت متصل شوید", errorColor)
+      );
+    }else{
       int statusCode = await requestsProvider.reqSellItem(item, sellValue);
       if(statusCode == 200){
         logsProvider.reqShowLogs();
@@ -59,7 +72,7 @@ class CardLists extends StatelessWidget {
         foldingCellState?.toggleFold();
       }else{
         Scaffold.of(context).showSnackBar(
-            _snackBar("فروش ناموفق بود \n خطا $statusCode", errorColor)
+            _snackBar("فروش ناموفق بود - خطا $statusCode", errorColor)
         );
       }
     }
@@ -205,6 +218,7 @@ class CardLists extends StatelessWidget {
     double height() => MediaQuery.of(context).size.height;
     final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
     final LogsProvider logsProvider = Provider.of<LogsProvider>(context);
+    final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
     return Builder(
       builder: (BuildContext context){
         return Stack(
@@ -257,7 +271,7 @@ class CardLists extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)
                             ),
-                          onPressed: () => sellItem(context, item, value, requestsProvider, logsProvider),
+                          onPressed: () => sellItem(context, item, value, requestsProvider, logsProvider, networkProvider),
                           child: FaIcon(
                             FontAwesomeIcons.coins,
                             color:  Colors.amber[100],
@@ -302,6 +316,7 @@ class CardLists extends StatelessWidget {
     GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
     final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
     final LogsProvider logsProvider = Provider.of<LogsProvider>(context);
+    final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
     return FlipCard(
       direction: FlipDirection.HORIZONTAL,
       flipOnTouch: false,
@@ -384,7 +399,7 @@ class CardLists extends StatelessWidget {
                 color: Colors.green,
                 iconSize: 26.0,
                 onPressed: () {
-                  deleteItem(context, item, requestsProvider, logsProvider);
+                  deleteItem(context, item, requestsProvider, logsProvider, networkProvider);
                   return cardKey.currentState.toggleCard();
                 },
               ),
