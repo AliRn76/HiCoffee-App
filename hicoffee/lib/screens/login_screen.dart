@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hicoffee/blocs/connection_provider.dart';
 import 'package:hicoffee/blocs/logs_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
 import 'package:hicoffee/screens/home_screen.dart';
@@ -10,6 +11,7 @@ import 'package:hicoffee/sqlite/database_helper.dart';
 import 'package:hicoffee/widgets/custom_drawer.dart';
 import 'package:http/http.dart';
 import 'package:progress_button/progress_button.dart';
+import 'package:provider/provider.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -26,10 +28,11 @@ class _LoginScreenState extends State<LoginScreen> {
   String username;
   String password;
   ButtonState buttonState = ButtonState.normal;
+  String buttonText = "LOGIN";
   Color buttonColor = Color(0xFF66c2ff);
   bool obscureText = true;
 
-  void login() async{
+  void login(networkProvider) async{
     LogsProvider logsProvider;
     RequestsProvider requestsProvider;
     Widget child = HomeScreen();
@@ -42,6 +45,18 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     if(password == null || password.isEmpty)
       return;
+    if(networkProvider.connection == false){
+      setState((){
+        buttonState = ButtonState.error;
+        buttonColor = Colors.red[400];
+        buttonText = "No Connection";
+      });
+      Future.delayed(Duration(milliseconds: 700), () {
+        setState(() => buttonColor = Color(0xFF66c2ff));
+        buttonText = "LOGIN";
+      });
+      return;
+    }
     setState(() => buttonState = ButtonState.inProgress);
     String jsonBody = jsonEncode(reqBody);
     print(jsonBody);
@@ -66,9 +81,11 @@ class _LoginScreenState extends State<LoginScreen> {
       setState((){
         buttonState = ButtonState.error;
         buttonColor = Colors.red[400];
+        buttonText = "Username or Password was Incorrect";
       });
-      Future.delayed(Duration(milliseconds: 600), () {
+      Future.delayed(Duration(seconds: 3), () {
         setState(() => buttonColor = Color(0xFF66c2ff));
+        buttonText = "LOGIN";
       });
     }
   }
@@ -84,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
     return Scaffold(
       body: Container(
         height: size.height,
@@ -190,7 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(29),
                     child: ProgressButton(
                       child: loginChild(),
-                      onPressed: () => login(),
+                      onPressed: () => login(networkProvider),
                       buttonState: buttonState,
                       backgroundColor: buttonColor,
                     ),
@@ -219,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     }else{
       return Text(
-        "LOGIN",
+        buttonText,
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.w500,
