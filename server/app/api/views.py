@@ -18,7 +18,7 @@ def test(request):
 
 
 @api_view(['GET', ])
-@permission_classes((AllowAny,))
+@permission_classes((IsAuthenticated, ))
 def show_all_items(request):
     # Collecting Data
     items = Item.objects.all()
@@ -34,6 +34,7 @@ def show_all_items(request):
 
 
 @api_view(['POST', ])
+@permission_classes((IsAuthenticated, ))
 def add_item(request):
     # Serialize data
     serializer = ItemSerializers(data=request.data)
@@ -51,7 +52,7 @@ def add_item(request):
         item.save()
         # Save the Log
         log = Log.objects.create(
-            text    = "نام: {}، تعداد: {}، ثبت شد.".format(item.name, item.number),
+            text    = "{} تعداد: {} ثبت شد.".format(item.name, item.number),
             type    = "add",
             date=datetime.now()
         )
@@ -68,6 +69,7 @@ def add_item(request):
 
 
 @api_view(['PUT', ])
+@permission_classes((IsAuthenticated, ))
 def edit_item(request):
     # Serialize data
     serializer = ItemSerializers(data=request.data)
@@ -110,8 +112,10 @@ def edit_item(request):
         # Save the Log
         if name is None:
             new_name = old_name
+        else:
+            new_name = name
         log = Log.objects.create(
-            text="{}  تعداد: {} به {}، تعداد: {} ویرایش شد.".format(old_name, old_number, new_name, number),
+            text="{}  تعداد: {} به {} تعداد: {} ویرایش شد.".format(old_name, old_number, new_name, number),
             type="edit",
             date=datetime.now()
         )
@@ -129,6 +133,7 @@ def edit_item(request):
 
 
 @api_view(['DELETE', ])
+@permission_classes((IsAuthenticated, ))
 def delete_item(request, item_name):
     items = Item.objects.filter(name=item_name)
 
@@ -157,6 +162,7 @@ def delete_item(request, item_name):
 
 
 @api_view(['POST', ])
+@permission_classes((IsAuthenticated, ))
 def sell_item(request):
     # Collecting Data
     serializer = SellItemSerializers(data=request.data)
@@ -202,6 +208,7 @@ def sell_item(request):
 
 
 @api_view(['GET', ])
+@permission_classes((IsAuthenticated, ))
 def show_all_logs(request):
     # Collecting Data
     logs = Log.objects.all().order_by('-date')
