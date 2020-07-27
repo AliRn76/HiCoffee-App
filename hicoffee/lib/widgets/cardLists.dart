@@ -1,20 +1,22 @@
-import 'dart:developer';
 import 'dart:ui';
-
-import 'package:clay_containers/clay_containers.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:folding_cell/folding_cell.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flip_card/flip_card.dart';
+import 'package:folding_cell/folding_cell.dart';
+import 'package:clay_containers/clay_containers.dart';
+import 'package:number_selection/number_selection.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hicoffee/blocs/connection_provider.dart';
+
 import 'package:hicoffee/blocs/logs_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
-import 'package:hicoffee/screens/addItem_screen.dart';
-import 'package:number_selection/number_selection.dart';
+import 'package:hicoffee/blocs/connection_provider.dart';
+
 import 'package:hicoffee/model/item_model.dart';
-import 'package:flip_card/flip_card.dart';
-import 'package:provider/provider.dart';
+
 import 'package:hicoffee/screens/editItem_screen.dart';
+
+
 
 class CardLists extends StatelessWidget {
   List<Item> list = [];
@@ -237,7 +239,6 @@ class CardLists extends StatelessWidget {
                     children: <Widget>[
                       Container(
                         width: width()/3.3,
-//                        height: height()/15,
                         child: NumberSelection(
                           initialValue: 0,
                           maxValue: item.number,
@@ -253,20 +254,10 @@ class CardLists extends StatelessWidget {
                         depth: 40,
                         emboss: false,
                         curveType: CurveType.convex,
-//                      curveType: CurveType.concave,
                         borderRadius: 12.0,
                         color: acceptColor,
                         width: width()/4.5,
                         height: height()/15,
-//                        child: IconButton(
-//                          icon: Icon(Icons.monetization_on),
-//                          iconSize: 28.0,
-//                          color: Colors.grey[800],
-//                          onPressed: (){
-//                            Item item_for_sell = Item(item.name, value);
-//                            sellItem(context, item_for_sell, requestsProvider);
-//                          },
-//                        ),
                         child: FlatButton(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12)
@@ -275,20 +266,7 @@ class CardLists extends StatelessWidget {
                           child: FaIcon(
                             FontAwesomeIcons.coins,
                             color:  Colors.amber[100],
-//                            color: Colors.black54,
                           ),
-//                          child: ClayText(
-//                            "Sold",
-//                            emboss: true,
-//                            depth: 20,
-//                            color: Colors.black45,
-//                            style: TextStyle(
-////                              fontFamily: "BNazanin",
-//                              fontSize: 18.0,
-//                              fontWeight: FontWeight.bold,
-//                            letterSpacing: 1.2,
-//                            ),
-//                          ),
                         ),
                       ),
                     ],
@@ -302,7 +280,6 @@ class CardLists extends StatelessWidget {
               child: Container(
                 color: Color(0xffd1fae6),
                 width: width() - width()/6,
-//                alignment: Alignment.bottomCenter,
                 child: _flipCard(context, item),
               ),
             ),
@@ -342,13 +319,6 @@ class CardLists extends StatelessWidget {
               color: Colors.blueAccent[200],
             ),
           ),
-//          IconButton(
-//            color: editColor,
-//            iconSize: 27.0,
-//            icon: Icon(Icons.edit),
-//            onPressed: (){},
-//          ),
-//          EditItemScreen(item: item),
           IconButton(
             color: editColor,
             iconSize: 27.0,
@@ -427,11 +397,8 @@ class CardLists extends StatelessWidget {
           fontFamily: "BNazanin",
         ),
       ),
-
     );
-
   }
-
 }
 
 
