@@ -86,7 +86,7 @@ class _LogScreenState extends State<LogScreen> {
             ),
           ),
           Positioned(
-            bottom: -3.2,
+            bottom: -4.8,
             left: 15,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 3),
@@ -98,7 +98,7 @@ class _LogScreenState extends State<LogScreen> {
 
                   fontWeight: FontWeight.bold,
                   color: borderColor,
-                  fontSize: 17
+                  fontSize: 16,
                 ),
               ),
             ),

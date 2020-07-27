@@ -254,5 +254,3 @@ class _HomeScreenState extends State<HomeScreen> {
 //TODO: clean the database
 //TODO: publish the app in bazar or something
 
-
-
