@@ -48,7 +48,11 @@ class _EditItemScreenState extends State<EditItemScreen> {
       print(name);
       print(number);
       if (name == old_name && number == widget.item.number){
-        editCardKey.currentState.toggleCard();
+        setter(() {
+          responseMessage = "باموفقیت ویرایش شد";
+          responseColor = acceptColor;
+          responseIcon = Icon(Icons.done_all, color: responseColor);
+        });
         return;
       }
       if(networkProvider.connection == false){

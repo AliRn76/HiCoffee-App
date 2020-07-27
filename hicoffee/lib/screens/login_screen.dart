@@ -158,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(29),
                     ),
                     child: TextField(
-                      textInputAction: TextInputAction.next,
+                      textInputAction: TextInputAction.done,
                       onChanged: (value) => setState(() => username = value),
                       cursorColor: kPrimaryColor,
                       decoration: InputDecoration(
@@ -180,6 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(29),
                   ),
                   child: TextField(
+                    textInputAction: TextInputAction.done,
                     obscureText: obscureText,
                     onChanged: (value) => setState(() => password = value),
                     cursorColor: kPrimaryColor,
