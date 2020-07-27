@@ -87,9 +87,9 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'HiCoffee',
-        'USER': 'Ali',
-        'PASSWORD': 'alivampire2252',
+        'NAME': '...',
+        'USER': '...',
+        'PASSWORD': '...',
     },
 }
 
