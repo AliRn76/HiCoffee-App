@@ -1,18 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hicoffee/blocs/connection_provider.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:flip_card/flip_card.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:clay_containers/clay_containers.dart';
+import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
+
 import 'package:hicoffee/blocs/logs_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
+import 'package:hicoffee/blocs/connection_provider.dart';
+
 import 'package:hicoffee/screens/search_screen.dart';
-import 'package:hicoffee/sqlite/database_helper.dart';
+
 import 'package:hicoffee/widgets/wave.dart';
-import 'package:flip_card/flip_card.dart';
-import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
-import 'package:clay_containers/clay_containers.dart';
+
 import 'package:hicoffee/model/item_model.dart';
-//import 'package:loading_text/loading_text.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+
 
 class AddItemScreen extends StatefulWidget {
   List<Item> list = [];
@@ -134,9 +138,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     transitionDuration: Duration(milliseconds: 600),
                     pageBuilder: (_, __, ___) => SearchScreen(  )
                 ),
-//              Navigator.push(
-//                context,
-//                MaterialPageRoute(builder: (context) => SearchScreen(list: list)),
               );
             },
             icon: Hero(
@@ -304,7 +305,6 @@ class _AddItemScreenState extends State<AddItemScreen> {
           "Hi Coffee",
           style: TextStyle(
               fontSize: 28.0,
-              //      fontWeight: FontWeight.bold,
               fontFamily: "Waltograph"
           ),
         );

@@ -1,16 +1,16 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
-import 'package:hicoffee/blocs/login_provider.dart';
-import 'package:hicoffee/model/item_model.dart';
-import 'package:hicoffee/sqlite/database_helper.dart';
 import 'package:http/http.dart';
-import 'package:hicoffee/blocs/connection_provider.dart';
+import 'package:flutter/material.dart';
+
+import 'package:hicoffee/model/item_model.dart';
+
+import 'package:hicoffee/sqlite/database_helper.dart';
+
 
 class RequestsProvider extends ChangeNotifier{
 
-  // Ta tooye main GetItems() seda zade mishe , inja tooye constructor in 2 ta
-  // function ro ejra mikone (faghat nmidonm chera 2 bar ejrash mikone - ziad mohem nist :D)
+  /// Avale app too main RequestsProvider() seda zade mishe , va
+  /// in 2 ta function ejra mishan (faghat nmidonm chera 2 bar ejrash mikone :D)
   RequestsProvider() {
     // Use the local db
     selectAll();
@@ -21,10 +21,10 @@ class RequestsProvider extends ChangeNotifier{
   // Tarif avalie
   List<Item> _items = [];
 
-  // Har vaght items ro khast _items ro behesh midam
+  // Har vaght items ro khast _items ro behesh midam (getter)
   List get items => _items;
 
-  // age chizi behem pas dad , mirizam to _items
+  // age chizi behem pas dad , mirizam to _items (setter)
   set items(List<Item> list){
     _items = list;
     notifyListeners();
@@ -68,6 +68,7 @@ class RequestsProvider extends ChangeNotifier{
   }
 
 
+  // add items to server
   Future<int> reqAddItem(Item item) async{
     Map<String, dynamic> reqBody = item.toJson();
     String jsonBody = jsonEncode(reqBody);
@@ -90,7 +91,7 @@ class RequestsProvider extends ChangeNotifier{
     return response.statusCode;
   }
 
-
+  // delete item from server
   Future<int> reqDeleteItem(Item item) async{
     Map<String, String> reqHeader = {"Authorization": "Token ${await selectToken()}"};
     Response response = await delete("http://al1.best:85/api/delete/${item.name}", headers:reqHeader);
@@ -163,17 +164,4 @@ class RequestsProvider extends ChangeNotifier{
     }
     return response.statusCode;
   }
-
-
-
-
-//  // Select * kon va beriz too logs
-//  void selectAll()async{
-//    var result = await DatabaseHelper().selectItems();
-//    print("* selectAll Result: $result");
-//    items = result.map((m) => Item.fromMap(m)).toList();
-//  }
-
-//   Req bede va briz too items , Age req 200 bood --> insert kon too db
-
 }

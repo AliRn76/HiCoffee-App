@@ -1,22 +1,11 @@
 // package
-import 'dart:io';
-
-import 'package:connectivity/connectivity.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-//import 'package:drawerbehavior/drawerbehavior.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-//import 'package:loading_text/loading_text.dart';
-import 'package:http/http.dart';
-import 'dart:async';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+// providers
 import 'package:hicoffee/blocs/connection_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
-
-// model
-import 'package:hicoffee/model/item_model.dart';
 
 // widgets
 import 'package:hicoffee/widgets/wave.dart';
@@ -28,8 +17,6 @@ import 'package:hicoffee/widgets/slide_right_route.dart';
 import 'package:hicoffee/screens/search_screen.dart';
 import 'package:hicoffee/screens/addItem_screen.dart';
 
-// database
-import 'package:hicoffee/sqlite/database_helper.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -41,61 +28,22 @@ class HomeScreen extends StatefulWidget {
 
 
 class _HomeScreenState extends State<HomeScreen> {
-//  final Connectivity _connectivity = Connectivity();
-//  String _connectionStatus;
-//  StreamSubscription<ConnectivityResult> _connectivitySubscription;
-
   Icon customIcon = Icon(Icons.search);
-//  bool connection;
 
   @override
   void initState() {
     super.initState();
-//    initConnectivity();
-//    _connectivitySubscription =
-//        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
 
   @override
   void dispose() {
-//    _connectivitySubscription.cancel();
     super.dispose();
   }
-
-//  Future<void> initConnectivity() async {
-//    ConnectivityResult result;
-//    try {
-//      result = await _connectivity.checkConnectivity();
-//    } on PlatformException catch (e) {
-//      print(e.toString());
-//    }
-//    if (!mounted) {
-//      return Future.value(null);
-//    }
-//    return _updateConnectionStatus(result);
-//  }
-
-
-//  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-//    switch (result) {
-//      case ConnectivityResult.wifi:
-//      case ConnectivityResult.mobile:
-//      case ConnectivityResult.none:
-//        setState(() => _connectionStatus = result.toString());
-//        break;
-//      default:
-//        setState(() => _connectionStatus = 'Failed to get connectivity.');
-//        break;
-//    }
-//  }
-
-
 
 
   @override
   Widget build(BuildContext context) {
     final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
-//    final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
     return Scaffold(
       appBar: _appBar(),
       body: Container(
@@ -111,34 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-
-//  @override
-//  Widget build(BuildContext context) {
-//    final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
-//    final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
-//    return StreamProvider<ConnectivityResult>.value(
-//      value: networkProvider.networkStatusController.stream,
-//      child: Consumer<ConnectivityResult>(
-//        builder: (context, value, _){
-//          if(value == null){
-//            return Text(
-//                "YOU ARE ONLINE"
-//            );
-//          }else{
-//            return Text(
-//                "YOU ARE OFFLINE"
-//            );
-//          }
-//        },
-//      ),
-//    );
-//  }
-
-
-
-
-//  Widget setTitle(ConnectivityService connectivityService){
-//    print(connectivityService.connectionStatusController.stream);
   Widget setTitle(){
     final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
     if(networkProvider.connection != null){
@@ -147,7 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
           "Hi Coffee",
           style: TextStyle(
               fontSize: 28.0,
-              //      fontWeight: FontWeight.bold,
               fontFamily: "Waltograph"
           ),
         );
@@ -240,18 +159,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-
 }
-
-
-
-//TODO: moghe login age net nabood ye error riz bede, jaye progress shodan
-
-//TODO: set the Icon
-//TODO: fix the 202 message in editing
-
-//TODO: tamiz kardan code ha
-//TODO: clean the database
-//TODO: publish the app in bazar or something
-

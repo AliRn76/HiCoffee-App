@@ -1,10 +1,13 @@
+import 'package:flutter/material.dart';
 
 import 'package:hicoffee/blocs/login_provider.dart';
-import 'package:hicoffee/screens/login_screen.dart';
-import 'package:hicoffee/widgets/custom_drawer.dart';
-import 'package:flutter/material.dart';
+
 import 'package:hicoffee/screens/home_screen.dart';
-import 'package:provider/provider.dart';
+import 'package:hicoffee/screens/login_screen.dart';
+
+import 'package:hicoffee/widgets/custom_drawer.dart';
+
+
 
 class LoadingScreen extends StatefulWidget {
 

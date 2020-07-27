@@ -1,17 +1,20 @@
 import 'dart:convert';
-
+import 'package:http/http.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:progress_button/progress_button.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:hicoffee/blocs/connection_provider.dart';
 import 'package:hicoffee/blocs/logs_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
+
 import 'package:hicoffee/screens/home_screen.dart';
+
 import 'package:hicoffee/sqlite/database_helper.dart';
+
 import 'package:hicoffee/widgets/custom_drawer.dart';
-import 'package:http/http.dart';
-import 'package:progress_button/progress_button.dart';
-import 'package:provider/provider.dart';
+
 
 
 class LoginScreen extends StatefulWidget {
@@ -20,11 +23,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-//  Color kPrimaryColor = Color(0xFF6F35A5);
   Color kPrimaryColor = Color(0xFF66c2ff);
-//  Color kPrimaryLightColor = Color(0xFFF1E6FF);
-//  Color kPrimaryLightColor = Colors.lightBlue[50];
-  Color kPrimaryLightColor = Colors.white;
   String username;
   String password;
   ButtonState buttonState = ButtonState.normal;
@@ -123,7 +122,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 "LOGIN",
                 style: TextStyle(
                     fontSize: 20.0,
-//                      fontFamily: "Milton",
                     fontWeight: FontWeight.bold
                 ),
               ),
@@ -154,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     width: size.width * 0.8,
                     decoration: BoxDecoration(
-                      color: kPrimaryLightColor,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(29),
                     ),
                     child: TextField(
@@ -176,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   width: size.width * 0.8,
                   decoration: BoxDecoration(
-                    color: kPrimaryLightColor,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(29),
                   ),
                   child: TextField(
@@ -218,7 +216,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                   ),
-
                 ],
               ),
             ),
@@ -227,7 +224,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
 
   Widget loginChild(){
     if(buttonState == ButtonState.inProgress){

@@ -4,8 +4,7 @@ import 'package:http/http.dart';
 
 class LoginProvider extends ChangeNotifier {
 
-  LoginProvider(){
-  }
+  LoginProvider();
 
   String _token;
 

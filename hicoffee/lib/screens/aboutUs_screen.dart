@@ -1,10 +1,8 @@
-import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:hicoffee/widgets/custom_drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:clay_containers/clay_containers.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'dart:async';
 
 class AboutUsScreen extends StatefulWidget {
   @override

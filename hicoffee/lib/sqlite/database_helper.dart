@@ -1,7 +1,8 @@
-import 'package:hicoffee/model/item_model.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 import 'dart:async';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:hicoffee/model/item_model.dart';
+
 
 
 class DatabaseHelper{
@@ -15,7 +16,7 @@ class DatabaseHelper{
   String col_number = "Number";
 
   String tbl_user   = "User";
-//  String col_id     = "ID";
+///  String col_id     = "ID";
   String col_token  = "Token";
 
   DatabaseHelper._CreateInstance();
@@ -38,8 +39,8 @@ class DatabaseHelper{
   // Create Database
   Future<Database> initializeDatabase() async{
     String databasePath = await getDatabasesPath();
-    String path = join(databasePath, 'HiCoffee2.db');
-
+    String path = join(databasePath, 'HiCoffee.db');
+    // Increase the version of db everytime update the tables
     Database database = await openDatabase(path, version: 2, onCreate: _createDB);
     return database;
   }

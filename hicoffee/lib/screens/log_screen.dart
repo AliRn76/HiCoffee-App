@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hicoffee/blocs/logs_provider.dart';
-import 'package:hicoffee/model/log_model.dart';
 import 'package:provider/provider.dart';
-//import 'package:intl/intl.dart';
+
+import 'package:hicoffee/model/log_model.dart';
+
+import 'package:hicoffee/blocs/logs_provider.dart';
+
+
 
 class LogScreen extends StatefulWidget {
   @override
@@ -11,9 +14,6 @@ class LogScreen extends StatefulWidget {
 
 class _LogScreenState extends State<LogScreen> {
   List<Log> logs = [];
-
-//  List<Log> logs = [Log("ماگ قهوه ای فروحته شد.","sell"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"), Log("ماگ زدر تعداد: ۲ حذف شد","delete"),  Log("نام: قهوه برزیل، تعداد: ۲ به نام: برزیل ۳، تعداد: ۳ ویرایش شد","edit"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"), Log("ماگ قهوه ای فروحته شد","sell"), Log("ماگ زدر تعداد: ۲ حذف شد","delete"),  Log("نام: قهوه برزیل، تعداد: ۲ به نام: برزیل ۳، تعداد: ۳ ویرایش شد","edit"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"),
-//    Log("ماگ قهوه ای فروحته شد.","sell"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"), Log("ماگ زدر تعداد: ۲ حذف شد","delete"),  Log("نام: قهوه برزیل، تعداد: ۲ به نام: برزیل ۳، تعداد: ۳ ویرایش شد","edit"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"), Log("ماگ قهوه ای فروحته شد","sell"), Log("ماگ زدر تعداد: ۲ حذف شد","delete"),  Log("نام: قهوه برزیل، تعداد: ۲ به نام: برزیل ۳، تعداد: ۳ ویرایش شد","edit"), Log("نام: قهوه برزیل، تعداد: ۱۵ ثبت شد.", "add"),];
   Color borderColor;
   Color backColor;
 
@@ -37,8 +37,8 @@ class _LogScreenState extends State<LogScreen> {
     );
   }
 
-  Widget _showLog(Log log){
 
+  Widget _showLog(Log log){
 
     if(log.type == "add") {
       borderColor = Colors.lightGreen[700];

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:hicoffee/widgets/wave.dart';
+import 'package:hicoffee/widgets/cardLists.dart';
+
 import 'package:hicoffee/blocs/requests_provider.dart';
 
 import 'package:hicoffee/model/item_model.dart';
-
-import 'package:hicoffee/widgets/wave.dart';
-import 'package:hicoffee/widgets/cardLists.dart';
-import 'package:provider/provider.dart';
-
-
 
 
 
@@ -16,7 +14,6 @@ class SearchScreen extends StatefulWidget {
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
-
 
 
 class _SearchScreenState extends State<SearchScreen> {
@@ -83,7 +80,6 @@ class _SearchScreenState extends State<SearchScreen> {
             decoration: InputDecoration(
               alignLabelWithHint: false,
               labelText: "Search",
-//              hintText: "Search",
               prefixIcon: Hero(
                 tag: "search",
                 child: Icon(Icons.search)
@@ -97,11 +93,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   for (int i = 0; i < requestsProvider.items.length; i++) {
                     if (requestsProvider.items[i].name.toLowerCase().contains(
                         value.toLowerCase())) {
-//                      print("IF ${widget.list[i].name}");
                       tempList.add(requestsProvider.items[i]);
                     }
                   }
-//                  print(tempList);
                 });
               }
             },

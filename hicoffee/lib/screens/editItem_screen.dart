@@ -1,15 +1,17 @@
 import 'dart:ui';
-
-import 'package:clay_containers/clay_containers.dart';
-import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
-import 'package:hicoffee/blocs/connection_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:flip_card/flip_card.dart';
+import 'package:numberpicker/numberpicker.dart';
+import 'package:clay_containers/clay_containers.dart';
+
 import 'package:hicoffee/blocs/logs_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
+import 'package:hicoffee/blocs/connection_provider.dart';
+
 import 'package:hicoffee/model/item_model.dart';
-import 'package:numberpicker/numberpicker.dart';
-import 'package:provider/provider.dart';
+
+
 
 class EditItemScreen extends StatefulWidget {
   Item item;
@@ -35,8 +37,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
     Icon responseIcon = Icon(Icons.done, color: Color(0xFF66c2ff),);
     double height() => MediaQuery.of(context).size.height;
     double width() => MediaQuery.of(context).size.width;
-
-
 
 
     void tryEditItem(requestsProvider, networkProvider, setter, logsProvider) async{
@@ -259,22 +259,5 @@ class _EditItemScreenState extends State<EditItemScreen> {
         ),
       ),
     );
-  }
-
-  Widget _snackBar(String message, Color color){
-    return SnackBar(
-      duration: Duration(seconds: 2, milliseconds: 500),
-      backgroundColor: color,
-      content: Text(
-        message,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 18.0,
-          fontWeight: FontWeight.bold,
-          fontFamily: "BNazanin",
-        ),
-      ),
-    );
-
   }
 }
