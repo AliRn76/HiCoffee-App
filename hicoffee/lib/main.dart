@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<LoginProvider>.value(value: LoginProvider()),
         ChangeNotifierProvider<NetworkProvider>.value(value: NetworkProvider()),
         ChangeNotifierProvider<LogsProvider>.value(value: LogsProvider()),
-        ChangeNotifierProvider<LoginProvider>.value(value: LoginProvider()),
         ChangeNotifierProvider<RequestsProvider>.value(value: RequestsProvider()),
         /// Sample of Stream Provider
 //        StreamProvider<ConnectivityResult>.value(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:hicoffee/blocs/login_provider.dart';
 import 'package:hicoffee/model/item_model.dart';
 import 'package:hicoffee/sqlite/database_helper.dart';
 import 'package:http/http.dart';
@@ -19,7 +20,6 @@ class RequestsProvider extends ChangeNotifier{
 
   // Tarif avalie
   List<Item> _items = [];
-  NetworkProvider networkProvider;
 
   // Har vaght items ro khast _items ro behesh midam
   List get items => _items;
@@ -28,6 +28,12 @@ class RequestsProvider extends ChangeNotifier{
   set items(List<Item> list){
     _items = list;
     notifyListeners();
+  }
+
+  // Select Token
+  Future<String> selectToken()async{
+    var result = await DatabaseHelper().selectToken();
+    return result[0]['Token'];
   }
 
   // Select * kon va beriz too items
@@ -40,7 +46,8 @@ class RequestsProvider extends ChangeNotifier{
   // Req bede va briz too items , Age req 200 bood --> insert kon too db
   void requestItems() async{
     try{
-      Response response = await get("http://al1.best:85/api/show-all/");
+      Map<String, String> reqHeader = {"Authorization": "Token ${await selectToken()}"};
+      Response response = await get("http://al1.best:85/api/show-all/", headers:reqHeader);
       print("response: ${response.statusCode}");
       List<dynamic> data = await jsonDecode(utf8.decode(response.bodyBytes));
       print("data: $data");
@@ -64,9 +71,12 @@ class RequestsProvider extends ChangeNotifier{
   Future<int> reqAddItem(Item item) async{
     Map<String, dynamic> reqBody = item.toJson();
     String jsonBody = jsonEncode(reqBody);
-    Map<String, String> reqHeader = {"Content-type": "application/json", "Accept": "application/json"};
-    Response response = await post("http://al1.best:85/api/add/", body:jsonBody, headers: reqHeader);
-
+    Map<String, String> reqHeader = {
+      "Content-type": "application/json",
+      "Accept": "application/json",
+      "Authorization": "Token ${await selectToken()}"
+    };
+    Response response = await post("http://al1.best:85/api/add/", body:jsonBody, headers:reqHeader);
     if(response.statusCode == 201){
       // Add to local db
       var result = await DatabaseHelper().insertItem(item);
@@ -82,7 +92,8 @@ class RequestsProvider extends ChangeNotifier{
 
 
   Future<int> reqDeleteItem(Item item) async{
-    Response response = await delete("http://al1.best:85/api/delete/${item.name}");
+    Map<String, String> reqHeader = {"Authorization": "Token ${await selectToken()}"};
+    Response response = await delete("http://al1.best:85/api/delete/${item.name}", headers:reqHeader);
     print(response.body);
     print(response.statusCode);
     if(response.statusCode == 200){
@@ -102,7 +113,11 @@ class RequestsProvider extends ChangeNotifier{
     Map<String, dynamic> reqBody = newItem.toJson();
     String jsonBody = jsonEncode(reqBody);
     print(jsonBody);
-    Map<String, String> reqHeader = {"Content-type": "application/json", "Accept": "application/json"};
+    Map<String, String> reqHeader = {
+      "Content-type": "application/json",
+      "Accept": "application/json",
+      "Authorization": "Token ${await selectToken()}"
+    };
     Response response = await post("http://al1.best:85/api/sell/", body:jsonBody, headers:reqHeader);
     if(response.statusCode == 200){
       // Update the local db
@@ -127,7 +142,11 @@ class RequestsProvider extends ChangeNotifier{
       reqBody['name'] = newName;
     String jsonBody = jsonEncode(reqBody);
     print(jsonBody);
-    Map<String, String> reqHeader = {"Content-type": "application/json", "Accept": "application/json"};
+    Map<String, String> reqHeader = {
+      "Content-type": "application/json",
+      "Accept": "application/json",
+      "Authorization": "Token ${await selectToken()}"
+    };
     Response response = await put("http://al1.best:85/api/edit/", body:jsonBody, headers: reqHeader);
     if(response.statusCode == 202){
       // Update the local db

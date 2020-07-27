@@ -23,9 +23,16 @@ class LogsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Select Token
+  Future<String> selectToken()async{
+    var result = await DatabaseHelper().selectToken();
+    return result[0]['Token'];
+  }
+
   void reqShowLogs() async{
     try{
-      Response response = await get("http://al1.best:85/api/show-logs/");
+      Map<String, String> reqHeader = {"Authorization": "Token ${await selectToken()}"};
+      Response response = await get("http://al1.best:85/api/show-logs/", headers: reqHeader);
       print("response: ${response.statusCode}");
       List<dynamic> data = await jsonDecode(utf8.decode(response.bodyBytes));
 //      print("data: $data");

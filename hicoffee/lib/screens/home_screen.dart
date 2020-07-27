@@ -244,6 +244,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
 }
 
+//TODO: fix add item
+//TODO: fix edit item
+//TODO: fix delet item
+//TODO: fix sell item
+
 
 //TODO: moghe login age net nabood ye error riz bede, jaye progress shodan
 

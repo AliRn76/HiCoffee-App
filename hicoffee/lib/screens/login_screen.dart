@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hicoffee/blocs/logs_provider.dart';
+import 'package:hicoffee/blocs/requests_provider.dart';
 import 'package:hicoffee/screens/home_screen.dart';
 import 'package:hicoffee/sqlite/database_helper.dart';
 import 'package:hicoffee/widgets/custom_drawer.dart';
@@ -28,6 +30,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool obscureText = true;
 
   void login() async{
+    LogsProvider logsProvider;
+    RequestsProvider requestsProvider;
     Widget child = HomeScreen();
     child = CustomDrawer(child: child);
     String token;
@@ -50,6 +54,9 @@ class _LoginScreenState extends State<LoginScreen> {
       // Update the local db
       var result = await DatabaseHelper().insertToken(token);
       print("insert Token to db: $result");
+      // Send startup requests again
+      logsProvider.reqShowLogs();
+      requestsProvider.requestItems();
       // Go to HomeScreen
       Navigator.pushReplacement(
         context,
