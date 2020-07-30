@@ -143,101 +143,102 @@ class _AboutUsScreenState extends State<AboutUsScreen>  with SingleTickerProvide
               ),
             ],
           ),
+//          Row(
+//            children: <Widget>[
+//              Container(
+//                width: 8.0,
+//                height: height()/6,
+//                color: Colors.blue,
+//              ),
+//              SizedBox(width: width()/8),
+//              Container(
+//                width: width() - width()/8 - 8,
+//                height: height()/6,
+//                child: Align(
+//                  alignment: Alignment(-1, 0),
+//                  child: Row(
+//                    mainAxisAlignment: MainAxisAlignment.start,
+//                    children: <Widget>[
+////                    SizedBox(width: width()/16),
+//                      Text(
+//                        "Donate Me  ",
+//                        style: TextStyle(
+//                          fontFamily: "Milton",
+//                          fontSize: 20.0,
+//                        ),
+//                      ),
+//                      Icon(
+//                        Icons.arrow_forward,
+//                        size: 22.0,
+//                      ),
+//                      SizedBox(width: 10.0),
+//                      Center(
+//                        child: ClayContainer(
+//                          color: Theme.of(context).scaffoldBackgroundColor,
+//                          height: 85,
+//                          width: 85,
+//                          borderRadius: 200,
+//                          curveType: CurveType.concave,
+//                          spread: 30,
+//                          depth: calculatedFirstDepth.toInt(),
+//                          child: Center(
+//                            child: ClayContainer(
+//                              height: 75,
+//                              width: 75,
+//                              borderRadius: 200,
+//                              depth: calculatedSecondDepth.toInt(),
+//                              curveType: CurveType.convex,
+//                              color: Theme.of(context).scaffoldBackgroundColor,
+//                              child: Center(
+//                                child: ClayContainer(
+//                                    height: 60,
+//                                    width: 60,
+//                                    borderRadius: 200,
+//                                    color: Theme.of(context).scaffoldBackgroundColor,
+//                                    depth: calculatedThirdDepth.toInt(),
+//                                    curveType: CurveType.concave,
+//                                    child: Center(
+//                                        child: ClayContainer(
+//                                          height: 50,
+//                                          width: 50,
+//                                          borderRadius: 200,
+//                                          color: Theme.of(context).scaffoldBackgroundColor,
+//                                          depth: calculatedFourthDepth.toInt(),
+//                                          curveType: CurveType.convex,
+//                                          child: IconButton(
+//                                            icon: FaIcon(FontAwesomeIcons.handHoldingUsd),
+//                                            onPressed: () => launch('https://idpay.ir/alirn'),
+//                                            color: Colors.blue[600],
+//                                            splashColor: Colors.blue,
+//                                            hoverColor: Colors.blue,
+//                                          ),
+//                                        )
+//                                    )
+//                                ),
+//                              ),
+//                            ),
+//                          ),
+//                        ),
+//                      ),
+//                    ],
+//                  ),
+//                ),
+//              ),
+//            ],
+//          ),
           Row(
             children: <Widget>[
               Container(
                 width: 8.0,
-                height: height()/6,
+                height: height()/7,
                 color: Colors.blue,
               ),
               SizedBox(width: width()/8),
               Container(
                 width: width() - width()/8 - 8,
-                height: height()/6,
-                child: Align(
-                  alignment: Alignment(-1, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-//                    SizedBox(width: width()/16),
-                      Text(
-                        "Donate Me  ",
-                        style: TextStyle(
-                          fontFamily: "Milton",
-                          fontSize: 20.0,
-                        ),
-                      ),
-                      Icon(
-                        Icons.arrow_forward,
-                        size: 22.0,
-                      ),
-                      SizedBox(width: 10.0),
-                      Center(
-                        child: ClayContainer(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          height: 85,
-                          width: 85,
-                          borderRadius: 200,
-                          curveType: CurveType.concave,
-                          spread: 30,
-                          depth: calculatedFirstDepth.toInt(),
-                          child: Center(
-                            child: ClayContainer(
-                              height: 75,
-                              width: 75,
-                              borderRadius: 200,
-                              depth: calculatedSecondDepth.toInt(),
-                              curveType: CurveType.convex,
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              child: Center(
-                                child: ClayContainer(
-                                    height: 60,
-                                    width: 60,
-                                    borderRadius: 200,
-                                    color: Theme.of(context).scaffoldBackgroundColor,
-                                    depth: calculatedThirdDepth.toInt(),
-                                    curveType: CurveType.concave,
-                                    child: Center(
-                                        child: ClayContainer(
-                                          height: 50,
-                                          width: 50,
-                                          borderRadius: 200,
-                                          color: Theme.of(context).scaffoldBackgroundColor,
-                                          depth: calculatedFourthDepth.toInt(),
-                                          curveType: CurveType.convex,
-                                          child: IconButton(
-                                            icon: FaIcon(FontAwesomeIcons.handHoldingUsd),
-                                            onPressed: () => launch('https://idpay.ir/alirn'),
-                                            color: Colors.blue[600],
-                                            splashColor: Colors.blue,
-                                            hoverColor: Colors.blue,
-                                          ),
-                                        )
-                                    )
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: <Widget>[
-              Container(
-                width: 8.0,
-                height: height()/8,
-              ),
-              SizedBox(width: width()/8),
-              Container(
-                width: width() - width()/8 - 8,
-                height: height()/8,
+                height: height()/7,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -262,6 +263,7 @@ class _AboutUsScreenState extends State<AboutUsScreen>  with SingleTickerProvide
                         ),
                       ],
                     ),
+                    SizedBox(height: 5.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
