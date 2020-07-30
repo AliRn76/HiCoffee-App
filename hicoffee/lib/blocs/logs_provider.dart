@@ -40,7 +40,8 @@ class LogsProvider extends ChangeNotifier {
       print("response: ${response.statusCode}");
       List<dynamic> data = await jsonDecode(utf8.decode(response.bodyBytes));
       // Serialize data
-      logs = data.map((m) => Log.fromJson(m)).toList();
+      _logs = data.map((m) => Log.fromJson(m)).toList();
+      notifyListeners();
     }on Exception{
       print("** Try again req in Log Provider ");
       Future.delayed(const Duration(seconds: 5), () {

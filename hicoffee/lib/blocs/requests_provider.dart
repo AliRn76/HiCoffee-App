@@ -52,11 +52,12 @@ class RequestsProvider extends ChangeNotifier{
       List<dynamic> data = await jsonDecode(utf8.decode(response.bodyBytes));
       print("data: $data");
       // Serialize data
-      items = data.map((m) => Item.fromJson(m)).toList();
-      print("items: $items");
+      _items = data.map((m) => Item.fromJson(m)).toList();
+      print("items: $_items");
       // Add the items in local db
       if (response.statusCode == 200){
-        var result = await DatabaseHelper().insertItems(items);
+        notifyListeners();
+        var result = await DatabaseHelper().insertItems(_items);
         print("*Insers db Result: $result");
       }
     }on Exception{

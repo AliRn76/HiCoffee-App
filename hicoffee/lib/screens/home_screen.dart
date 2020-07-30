@@ -1,5 +1,6 @@
 // package
 import 'package:flutter/material.dart';
+import 'package:hicoffee/blocs/logs_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -29,9 +30,22 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Icon customIcon = Icon(Icons.search);
+  bool first = true;
+//  LogsProvider logsProvider = LogsProvider();
+//  RequestsProvider requestsProvider = RequestsProvider();
+
+  void catchData(){
+    //     Send startup requests again
+//    RequestsProvider().requestItems();
+//    LogsProvider().reqShowLogs();
+//    logsProvider.reqShowLogs();
+//    requestsProvider.requestItems();
+  }
 
   @override
   void initState() {
+//    Provider.of<RequestsProvider>(context).requestItems();
+//    Provider.of<LogsProvider>(context).reqShowLogs();
     super.initState();
   }
 
@@ -44,6 +58,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
+    final LogsProvider logsProvider = Provider.of<LogsProvider>(context);
+    if(first){
+      setState(() {
+        first = false;
+        requestsProvider.requestItems();
+          logsProvider.reqShowLogs();
+      });
+    }
     return Scaffold(
       appBar: _appBar(),
       body: Container(

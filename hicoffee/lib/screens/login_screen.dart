@@ -32,8 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool obscureText = true;
 
   void login(networkProvider) async{
-    LogsProvider logsProvider = LogsProvider();
-    RequestsProvider requestsProvider = RequestsProvider();
+//    LogsProvider logsProvider = LogsProvider();
+//    RequestsProvider requestsProvider = RequestsProvider();
     Widget child = HomeScreen();
     child = CustomDrawer(child: child);
     String token;
@@ -69,8 +69,8 @@ class _LoginScreenState extends State<LoginScreen> {
       var result = await DatabaseHelper().insertToken(token);
       print("insert Token to db: $result");
       // Send startup requests again
-      logsProvider.reqShowLogs();
-      requestsProvider.requestItems();
+//      logsProvider.reqShowLogs();
+//      requestsProvider.requestItems();
       // Go to HomeScreen
       Navigator.pushReplacement(
         context,
