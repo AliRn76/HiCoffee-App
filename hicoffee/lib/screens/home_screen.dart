@@ -31,21 +31,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   Icon customIcon = Icon(Icons.search);
   bool first = true;
-//  LogsProvider logsProvider = LogsProvider();
-//  RequestsProvider requestsProvider = RequestsProvider();
-
-  void catchData(){
-    //     Send startup requests again
-//    RequestsProvider().requestItems();
-//    LogsProvider().reqShowLogs();
-//    logsProvider.reqShowLogs();
-//    requestsProvider.requestItems();
-  }
 
   @override
   void initState() {
-//    Provider.of<RequestsProvider>(context).requestItems();
-//    Provider.of<LogsProvider>(context).reqShowLogs();
     super.initState();
   }
 

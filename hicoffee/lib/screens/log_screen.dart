@@ -131,7 +131,7 @@ class _LogScreenState extends State<LogScreen> {
           color: selectedIcon.indexOf(index) != -1 ? _icons[index].backColor  : Color(0xFFE7EBEE),
           borderRadius: BorderRadius.circular(15.0),
           border: Border.all(
-            color: selectedIcon.indexOf(index) != -1 ? _icons[index].borderColor : Colors.black45,
+            color: selectedIcon.indexOf(index) != -1 ? _icons[index].borderColor : Colors.black12,
             width: 2.0,
           ),
         ),
@@ -202,7 +202,6 @@ class _LogScreenState extends State<LogScreen> {
                 log.date,
                 style: TextStyle(
                   fontFamily: "BNazanin",
-
                   fontWeight: FontWeight.bold,
                   color: borderColor,
                   fontSize: 16,

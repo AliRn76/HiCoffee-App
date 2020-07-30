@@ -14,12 +14,11 @@ class Log{
   Log.fromJson(Map<String, dynamic> json){
     text = json['text'];
     type = json['type'];
-    date = json['date'];
     if(json['date'] != null)
       date = PersianDate.fromDateTime(DateTime.parse(json['date']).toLocal()).toString(
           showTime: true, second: false);
-    else
-      date = json['date'];
+//    else
+//      date = json['date'];
   }
 
   /// baraye db estefade mishe --> harf avaleshon Bozorge

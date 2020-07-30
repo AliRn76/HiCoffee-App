@@ -13,6 +13,7 @@ class LogsProvider extends ChangeNotifier {
   /// contructor
   LogsProvider() {
     reqShowLogs();
+    selectAll();
   }
 
   ///
@@ -33,15 +34,29 @@ class LogsProvider extends ChangeNotifier {
     return result[0]['Token'];
   }
 
+
+  // Select * from local db
+  void selectAll() async{
+    var result = await DatabaseHelper().selectLogs();
+    print("Select * Logs from local db Result: $result");
+    logs = result.map((m) => Log.fromMap(m)).toList();
+  }
+
+  // GET all logs
   void reqShowLogs() async{
     try{
       Map<String, String> reqHeader = {"Authorization": "Token ${await selectToken()}"};
       Response response = await get("http://al1.best:85/api/show-logs/", headers: reqHeader);
-      print("response: ${response.statusCode}");
+      print("show-logs response: ${response.statusCode}");
       List<dynamic> data = await jsonDecode(utf8.decode(response.bodyBytes));
       // Serialize data
-      _logs = data.map((m) => Log.fromJson(m)).toList();
-      notifyListeners();
+      logs = data.map((m) => Log.fromJson(m)).toList();
+      print("logs: $logs");
+      // Add the items in local db
+      if (response.statusCode == 200){
+        var result = await DatabaseHelper().insertLogs(logs);
+        print("*Insers Logs to db Result: $result");
+      }
     }on Exception{
       print("** Try again req in Log Provider ");
       Future.delayed(const Duration(seconds: 5), () {

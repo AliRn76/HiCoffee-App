@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:hicoffee/model/log_model.dart';
 import 'package:hicoffee/model/item_model.dart';
 
 
@@ -10,14 +11,23 @@ class DatabaseHelper{
   static DatabaseHelper _databaseHelper;
   static Database _database;
 
+/// Table ITEM
   String tbl_item   = "Item";
   String col_id     = "ID";
   String col_name   = "Name";
   String col_number = "Number";
 
+/// Table USER
   String tbl_user   = "User";
-///  String col_id     = "ID";
+  // String col_id = "ID";
   String col_token  = "Token";
+
+/// Table LOG
+  String tbl_log    = "Log";
+  // String col_id = "ID";
+  String col_type   = "Type";
+  String col_text   = "Text";
+  String col_date   = "Date";
 
   DatabaseHelper._CreateInstance();
 
@@ -41,7 +51,7 @@ class DatabaseHelper{
     String databasePath = await getDatabasesPath();
     String path = join(databasePath, 'HiCoffee.db');
     // Increase the version of db everytime update the tables
-    Database database = await openDatabase(path, version: 2, onCreate: _createDB);
+    Database database = await openDatabase(path, version: 1, onCreate: _createDB);
     return database;
   }
 
@@ -58,7 +68,22 @@ class DatabaseHelper{
             '$col_id INTEGER PRIMARY KEY AUTOINCREMENT,'
             '$col_token TEXT)'
     );
+    await db.execute(
+        'CREATE TABLE IF NOT EXISTS $tbl_user ('
+            '$col_id INTEGER PRIMARY KEY AUTOINCREMENT,'
+            '$col_token TEXT)'
+    );
+    await db.execute(
+        'CREATE TABLE IF NOT EXISTS $tbl_log ('
+            '$col_id INTEGER PRIMARY KEY AUTOINCREMENT,'
+            '$col_type TEXT,'
+            '$col_text TEXT,'
+            '$col_date TEXT)'
+    );
   }
+
+
+/// Table ITEM
 
   // Select All Items
   Future<List<Map<String, dynamic>>> selectItems() async{
@@ -113,7 +138,6 @@ class DatabaseHelper{
     return result;
   }
 
-
   // Update One Item (Sell)
   Future<List<Map<String, dynamic>>> updateItem(Item item, int sellValue) async{
     Database db = await this.database;
@@ -135,6 +159,8 @@ class DatabaseHelper{
             "WHERE $col_name = '$oldName'; ");
     return result;
   }
+
+/// Table USER
 
   // Insert Token
   Future<List<Map<String, dynamic>>> insertToken(String token) async{
@@ -164,6 +190,43 @@ class DatabaseHelper{
     );
     return result;
   }
+
+/// Table LOG
+
+  // Insert All Logs
+  Future<List<Map<String, dynamic>>> insertLogs(List<Log> logs) async{
+    deleteLogs();
+    Database db = await this.database;
+    var result;
+    for(int i=0 ; i<logs.length ; i++){
+      result = await db.rawQuery(
+          "Insert Into $tbl_log"
+              "($col_type, $col_text, $col_date)"
+              "Values ('${logs[i].type}', '${logs[i].text}', '${logs[i].date}');"
+      );
+    }
+    return result;
+  }
+
+  // Select All Logs
+  Future<List<Map<String, dynamic>>> selectLogs() async{
+    Database db = await this.database;
+    var result = await db.rawQuery(
+        "Select * From $tbl_log"
+    );
+    return result;
+  }
+
+
+  // Delete All Logs
+  Future<List<Map<String, dynamic>>> deleteLogs() async{
+    Database db = await this.database;
+    var result = await db.rawQuery(
+        "Delete From $tbl_log;"
+    );
+    return result;
+  }
+
 }
 
 

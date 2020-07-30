@@ -32,18 +32,36 @@ class _LoginScreenState extends State<LoginScreen> {
   bool obscureText = true;
 
   void login(networkProvider) async{
-//    LogsProvider logsProvider = LogsProvider();
-//    RequestsProvider requestsProvider = RequestsProvider();
     Widget child = HomeScreen();
     child = CustomDrawer(child: child);
     String token;
     var reqBody = Map<String, dynamic>();
     reqBody['username'] = username;
     reqBody['password'] = password;
-    if(username == null || username.isEmpty)
+    if(username == null || username.isEmpty){
+      setState((){
+        buttonState = ButtonState.error;
+        buttonColor = Colors.red[400];
+        buttonText = "Username is Empty";
+      });
+      Future.delayed(Duration(milliseconds: 900), () {
+        setState(() => buttonColor = Color(0xFF66c2ff));
+        buttonText = "LOGIN";
+      });
       return;
-    if(password == null || password.isEmpty)
+    }
+    if(password == null || password.isEmpty){
+      setState((){
+        buttonState = ButtonState.error;
+        buttonColor = Colors.red[400];
+        buttonText = "Password is Empty";
+      });
+      Future.delayed(Duration(milliseconds: 900), () {
+        setState(() => buttonColor = Color(0xFF66c2ff));
+        buttonText = "LOGIN";
+      });
       return;
+    }
     if(networkProvider.connection == false){
       setState((){
         buttonState = ButtonState.error;
@@ -68,9 +86,6 @@ class _LoginScreenState extends State<LoginScreen> {
       // Update the local db
       var result = await DatabaseHelper().insertToken(token);
       print("insert Token to db: $result");
-      // Send startup requests again
-//      logsProvider.reqShowLogs();
-//      requestsProvider.requestItems();
       // Go to HomeScreen
       Navigator.pushReplacement(
         context,
