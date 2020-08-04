@@ -107,12 +107,14 @@ class _AddItemScreenState extends State<AddItemScreen> {
         child: Stack(
           children: <Widget>[
             Center(
-              child: FlipCard(
-                flipOnTouch: false,
-                key: addCardKey,
-                direction: FlipDirection.VERTICAL,
-                front: _frontView(),
-                back: _backView(),
+              child: SingleChildScrollView(
+                child: FlipCard(
+                  flipOnTouch: false,
+                  key: addCardKey,
+                  direction: FlipDirection.VERTICAL,
+                  front: _frontView(),
+                  back: _backView(),
+                ),
               ),
             ),
             Wave(),

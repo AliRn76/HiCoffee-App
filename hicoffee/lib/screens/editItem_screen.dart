@@ -178,8 +178,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
                                 minValue: 0,
                                 maxValue: 200,
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    border: Border.all(color: Colors.blue[400], width: 1.3, )
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  border: Border.all(color: Colors.blue[400], width: 1.3),
                                 ),
                                 onChanged: (newValue) =>
                                     setter(() => _value = newValue)
