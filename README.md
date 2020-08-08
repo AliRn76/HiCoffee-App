@@ -1,6 +1,6 @@
 # Hi Coffee
 
-## ![Watch The Full Demo Here - 13.9 MB](https://github.com/AliRn76/HiCoffee-App/raw/master/full-demo.mp4)
+## Watch The Full Demo Here --> ![\[Link\]](https://github.com/AliRn76/HiCoffee-App/raw/master/full-demo.mp4)
 ![demo](HiCoffeeDemo.gif)
 
 ### I Used:
