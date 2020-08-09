@@ -69,7 +69,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
       statusCode = await requestsProvider.reqAddItem(item);
       print(statusCode);
       setState(() {
-        if(statusCode == 201){
+        if(statusCode == 200){
           responseMessage = "باموفقیت اضافه شد";
           responseColor = Colors.greenAccent[400];
           responseIcon = Icon(Icons.done_all, color: responseColor);
@@ -82,7 +82,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
           responseIcon = Icon(Icons.close, color: responseColor);
         }
         else{
-          responseMessage = "یه چیزی این وسط اشتباه کار میکنه - خطا $statusCode";
+          responseMessage = "خطا $statusCode";
           responseColor = Colors.redAccent[400];
           responseIcon = Icon(Icons.clear, color: responseColor);
         }

@@ -110,6 +110,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                   );
                 }
             );
+//            Navigator.pop(context, true);
           }else if(statusCode == 406){
 
             responseMessage = "نام محصول تکراری است";
@@ -117,7 +118,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
             responseIcon = Icon(Icons.close, color: responseColor);
           }
           else{
-            responseMessage = "یه چیزی این وسط اشتباه کار میکنه \n خطا $statusCode";
+            responseMessage = " خطا $statusCode";
             responseColor = errorColor;
             responseIcon = Icon(Icons.clear, color: responseColor);
           }
