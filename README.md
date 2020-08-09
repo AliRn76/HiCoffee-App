@@ -1,6 +1,8 @@
 # Hi Coffee
 
-> <b>Turn Back To 'master' To See The Demo</b>
+## Watch The Full Demo Here --> ![\[Link\]](https://github.com/AliRn76/HiCoffee-App/raw/master/full-demo.mp4)
+![demo](HiCoffeeDemo.gif)
+
 ### I Used:
 - Django for Backend (Django RestFramework)
 > It is on branch 'server' or in server folder in 'master'
