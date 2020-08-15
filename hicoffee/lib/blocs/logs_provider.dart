@@ -58,8 +58,8 @@ class LogsProvider extends ChangeNotifier {
         print("*Insers Logs to db Result: $result");
       }
     }on Exception{
-      print("** Try again req in Log Provider ");
-      Future.delayed(const Duration(seconds: 5), () {
+      print("** Trying to Send show-logs Request ");
+      Future.delayed(const Duration(seconds: 7), () {
         reqShowLogs();
       });
     }

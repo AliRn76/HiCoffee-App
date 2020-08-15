@@ -254,7 +254,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   Widget _backView(){
     return Center(
       child: Container(
-        margin: EdgeInsets.only(bottom: height()/17),
+        margin: EdgeInsets.only(bottom: height()/15, top: height()/10),
         decoration: BoxDecoration(
           color: Colors.white30,
           borderRadius: BorderRadius.all(Radius.circular(20.0)),

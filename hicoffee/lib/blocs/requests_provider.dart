@@ -48,21 +48,19 @@ class RequestsProvider extends ChangeNotifier{
     try{
       Map<String, String> reqHeader = {"Authorization": "Token ${await selectToken()}"};
       Response response = await get("http://al1.best:86/api/show-all/", headers:reqHeader);
-      print("response: ${response.statusCode}");
+      print("show-all response: ${response.statusCode}");
       List<dynamic> data = await jsonDecode(utf8.decode(response.bodyBytes));
-      print("data: $data");
       // Serialize data
       items = data.map((m) => Item.fromJson(m)).toList();
-      print("items: $items");
       // Add the items in local db
       if (response.statusCode == 200){
         var result = await DatabaseHelper().insertItems(items);
-        print("*Insers db Result: $result");
+        print("* Insert show-all to db Result: $result");
       }
     }on Exception{
-      print("** Try Again To Send Get Request");
-      Future.delayed(const Duration(seconds: 5), () {
-        requestItems();
+      print("** Trying To Send show-all Request");
+      Future.delayed(const Duration(seconds: 7), () {
+        return requestItems();
       });
     }
   }

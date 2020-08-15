@@ -49,7 +49,9 @@ class DatabaseHelper{
   // Create Database
   Future<Database> initializeDatabase() async{
     String databasePath = await getDatabasesPath();
+    print(databasePath);
     String path = join(databasePath, 'HiCoffee.db');
+    print(path);
     // Increase the version of db everytime update the tables
     Database database = await openDatabase(path, version: 1, onCreate: _createDB);
     return database;
@@ -62,11 +64,6 @@ class DatabaseHelper{
             '$col_id INTEGER PRIMARY KEY AUTOINCREMENT,'
             '$col_name TEXT,'
             '$col_number INTEGER)'
-    );
-    await db.execute(
-        'CREATE TABLE IF NOT EXISTS $tbl_user ('
-            '$col_id INTEGER PRIMARY KEY AUTOINCREMENT,'
-            '$col_token TEXT)'
     );
     await db.execute(
         'CREATE TABLE IF NOT EXISTS $tbl_user ('
@@ -178,7 +175,7 @@ class DatabaseHelper{
     var result = await db.rawQuery(
         "Select $col_token From $tbl_user"
     );
-    print("result in db: $result");
+    print("Select Token from db: $result");
     return result;
   }
 
