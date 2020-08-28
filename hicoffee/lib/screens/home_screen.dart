@@ -174,3 +174,5 @@ class _HomeScreenState extends State<HomeScreen> {
 
 // TODO: Bug Haye ke Age server ghat bood , ye error bede ro fix konm
 // TODO: Delete , Edit , Sell, Add
+// TODO: Baad az if haye 200 , ye else ham bezaram ke error ro bege
+// TODO: age tedad 0 bood va error 404 dad , liquid refresh ye list khali ro pas bede

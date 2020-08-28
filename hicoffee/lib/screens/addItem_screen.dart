@@ -5,6 +5,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:clay_containers/clay_containers.dart';
 import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
+import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 
 import 'package:hicoffee/blocs/logs_provider.dart';
 import 'package:hicoffee/blocs/requests_provider.dart';
@@ -214,7 +215,33 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 max: 100.0,
               ),
             ),
-            SizedBox(height: height()/12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                CustomRadioButton(
+                  enableShape: true,
+                  elevation: 2,
+                  defaultSelected: "تعداد",
+                  enableButtonWrap: true,
+                  width: 70,
+                  autoWidth: false,
+                  unSelectedColor: Theme.of(context).scaffoldBackgroundColor,
+                  buttonLables: [
+                    "کیلو",
+                    "تعداد",
+                  ],
+                  buttonValues: [
+                    "کیلو",
+                    "تعداد",
+                  ],
+                  radioButtonValue: (value) {
+                    print(value);
+                  },
+                  selectedColor: Theme.of(context).primaryColor,
+                ),
+              ],
+            ),
+            SizedBox(height: 25),
             Container(
               child: Center(
                 child: ClayContainer(
@@ -245,6 +272,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 ),
               ),
             ),
+            SizedBox(height: height()/50),
           ],
         ),
       ),
