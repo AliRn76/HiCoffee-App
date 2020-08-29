@@ -10,7 +10,7 @@ class Item(models.Model):
     name            = models.CharField(db_column='Name', max_length=127, unique=True, null=True)
     number          = models.IntegerField(db_column='Number', null=True)
     date_modified   = models.DateTimeField(db_column='DateModified', null=True, auto_now=True)
-    count_type      = models.CharField(db_column='CountType', max_length=127, null=True)
+    count_type      = models.CharField(db_column='CountType', max_length=127, null=True, blank=True)
     class Meta:
         db_table = 'Item'
 

@@ -185,7 +185,7 @@ def sell_item(request):
                 return Response(data={"response": "you can not sell that much"}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
             # Update number of item
-            old_item = Item.objects.filter(name=name).update(number=new_number)
+            old_item = Item.objects.filter(name=name).update(number=new_number, date_modified=datetime.now())
         except:
             return Response(status=status.HTTP_409_CONFLICT)
         # Set Response
