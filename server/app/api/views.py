@@ -21,7 +21,7 @@ def test(request):
 @permission_classes((IsAuthenticated, ))
 def show_all_items(request):
     # Collecting Data
-    items = Item.objects.all()
+    items = Item.objects.all().order_by('-date_modified')
 
     # Serialize and Response
     if items:

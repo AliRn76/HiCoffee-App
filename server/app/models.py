@@ -8,7 +8,8 @@ from django.db import models
 class Item(models.Model):
     id      = models.AutoField(db_column='ID', primary_key=True)
     name    = models.CharField(db_column='Name', max_length=96, unique=True, null=True)
-    number = models.IntegerField(db_column='Number', null=True)
+    number  = models.IntegerField(db_column='Number', null=True)
+    date_modified = models.DateTimeField(db_column='DateModified', null=True, auto_now=True)
     class Meta:
         db_table = 'Item'
 
@@ -17,10 +18,10 @@ class Item(models.Model):
 
 
 class Log(models.Model):
-    id = models.AutoField(db_column='ID', primary_key=True)
-    text = models.TextField(db_column='Text', blank=True, null=True)
-    type = models.CharField(db_column='Type', max_length=96, blank=True, null=True)
-    date = models.DateTimeField(db_column='Date', null=True)
+    id      = models.AutoField(db_column='ID', primary_key=True)
+    text    = models.TextField(db_column='Text', blank=True, null=True)
+    type    = models.CharField(db_column='Type', max_length=96, blank=True, null=True)
+    date    = models.DateTimeField(db_column='Date', null=True)
     class Meta:
         db_table = 'Log'
 
