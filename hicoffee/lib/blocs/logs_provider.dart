@@ -46,7 +46,7 @@ class LogsProvider extends ChangeNotifier {
   void reqShowLogs() async{
     try{
       Map<String, String> reqHeader = {"Authorization": "Token ${await selectToken()}"};
-      Response response = await get("http://al1.best:85/api/show-logs/", headers: reqHeader);
+      Response response = await get("http://al1.best:86/api/show-logs/", headers: reqHeader);
       print("show-logs response: ${response.statusCode}");
       List<dynamic> data = await jsonDecode(utf8.decode(response.bodyBytes));
       // Serialize data

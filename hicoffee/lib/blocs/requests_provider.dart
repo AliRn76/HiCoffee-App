@@ -47,7 +47,7 @@ class RequestsProvider extends ChangeNotifier{
   void requestItems() async{
     try{
       Map<String, String> reqHeader = {"Authorization": "Token ${await selectToken()}"};
-      Response response = await get("http://al1.best:85/api/show-all/", headers:reqHeader);
+      Response response = await get("http://al1.best:86/api/show-all/", headers:reqHeader);
       print("show-all response: ${response.statusCode}");
       List<dynamic> data = await jsonDecode(utf8.decode(response.bodyBytes));
       // Serialize data
@@ -75,7 +75,7 @@ class RequestsProvider extends ChangeNotifier{
       "Accept": "application/json",
       "Authorization": "Token ${await selectToken()}"
     };
-    Response response = await post("http://al1.best:85/api/add/", body:jsonBody, headers:reqHeader);
+    Response response = await post("http://al1.best:86/api/add/", body:jsonBody, headers:reqHeader);
     if(response.statusCode == 200){
       // Add to local db
       var result = await DatabaseHelper().insertItem(item);
@@ -92,7 +92,7 @@ class RequestsProvider extends ChangeNotifier{
   // delete item from server
   Future<int> reqDeleteItem(Item item) async{
     Map<String, String> reqHeader = {"Authorization": "Token ${await selectToken()}"};
-    Response response = await delete("http://al1.best:85/api/delete/${item.name}", headers:reqHeader);
+    Response response = await delete("http://al1.best:86/api/delete/${item.name}", headers:reqHeader);
     print(response.body);
     print(response.statusCode);
     if(response.statusCode == 200){
@@ -117,7 +117,7 @@ class RequestsProvider extends ChangeNotifier{
       "Accept": "application/json",
       "Authorization": "Token ${await selectToken()}"
     };
-    Response response = await post("http://al1.best:85/api/sell/", body:jsonBody, headers:reqHeader);
+    Response response = await post("http://al1.best:86/api/sell/", body:jsonBody, headers:reqHeader);
     if(response.statusCode == 200){
       // Update the local db
       var result = await DatabaseHelper().updateItem(item, sellValue);
@@ -147,7 +147,7 @@ class RequestsProvider extends ChangeNotifier{
       "Accept": "application/json",
       "Authorization": "Token ${await selectToken()}"
     };
-    Response response = await put("http://al1.best:85/api/edit/", body:jsonBody, headers: reqHeader);
+    Response response = await put("http://al1.best:86/api/edit/", body:jsonBody, headers: reqHeader);
     if(response.statusCode == 202){
       // Update the local db
       var result = await DatabaseHelper().editItem(oldName, newName, newNumber, countType);
