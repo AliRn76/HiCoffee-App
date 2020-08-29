@@ -209,12 +209,12 @@ class CardLists extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Text(
-                        "تعداد:  ",
+                        "${item.countType} : ",
                         style: TextStyle(
-                          fontSize: 22.0,
+                          fontSize: 19.0,
                           fontFamily: 'BNazanin',
                           color: Colors.white,
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(

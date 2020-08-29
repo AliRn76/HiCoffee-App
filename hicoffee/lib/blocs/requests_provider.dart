@@ -106,9 +106,9 @@ class RequestsProvider extends ChangeNotifier{
     return response.statusCode;
   }
 
-
+  // sell item from server
   Future<int> reqSellItem(Item item, int sellValue) async{
-    Item newItem = Item(item.name, sellValue);
+    Item newItem = Item(item.name, sellValue, item.countType);
     Map<String, dynamic> reqBody = newItem.toJson();
     String jsonBody = jsonEncode(reqBody);
     print(jsonBody);
@@ -133,10 +133,11 @@ class RequestsProvider extends ChangeNotifier{
   }
 
 
-  Future<int> reqEditItem(String oldName, String newName, int newNumber) async{
+  Future<int> reqEditItem(String oldName, String newName, int newNumber, String countType) async{
     var reqBody = Map<String, dynamic>();
     reqBody['old_name'] = oldName;
     reqBody['number'] = newNumber;
+    reqBody['count_type'] = countType;
     if(newName != oldName)
       reqBody['name'] = newName;
     String jsonBody = jsonEncode(reqBody);
@@ -149,13 +150,14 @@ class RequestsProvider extends ChangeNotifier{
     Response response = await put("http://al1.best:85/api/edit/", body:jsonBody, headers: reqHeader);
     if(response.statusCode == 202){
       // Update the local db
-      var result = await DatabaseHelper().editItem(oldName, newName, newNumber);
+      var result = await DatabaseHelper().editItem(oldName, newName, newNumber, countType);
       print("Edit db Result: $result");
       // Update the provider
       for(int i=0 ; i<_items.length ; i++){
         if (_items[i].name == oldName){
           _items[i].name    = newName;
           _items[i].number  = newNumber;
+          _items[i].countType  = countType;
         }
       }
       notifyListeners();

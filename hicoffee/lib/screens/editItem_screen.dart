@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flip_card/flip_card.dart';
@@ -32,6 +33,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
     Color acceptColor = Colors.greenAccent[200];
     Color errorColor = Colors.redAccent[400];
     int _value = widget.item.number;
+    String countType = widget.item.countType;
     String responseMessage = "لطفا صبر کنید";
     Color responseColor = Theme.of(context).primaryColor;
     Icon responseIcon = Icon(Icons.done, color: Color(0xFF66c2ff),);
@@ -47,7 +49,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
       print(old_name);
       print(name);
       print(number);
-      if (name == old_name && number == widget.item.number){
+      if (name == old_name && number == widget.item.number && countType == widget.item.countType){
         setter(() {
           responseMessage = "باموفقیت ویرایش شد";
           responseColor = acceptColor;
@@ -75,7 +77,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
           responseIcon = Icon(Icons.close, color: responseColor);
         });
       }else{
-        statusCode = await requestsProvider.reqEditItem(old_name, name, number);
+        statusCode = await requestsProvider.reqEditItem(old_name, name, number, countType);
         print("Edit statusCode: $statusCode");
         setter(() {
           if(statusCode == 202){
@@ -190,6 +192,33 @@ class _EditItemScreenState extends State<EditItemScreen> {
                       ),
                     ),
                     SizedBox(height: height()/30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        CustomRadioButton(
+                          enableShape: true,
+                          elevation: 2,
+                          defaultSelected: countType,
+                          enableButtonWrap: true,
+                          width: 70,
+                          autoWidth: false,
+                          unSelectedColor: Theme.of(context).scaffoldBackgroundColor,
+                          buttonLables: [
+                            "کیلو",
+                            "تعداد",
+                          ],
+                          buttonValues: [
+                            "کیلو",
+                            "تعداد",
+                          ],
+                          radioButtonValue: (value) {
+                            countType = value;
+                          },
+                          selectedColor: Theme.of(context).primaryColor,
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: height()/20),
                     Container(
                       child: Center(
                         child: ClayContainer(
@@ -226,9 +255,8 @@ class _EditItemScreenState extends State<EditItemScreen> {
               back: Container(
                 width: width()/2,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    SizedBox(height: height()/20),
+                      SizedBox(height: height()/10),
                     Text(
                       responseMessage,
                       style: TextStyle(
@@ -237,7 +265,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: height()/12),
+                    SizedBox(height: height()/10),
                     Container(
                       child: Center(
                         child: ClayContainer(
@@ -251,7 +279,6 @@ class _EditItemScreenState extends State<EditItemScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10.0),
                   ],
                 ),
               ),

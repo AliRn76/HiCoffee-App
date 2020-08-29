@@ -16,6 +16,7 @@ class DatabaseHelper{
   String col_id     = "ID";
   String col_name   = "Name";
   String col_number = "Number";
+  String col_count_type = "CountType";
 
 /// Table USER
   String tbl_user   = "User";
@@ -63,6 +64,7 @@ class DatabaseHelper{
         'CREATE TABLE IF NOT EXISTS $tbl_item ('
             '$col_id INTEGER PRIMARY KEY AUTOINCREMENT,'
             '$col_name TEXT,'
+            '$col_count_type TEXT,'
             '$col_number INTEGER)'
     );
     await db.execute(
@@ -99,8 +101,8 @@ class DatabaseHelper{
     for(int i=0 ; i<items.length ; i++){
       result = await db.rawQuery(
         "Insert Into $tbl_item"
-            "($col_name, $col_number)"
-            "Values ('${items[i].name}', ${items[i].number});"
+            "($col_name, $col_number, $col_count_type)"
+            "Values ('${items[i].name}', ${items[i].number}, '${items[i].countType}');"
       );
     }
     return result;
@@ -129,8 +131,9 @@ class DatabaseHelper{
   Future<List<Map<String, dynamic>>> insertItem(Item item) async{
     Database db = await this.database;
     var result = await db.rawQuery(
-        "Insert Into $tbl_item ($col_name, $col_number)"
-            "VALUES ('${item.name}', ${item.number});"
+        "Insert Into $tbl_item "
+            "($col_name, $col_number, $col_count_type)"
+            "Values ('${item.name}', ${item.number}, '${item.countType}');"
     );
     return result;
   }
@@ -147,12 +150,13 @@ class DatabaseHelper{
   }
 
   // Update One Item (Edit)
-  Future<List<Map<String, dynamic>>> editItem(String oldName, String newName, int newNumber) async{
+  Future<List<Map<String, dynamic>>> editItem(String oldName, String newName, int newNumber, String countType) async{
     Database db = await this.database;
     var result = await db.rawQuery(
         "UPDATE $tbl_item "
             "SET $col_name = '$newName' ,"
-                "$col_number = '$newNumber' "
+                "$col_number = '$newNumber' ,"
+                "$col_count_type = '$countType' "
             "WHERE $col_name = '$oldName'; ");
     return result;
   }

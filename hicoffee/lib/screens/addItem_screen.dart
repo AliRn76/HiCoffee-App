@@ -34,7 +34,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   TextEditingController nameController = TextEditingController();
   Icon customIcon = Icon(Icons.search);
   double _value = 0;
-  String countType;
+  String countType = "تعداد";
   String responseMessage = "لطفا صبر کنید";
   Color responseColor = Colors.black;
   Icon responseIcon = Icon(Icons.done, color: Color(0xFF66c2ff),);
@@ -222,7 +222,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                 CustomRadioButton(
                   enableShape: true,
                   elevation: 2,
-                  defaultSelected: "تعداد",
+                  defaultSelected: countType,
                   enableButtonWrap: true,
                   width: 70,
                   autoWidth: false,
