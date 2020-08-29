@@ -34,6 +34,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
   TextEditingController nameController = TextEditingController();
   Icon customIcon = Icon(Icons.search);
   double _value = 0;
+  String countType;
   String responseMessage = "لطفا صبر کنید";
   Color responseColor = Colors.black;
   Icon responseIcon = Icon(Icons.done, color: Color(0xFF66c2ff),);
@@ -43,7 +44,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
 
   void tryAddItem(requestsProvider, networkProvider, logsProvider) async{
     int statusCode;
-    Item item = Item(nameController.text, _value.toInt());
+    Item item = Item(nameController.text, _value.toInt(), countType);
     if(networkProvider.connection == false){
       setState(() {
         responseIcon = Icon(Icons.done, color: Color(0xFF66c2ff),);
@@ -235,7 +236,7 @@ class _AddItemScreenState extends State<AddItemScreen> {
                     "تعداد",
                   ],
                   radioButtonValue: (value) {
-                    print(value);
+                    countType = value;
                   },
                   selectedColor: Theme.of(context).primaryColor,
                 ),

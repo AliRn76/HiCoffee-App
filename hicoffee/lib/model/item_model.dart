@@ -3,22 +3,26 @@
 class Item{
   String name;
   int number;
+  String countType;
 
   Item(
       this.name,
       this.number,
+      this.countType,
       );
 
   /// baraye json estefade mishe --> harf avaleshon kochike
   Item.fromJson(Map<String, dynamic> json){
     name = json['name'];
     number = json['number'];
+    countType = json['count_type'];
   }
 
   /// baraye db estefade mishe --> harf avaleshon Bozorge
   Item.fromMap(Map<String, dynamic> map){
     name = map['Name'];
     number = map['Number'];
+    countType = map['CountType'];
   }
 
   /// convert to json baraye send e request
@@ -26,6 +30,7 @@ class Item{
     var map = Map<String, dynamic>();
     map['name'] = name;
     map['number'] = number;
+    map['count_type'] = countType;
     return map;
   }
 
