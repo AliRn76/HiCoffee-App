@@ -6,7 +6,8 @@ from app.models import Item, Log
 class ItemSerializers(serializers.ModelSerializer):
     class Meta:
         model   = Item
-        fields  = ['name', 'number']
+        fields  = ['name', 'number', 'count_type']
+        # fields  = '__all__'
 
 
 class SellItemSerializers(serializers.ModelSerializer):

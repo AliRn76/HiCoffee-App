@@ -42,9 +42,7 @@ def add_item(request):
         item = serializer.save()
         # If Name was null or empty
         if item.name is None or item.name == '':
-            data = {
-                "response": "name can't be null"
-            }
+            data = {"response": "name can't be null"}
             return Response(data=data, status=status.HTTP_406_NOT_ACCEPTABLE)
         # If number was null
         if item.number is None:
@@ -52,8 +50,8 @@ def add_item(request):
         item.save()
         # Save the Log
         log = Log.objects.create(
-            text    = "{} تعداد: {} ثبت شد.".format(item.name, item.number),
-            type    = "add",
+            text="{} تعداد: {} ثبت شد.".format(item.name, item.number),
+            type="add",
             date=datetime.now()
         )
         log_response = log.save()
@@ -79,15 +77,14 @@ def edit_item(request):
         temp_old_item = Item.objects.filter(name=old_name)
         old_item = temp_old_item[0]
     except:
-        data = {
-            "response": "old_name does not exist",
-        }
+        data = {"response": "old_name does not exist"}
         return Response(data=data, status=status.HTTP_404_NOT_FOUND)
 
     # Save the serializer in item
     if serializer.is_valid():
         name = serializer.data.get("name")
         number = serializer.data.get("number")
+        countType = serializer.data.get("count_type")
 
         # If name was not null and doesn't exist --> update it
         if name is not None:
@@ -97,15 +94,16 @@ def edit_item(request):
             # if name_check is None:
                 old_item.name = name
             else:
-                data = {
-                    "response": "item with this name already exists.",
-                }
+                data = {"response": "item with this name already exists."}
                 return Response(data=data, status=status.HTTP_409_CONFLICT)
 
         # If Name was not null --> update it
         if number is not None:
             old_number = old_item.number
             old_item.number = number
+
+        if countType is not None:
+            old_item.count_type = countType
 
         # Update Response, Should be Null
         response = old_item.save()
@@ -125,7 +123,8 @@ def edit_item(request):
         data = {
             "response": "success",
             "name": old_item.name,
-            "number": old_item.number
+            "number": old_item.number,
+            "countType": old_item.count_type
         }
         return Response(data=data, status=status.HTTP_202_ACCEPTED)
     else:

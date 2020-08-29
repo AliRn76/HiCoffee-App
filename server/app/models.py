@@ -6,10 +6,11 @@ from django.db import models
 
 
 class Item(models.Model):
-    id      = models.AutoField(db_column='ID', primary_key=True)
-    name    = models.CharField(db_column='Name', max_length=96, unique=True, null=True)
-    number  = models.IntegerField(db_column='Number', null=True)
-    date_modified = models.DateTimeField(db_column='DateModified', null=True, auto_now=True)
+    id              = models.AutoField(db_column='ID', primary_key=True)
+    name            = models.CharField(db_column='Name', max_length=127, unique=True, null=True)
+    number          = models.IntegerField(db_column='Number', null=True)
+    date_modified   = models.DateTimeField(db_column='DateModified', null=True, auto_now=True)
+    count_type      = models.CharField(db_column='CountType', max_length=127, null=True)
     class Meta:
         db_table = 'Item'
 
