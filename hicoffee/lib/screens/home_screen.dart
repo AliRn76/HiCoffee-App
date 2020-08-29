@@ -176,3 +176,6 @@ class _HomeScreenState extends State<HomeScreen> {
 // TODO: Delete , Edit , Sell, Add
 // TODO: Baad az if haye 200 , ye else ham bezaram ke error ro bege
 // TODO: age tedad 0 bood va error 404 dad , liquid refresh ye list khali ro pas bede
+// TODO: ye setting bezaram , va toosh option e tedad moghe add ro beshe max esho set kard
+// TODO: CountType baraye item beshe set kard
+// TODO: age CountType Kiloo Bood , number, double beshe
