@@ -1,8 +1,7 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:hicoffee/model/log_model.dart';
 
@@ -27,8 +26,9 @@ class LogScreen extends StatefulWidget {
 }
 
 class _LogScreenState extends State<LogScreen> {
-
   List<Log> _logs = [];
+  List<Log> tempList = [];
+  List<Log> finalList = [];
   Color addBorderColor    = Colors.lightGreen[700];
   Color addBackColor      = Colors.lightGreen[50];
   Color editBorderColor   = Colors.blue[700];
@@ -39,7 +39,21 @@ class _LogScreenState extends State<LogScreen> {
   Color sellBackColor     = Colors.yellow[50];
   List<int> selectedIcon = [0, 1, 2, 3];
 
+  TextEditingController searchController = TextEditingController();
 
+  bool firstTime = true;
+  bool isInSearch = false;
+  Widget appbarTitle = Text(
+    "Log",
+    style: TextStyle(
+      fontSize: 28.0,
+      fontFamily: "Waltograph",
+      letterSpacing: 2.5,
+    ),
+  );
+
+  // check mikone ke filter roshan hast ya na ,
+  // age indexOf(0) == -1 bashe yani oon category , khamooshe
   List<Log> filterLogs(List<Log> logs){
     List<Log> temp_logs = [];
     for(int i=0 ; i<logs.length ; i++){
@@ -63,6 +77,12 @@ class _LogScreenState extends State<LogScreen> {
   @override
   Widget build(BuildContext context) {
     final LogsProvider logsProvider = Provider.of<LogsProvider>(context);
+    _logs = filterLogs(logsProvider.logs);
+    if(firstTime){
+      finalList = _logs;
+      firstTime = false;
+    }
+
     return Scaffold(
       appBar: _appBar(),
       body: Column(
@@ -74,11 +94,10 @@ class _LogScreenState extends State<LogScreen> {
           Expanded(
             child: Builder(
               builder: (BuildContext context){
-                _logs = filterLogs(logsProvider.logs);
                 return ListView.builder(
-                    itemCount: _logs.length,
+                    itemCount: finalList.length,
                     itemBuilder: (context, index){
-                      return _showLog(_logs[index]);
+                      return _showLog(finalList[index]);
                     }
                 );
               },
@@ -221,15 +240,73 @@ class _LogScreenState extends State<LogScreen> {
           .scaffoldBackgroundColor,
       elevation: 0.0,
       centerTitle: true,
-      title: Text(
-        "Log",
-        style: TextStyle(
-          fontSize: 28.0,
-          fontFamily: "Waltograph",
-          letterSpacing: 2.5,
-        ),
-      ),
+      title: appbarTitle,
+      actions: [
+        appbarActionButton()
+      ]
     );
+  }
+
+  Widget appbarActionButton(){
+    if (!isInSearch)
+      return IconButton(
+        onPressed: () {
+          setState(() {
+            isInSearch = true;
+            appbarTitle = Padding(
+              padding: EdgeInsets.all(0.0),
+              child: TextField(
+                autofocus: true,
+                style: TextStyle(
+                  fontSize: 17.0,
+                  fontWeight: FontWeight.w400,
+                ),
+                maxLines: 1,
+                textDirection: TextDirection.rtl,
+                controller: searchController,
+                decoration: InputDecoration(
+                  alignLabelWithHint: false,
+                  labelText: "Search",
+                  prefixIcon: Icon(Icons.search),
+                ),
+                onChanged: (value) {
+                  if (value.isNotEmpty) {
+                    print(_logs.length);
+                    print(finalList.length);
+                    print(value);
+                    tempList.clear();
+                    for (int i = 0; i < _logs.length; i++) {
+                      if (_logs[i].text.toLowerCase().contains(value.toLowerCase()))
+                        tempList.add(_logs[i]);
+                    }
+                    setState(() => finalList = tempList);
+                  }
+                },
+              ),
+            );
+          });
+        },
+        icon: Icon(Icons.search),
+      );
+    else
+      return IconButton(
+        onPressed: () {
+          searchController.clear();
+          setState(() {
+            finalList = _logs;
+            isInSearch = false;
+            appbarTitle = Text(
+              "Log",
+              style: TextStyle(
+                fontSize: 28.0,
+                fontFamily: "Waltograph",
+                letterSpacing: 2.5,
+              ),
+            );
+          });
+        },
+        icon: Icon(Icons.cancel),
+      );
   }
 }
 
