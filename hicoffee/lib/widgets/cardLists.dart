@@ -124,6 +124,7 @@ class CardLists extends StatelessWidget {
       showChildOpacityTransition: false,
       height: 60.0,
       borderWidth: 1.0,
+      animSpeedFactor: 3,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       onRefresh: () => handleRefresh(requestsProvider, networkProvider, context),
       child: Builder(
