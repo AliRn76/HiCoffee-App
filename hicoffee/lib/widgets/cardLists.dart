@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:hicoffee/sqlite/database_helper.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:folding_cell/folding_cell.dart';
 import 'package:clay_containers/clay_containers.dart';
-import 'package:number_selection/number_selection.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
@@ -259,7 +259,7 @@ class CardLists extends StatelessWidget {
   }
 
   Widget _buildInnerWidget(BuildContext context, Item item) {
-    int value;
+    int value = 0;
     double width() => MediaQuery.of(context).size.width;
     double height() => MediaQuery.of(context).size.height;
     final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
@@ -279,20 +279,27 @@ class CardLists extends StatelessWidget {
                 child: Directionality(
                   textDirection: TextDirection.rtl,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      Container(
-                        width: width()/3.3,
-                        child: NumberSelection(
-                          initialValue: 0,
-                          maxValue: item.number,
-                          minValue: 0,
-                          direction: Axis.horizontal,
-                          withSpring: false,
-                          onChanged: (_value) {
-                            value = _value;
-                          },
-                        ),
+                      StatefulBuilder(
+                        builder: (BuildContext context, StateSetter setter){
+                          return Container(
+                            child: NumberPicker.horizontal(
+                              listViewHeight: 50.0,
+                              initialValue: value,
+                              highlightSelectedValue: false,
+                              textStyle: TextStyle(
+                                fontFamily: "BTitr_Bold",
+                              ),
+                              minValue: 0,
+                              maxValue: item.number,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30.0),
+                                border: Border.all(color: Colors.blue[400], width: 1.3),
+                              ),
+                              onChanged: (newValue) => setter(() => value = newValue),
+                            ),
+                          );
+                        }
                       ),
                       ClayContainer(
                         depth: 40,
