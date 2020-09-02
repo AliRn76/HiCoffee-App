@@ -38,10 +38,12 @@ class _LogScreenState extends State<LogScreen> {
   Color sellBorderColor   = Colors.yellow[900];
   Color sellBackColor     = Colors.yellow[50];
   List<int> selectedIcon = [0, 1, 2, 3];
+  String lastDay;
 
   TextEditingController searchController = TextEditingController();
 
   bool firstTime = true;
+  bool firstDay = true;
   bool isInSearch = false;
   Widget appbarTitle = Text(
     "Log",
@@ -77,7 +79,7 @@ class _LogScreenState extends State<LogScreen> {
   @override
   Widget build(BuildContext context) {
     final LogsProvider logsProvider = Provider.of<LogsProvider>(context);
-    _logs = filterLogs(logsProvider.logs);
+    _logs = logsProvider.logs;
     if(firstTime){
       finalList = _logs;
       firstTime = false;
@@ -94,10 +96,11 @@ class _LogScreenState extends State<LogScreen> {
           Expanded(
             child: Builder(
               builder: (BuildContext context){
+                List<Log> filteredList = filterLogs(finalList);
                 return ListView.builder(
-                    itemCount: finalList.length,
+                    itemCount: filteredList.length,
                     itemBuilder: (context, index){
-                      return _showLog(finalList[index]);
+                      return _showLog(filteredList[index]);
                     }
                 );
               },
@@ -147,7 +150,7 @@ class _LogScreenState extends State<LogScreen> {
         width: size.width/7,
         margin: EdgeInsets.only(bottom: 5.0),
         decoration: BoxDecoration(
-          color: selectedIcon.indexOf(index) != -1 ? _icons[index].backColor  : Color(0xFFE7EBEE),
+          color: selectedIcon.indexOf(index) != -1 ? _icons[index].backColor : Color(0xFFE7EBEE),
           borderRadius: BorderRadius.circular(15.0),
           border: Border.all(
             color: selectedIcon.indexOf(index) != -1 ? _icons[index].borderColor : Colors.black12,
@@ -164,6 +167,7 @@ class _LogScreenState extends State<LogScreen> {
   }
 
   Widget _showLog(Log log){
+    String currentDay;
     Color borderColor;
     Color backColor;
     if(log.type == "add") {
@@ -182,55 +186,162 @@ class _LogScreenState extends State<LogScreen> {
       borderColor = sellBorderColor;
       backColor = sellBackColor;
     }
-    return Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Stack(
+
+    /// find the number of day
+    if(log.date[7] != '/'){
+      if(log.date[8] != ' ')
+        currentDay = log.date[7] + log.date[8];
+      else
+        currentDay = log.date[7];
+    }else {
+      if (log.date[9] != ' ')
+        currentDay = log.date[8] + log.date[9];
+      else
+        currentDay = log.date[8];
+    }
+
+    /// we dont need date for first log
+    if(firstDay) {
+      lastDay = currentDay;
+      firstDay = false;
+    }
+
+    if(lastDay != currentDay){
+      lastDay = currentDay;
+      return Column(
         children: <Widget>[
           Container(
-            width: double.infinity,
+            margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 10.0),
+            width: 150,
+            height: 30,
             decoration: BoxDecoration(
-              color: backColor,
-              borderRadius: BorderRadius.circular(7.0),
+              borderRadius: BorderRadius.circular(15.0),
               border: Border.all(
-                color: borderColor,
-                width: 2.0,
+                width: 2,
+                color: Colors.white,
               ),
             ),
-            child: Directionality(
-              textDirection: TextDirection.rtl,
-              child: Padding(
-                padding: EdgeInsets.all(15.0),
-                child: Text(
-                  log.text,
-                  style: TextStyle(
-                    fontFamily: "BNazanin",
-                    fontSize: 19.0,
-                    fontWeight: FontWeight.bold,
+            child: Center(
+              child: Text(
+                log.date[6] == '/'
+                    ? log.date.substring(0,9) : log.date.substring(0,10),
+                style: TextStyle(
+                  fontFamily: "BNazanin",
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black45,
+                  fontSize: 17,
+                ),
+              ),
+            ),
+          ),
+//          Divider(
+//            color: Colors.grey,
+//            thickness: 1,
+////            endIndent: 6.0,
+////            indent: 6.0,
+//            height: 15,
+//          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: backColor,
+                    borderRadius: BorderRadius.circular(7.0),
+                    border: Border.all(
+                      color: borderColor,
+                      width: 2.0,
+                    ),
+                  ),
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: Padding(
+                      padding: EdgeInsets.all(15.0),
+                      child: Text(
+                        log.text,
+                        style: TextStyle(
+                          fontFamily: "BNazanin",
+                          fontSize: 19.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  bottom: -4.8,
+                  left: 15,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 3),
+                    color: backColor,
+                    child: Text(
+                      log.date,
+                      style: TextStyle(
+                        fontFamily: "BNazanin",
+                        fontWeight: FontWeight.bold,
+                        color: borderColor,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }else
+      return Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: backColor,
+                borderRadius: BorderRadius.circular(7.0),
+                border: Border.all(
+                  color: borderColor,
+                  width: 2.0,
+                ),
+              ),
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: Text(
+                    log.text,
+                    style: TextStyle(
+                      fontFamily: "BNazanin",
+                      fontSize: 19.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: -4.8,
-            left: 15,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 3),
-              color: backColor,
-              child: Text(
-                log.date,
-                style: TextStyle(
-                  fontFamily: "BNazanin",
-                  fontWeight: FontWeight.bold,
-                  color: borderColor,
-                  fontSize: 16,
+            Positioned(
+              bottom: -4.8,
+              left: 15,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 3),
+                color: backColor,
+                child: Text(
+                  log.date,
+                  style: TextStyle(
+                    fontFamily: "BNazanin",
+                    fontWeight: FontWeight.bold,
+                    color: borderColor,
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
   }
 
   Widget _appBar(){

@@ -294,7 +294,7 @@ class CardLists extends StatelessWidget {
                               maxValue: item.number,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30.0),
-                                border: Border.all(color: Colors.blue[400], width: 1.3),
+                                border: Border.all(color: Colors.amber[100], width: 2),
                               ),
                               onChanged: (newValue) => setter(() => value = newValue),
                             ),
