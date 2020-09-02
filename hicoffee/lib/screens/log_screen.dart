@@ -234,13 +234,6 @@ class _LogScreenState extends State<LogScreen> {
               ),
             ),
           ),
-//          Divider(
-//            color: Colors.grey,
-//            thickness: 1,
-////            endIndent: 6.0,
-////            indent: 6.0,
-//            height: 15,
-//          ),
           Padding(
             padding: EdgeInsets.all(8.0),
             child: Stack(
