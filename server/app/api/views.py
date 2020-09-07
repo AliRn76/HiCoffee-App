@@ -50,7 +50,7 @@ def add_item(request):
         item.save()
         # Save the Log
         log = Log.objects.create(
-            text="{} تعداد: {} ثبت شد.".format(item.name, item.number),
+            text="{} {}: {} ثبت شد.".format(item.name, item.count_type, item.number),
             type="add",
             date=datetime.now()
         )
@@ -103,6 +103,7 @@ def edit_item(request):
             old_item.number = number
 
         if countType is not None:
+            old_count_type = old_item.count_type
             old_item.count_type = countType
 
         # Update Response, Should be Null
@@ -113,7 +114,7 @@ def edit_item(request):
         else:
             new_name = name
         log = Log.objects.create(
-            text="{}  تعداد: {} به {} تعداد: {} ویرایش شد.".format(old_name, old_number, new_name, number),
+            text="{}  {}: {} به {} {}: {} ویرایش شد.".format(old_name, old_count_type, old_number, new_name, old_item.count_type, number),
             type="edit",
             date=datetime.now()
         )
@@ -142,11 +143,12 @@ def delete_item(request, item_name):
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
     number = item.number
+    count_type = item.count_type
     result = item.delete()
     if result:
         # Save the Log
         log = Log.objects.create(
-            text="{} تعداد: {} حذف شد.".format(item_name, number),
+            text="{} {}: {} حذف شد.".format(item_name, count_type, number),
             type="delete",
             date=datetime.now()
         )
@@ -191,8 +193,12 @@ def sell_item(request):
         # Set Response
         if old_item:
             # Save the Log
+            if item.count_type == 'تعداد':
+                log_text = "{} {} عدد فروخته شد.".format(name, number)
+            else:
+                log_text = "{} {} {} فروخته شد. {} --> {}".format(name, item.count_type, number, item.number, new_number)
             log = Log.objects.create(
-                text="{} {} عدد فروخته شد.".format(name, number),
+                text=log_text,
                 type="sell",
                 date=datetime.now()
             )
