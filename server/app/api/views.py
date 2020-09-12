@@ -196,7 +196,7 @@ def sell_item(request):
             if item.count_type == 'تعداد':
                 log_text = "{} {} عدد فروخته شد.".format(name, number)
             else:
-                log_text = "{} {} {} فروخته شد. {} --> {}".format(name, item.count_type, number, item.number, new_number)
+                log_text = "{} {} {} فروخته شد.  موجودی: {}".format(name, number, item.count_type, new_number)
             log = Log.objects.create(
                 text=log_text,
                 type="sell",
