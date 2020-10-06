@@ -17,6 +17,7 @@ class DatabaseHelper{
   String col_name   = "Name";
   String col_number = "Number";
   String col_count_type = "CountType";
+  String col_date   = "Date";
 
 /// Table USER
   String tbl_user   = "User";
@@ -28,7 +29,7 @@ class DatabaseHelper{
   // String col_id = "ID";
   String col_type   = "Type";
   String col_text   = "Text";
-  String col_date   = "Date";
+  // String col_date   = "Date";
 
   DatabaseHelper._CreateInstance();
 
@@ -65,7 +66,8 @@ class DatabaseHelper{
             '$col_id INTEGER PRIMARY KEY AUTOINCREMENT,'
             '$col_name TEXT,'
             '$col_count_type TEXT,'
-            '$col_number INTEGER)'
+            '$col_number INTEGER,'
+            '$col_date Text)'
     );
     await db.execute(
         'CREATE TABLE IF NOT EXISTS $tbl_user ('
@@ -94,28 +96,28 @@ class DatabaseHelper{
   }
 
   // Insert All Items
-  Future<List<Map<String, dynamic>>> insertItems(List<Item> items) async{
-    deleteItems();
-    Database db = await this.database;
-    var result;
-    for(int i=0 ; i<items.length ; i++){
-      result = await db.rawQuery(
-        "Insert Into $tbl_item"
-            "($col_name, $col_number, $col_count_type)"
-            "Values ('${items[i].name}', ${items[i].number}, '${items[i].countType}');"
-      );
-    }
-    return result;
-  }
+//  Future<List<Map<String, dynamic>>> insertItems(List<Item> items) async{
+////    deleteItems();
+//    Database db = await this.database;
+//    var result;
+//    for(int i=0 ; i<items.length ; i++){
+//      result = await db.rawQuery(
+//        "Insert Into $tbl_item"
+//            "($col_name, $col_number, $col_count_type)"
+//            "Values ('${items[i].name}', ${items[i].number}, '${items[i].countType}');"
+//      );
+//    }
+//    return result;
+//  }
 
   // Delete All Items
-  Future<List<Map<String, dynamic>>> deleteItems() async{
-    Database db = await this.database;
-    var result = await db.rawQuery(
-        "Delete From $tbl_item;"
-    );
-    return result;
-  }
+//  Future<List<Map<String, dynamic>>> deleteItems() async{
+//    Database db = await this.database;
+//    var result = await db.rawQuery(
+//        "Delete From $tbl_item;"
+//    );
+//    return result;
+//  }
 
 
   // Delete One Item
@@ -193,6 +195,17 @@ class DatabaseHelper{
   }
 
 /// Table LOG
+  // Insert All Logs
+  Future<List<Map<String, dynamic>>> insertLog(Log logs) async{
+    Database db = await this.database;
+    var result = await db.rawQuery(
+        "Insert Into $tbl_log"
+            "($col_type, $col_text, $col_date)"
+            "Values ('${logs.type}', '${logs.text}', '${logs.date}');"
+    );
+    return result;
+  }
+
 
   // Insert All Logs
   Future<List<Map<String, dynamic>>> insertLogs(List<Log> logs) async{

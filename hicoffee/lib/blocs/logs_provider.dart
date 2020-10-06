@@ -65,4 +65,8 @@ class LogsProvider extends ChangeNotifier {
     }
   }
 
+  void addLog(Log log){
+    _logs.add(log);
+    notifyListeners();
+  }
 }

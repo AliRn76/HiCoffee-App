@@ -85,33 +85,33 @@ class CardLists extends StatelessWidget {
     }
   }
 
-  Future<void> handleRefresh(requestsProvider, networkProvider, context) async{
-    if(networkProvider.connection == false){
-       Scaffold.of(context).showSnackBar(
-          _snackBar("ابتدا به اینترنت متصل شوید", errorColor)
-       );
-       return;
-    }else{
-      try{
-        Map<String, String> reqHeader = {"Authorization": "Token ${await requestsProvider.selectToken()}"};
-        Response response = await get("http://al1.best:86/api/show-all/", headers: reqHeader);
-        print(response);
-        print("show-all response: ${response.statusCode}");
-        List<dynamic> data = await jsonDecode(utf8.decode(response.bodyBytes));
-        List<Item> items = data.map((m) => Item.fromJson(m)).toList();
-        if (response.statusCode == 200){
-          requestsProvider.items = items;
-          var result = await DatabaseHelper().insertItems(items);
-          print("* Insert show-all to db Result: $result");
-        }
-      }on Exception{
-        Scaffold.of(context).showSnackBar(
-            _snackBar("خطا از طرف سرور", errorColor)
-        );
-        return;
-      }
-    }
-  }
+//  Future<void> handleRefresh(requestsProvider, networkProvider, context) async{
+//    if(networkProvider.connection == false){
+//       Scaffold.of(context).showSnackBar(
+//          _snackBar("ابتدا به اینترنت متصل شوید", errorColor)
+//       );
+//       return;
+//    }else{
+//      try{
+//        Map<String, String> reqHeader = {"Authorization": "Token ${await requestsProvider.selectToken()}"};
+//        Response response = await get("http://al1.best:86/api/show-all/", headers: reqHeader);
+//        print(response);
+//        print("show-all response: ${response.statusCode}");
+//        List<dynamic> data = await jsonDecode(utf8.decode(response.bodyBytes));
+//        List<Item> items = data.map((m) => Item.fromJson(m)).toList();
+//        if (response.statusCode == 200){
+//          requestsProvider.items = items;
+//          var result = await DatabaseHelper().insertItems(items);
+//          print("* Insert show-all to db Result: $result");
+//        }
+//      }on Exception{
+//        Scaffold.of(context).showSnackBar(
+//            _snackBar("خطا از طرف سرور", errorColor)
+//        );
+//        return;
+//      }
+//    }
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,40 +119,15 @@ class CardLists extends StatelessWidget {
     double height() => MediaQuery.of(context).size.height;
     final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
     final NetworkProvider networkProvider = Provider.of<NetworkProvider>(context);
-    return LiquidPullToRefresh(
-      color: Theme.of(context).primaryColor,
-      showChildOpacityTransition: false,
-      height: 60.0,
-      borderWidth: 1.0,
-      animSpeedFactor: 3,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      onRefresh: () => handleRefresh(requestsProvider, networkProvider, context),
-      child: Builder(
-        builder: (BuildContext context){
-          return ListView.builder(
-            itemCount: list.length,
-            itemBuilder: (context, index){
-              if(index+1 == list.length)
-                return Column(
-                  children: <Widget>[
-                    SimpleFoldingCell.create(
-                      frontWidget: _buildFrontWidget(context, list[index]),
-                      innerWidget: _buildInnerWidget(context, list[index]),
-                      cellSize: Size(width()/1.2, height()/7),
-                      padding: EdgeInsets.symmetric(
-                        vertical: height()/35,
-                      ),
-                      animationDuration: Duration(milliseconds: 300),
-                      borderRadius: 20,
-                      onOpen: () => print('cell opened'),
-                      onClose: () => print('cell closed')
-                    ),
-                    SizedBox(height: 100.0),
-                  ],
-                );
-              else
-                return Center(
-                  child: SimpleFoldingCell.create(
+    return Builder(
+      builder: (BuildContext context){
+        return ListView.builder(
+          itemCount: list.length,
+          itemBuilder: (context, index){
+            if(index+1 == list.length)
+              return Column(
+                children: <Widget>[
+                  SimpleFoldingCell.create(
                     frontWidget: _buildFrontWidget(context, list[index]),
                     innerWidget: _buildInnerWidget(context, list[index]),
                     cellSize: Size(width()/1.2, height()/7),
@@ -164,11 +139,27 @@ class CardLists extends StatelessWidget {
                     onOpen: () => print('cell opened'),
                     onClose: () => print('cell closed')
                   ),
-                );
-            },
-          );
-        },
-      ),
+                  SizedBox(height: 100.0),
+                ],
+              );
+            else
+              return Center(
+                child: SimpleFoldingCell.create(
+                  frontWidget: _buildFrontWidget(context, list[index]),
+                  innerWidget: _buildInnerWidget(context, list[index]),
+                  cellSize: Size(width()/1.2, height()/7),
+                  padding: EdgeInsets.symmetric(
+                    vertical: height()/35,
+                  ),
+                  animationDuration: Duration(milliseconds: 300),
+                  borderRadius: 20,
+                  onOpen: () => print('cell opened'),
+                  onClose: () => print('cell closed')
+                ),
+              );
+          },
+        );
+      },
     );
   }
 

@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if(first){
       setState(() {
         first = false;
-        requestsProvider.requestItems();
+//        requestsProvider.requestItems();
           logsProvider.reqShowLogs();
       });
     }

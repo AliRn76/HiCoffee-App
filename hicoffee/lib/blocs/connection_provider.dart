@@ -28,7 +28,9 @@ class NetworkProvider extends ChangeNotifier{
       print(e.toString());
     }
     if(result.toString() == "ConnectivityResult.none")
-      _connection = false;
+//        _connection = false;
+      /// Make It Offline
+      _connection = true;
     else
       _connection = true;
     notifyListeners();
@@ -39,7 +41,9 @@ class NetworkProvider extends ChangeNotifier{
     _subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       print("RESULT: $result");
       if(result.toString() == "ConnectivityResult.none")
-        _connection = false;
+//        _connection = false;
+        /// Make It Offline
+        _connection = true;
       else
         _connection = true;
       notifyListeners();
