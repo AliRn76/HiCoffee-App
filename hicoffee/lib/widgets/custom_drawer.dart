@@ -170,20 +170,6 @@ class MyDrawer extends StatelessWidget {
                     );
                   },
               ),
-              ListTile(
-                leading: Icon(Icons.exit_to_app),
-                title: Text('Log out'),
-                  onTap: (){
-                    var result = DatabaseHelper().deleteToken();
-                    print("Exit: $result");
-                    CustomDrawer.of(context).close();
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()
-                        )
-                    );
-                  },
-              ),
             ],
           ),
         ),
