@@ -16,7 +16,7 @@ class Log{
     type = json['type'];
     if(json['date'] != null)
       date = PersianDate.fromDateTime(DateTime.parse(json['date']).toLocal()).toString(
-          showTime: true, second: false);
+          showTime: true, second: true);
 //    else
 //      date = json['date'];
   }

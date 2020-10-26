@@ -81,7 +81,7 @@ class _EditItemScreenState extends State<EditItemScreen> {
         print("Edit statusCode: $statusCode");
         setter(() {
           if(statusCode == 202){
-            logsProvider.reqShowLogs();
+//            logsProvider.reqShowLogs();
             Navigator.pop(context, true);
             responseMessage = "باموفقیت ویرایش شد";
             showDialog(

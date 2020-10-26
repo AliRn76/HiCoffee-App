@@ -226,7 +226,7 @@ class DatabaseHelper{
   Future<List<Map<String, dynamic>>> selectLogs() async{
     Database db = await this.database;
     var result = await db.rawQuery(
-        "Select * From $tbl_log"
+        "Select * From $tbl_log ORDER BY date desc"
     );
     return result;
   }
@@ -240,7 +240,6 @@ class DatabaseHelper{
     );
     return result;
   }
-
 }
 
 

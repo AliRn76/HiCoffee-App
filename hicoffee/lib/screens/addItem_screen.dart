@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:hicoffee/model/log_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -77,7 +78,8 @@ class _AddItemScreenState extends State<AddItemScreen> {
           responseIcon = Icon(Icons.done_all, color: responseColor);
           nameController.clear();
           _value = 0;
-          logsProvider.reqShowLogs();
+          LogsProvider __logsProvider = LogsProvider();
+          __logsProvider.selectAll();
         }else if(statusCode == 406){
           responseMessage = "نام محصول تکراری است";
           responseColor = Colors.redAccent[400];

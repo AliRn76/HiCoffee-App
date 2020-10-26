@@ -41,7 +41,7 @@ class CardLists extends StatelessWidget {
     }else{
       int statusCode = await requestsProvider.reqDeleteItem(item);
       if(statusCode == 200){
-        logsProvider.reqShowLogs();
+//        logsProvider.reqShowLogs();
         Scaffold.of(context).showSnackBar(
             _snackBar("با موفقیت حذف شد", deleteColor)
         );
@@ -70,7 +70,7 @@ class CardLists extends StatelessWidget {
     }else{
       int statusCode = await requestsProvider.reqSellItem(item, sellValue);
       if(statusCode == 200){
-        logsProvider.reqShowLogs();
+//        logsProvider.reqShowLogs();
         Scaffold.of(context).showSnackBar(
             _snackBar("با موفقیت فروخته شد", acceptColor)
         );
@@ -84,34 +84,6 @@ class CardLists extends StatelessWidget {
       }
     }
   }
-
-//  Future<void> handleRefresh(requestsProvider, networkProvider, context) async{
-//    if(networkProvider.connection == false){
-//       Scaffold.of(context).showSnackBar(
-//          _snackBar("ابتدا به اینترنت متصل شوید", errorColor)
-//       );
-//       return;
-//    }else{
-//      try{
-//        Map<String, String> reqHeader = {"Authorization": "Token ${await requestsProvider.selectToken()}"};
-//        Response response = await get("http://al1.best:86/api/show-all/", headers: reqHeader);
-//        print(response);
-//        print("show-all response: ${response.statusCode}");
-//        List<dynamic> data = await jsonDecode(utf8.decode(response.bodyBytes));
-//        List<Item> items = data.map((m) => Item.fromJson(m)).toList();
-//        if (response.statusCode == 200){
-//          requestsProvider.items = items;
-//          var result = await DatabaseHelper().insertItems(items);
-//          print("* Insert show-all to db Result: $result");
-//        }
-//      }on Exception{
-//        Scaffold.of(context).showSnackBar(
-//            _snackBar("خطا از طرف سرور", errorColor)
-//        );
-//        return;
-//      }
-//    }
-//  }
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +142,18 @@ class CardLists extends StatelessWidget {
       builder: (BuildContext context){
         return Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
+              gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: [
+                0.2,
+                0.7,
+              ],
+              colors: [
+                Theme.of(context).primaryColor,
+                Colors.blue[400],
+              ]
+            ),
             border: Border(
               bottom: BorderSide(
                 color: Theme.of(context).accentColor,

@@ -30,7 +30,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Icon customIcon = Icon(Icons.search);
-  bool first = true;
+//  bool first = true;
 
   @override
   void initState() {
@@ -46,17 +46,30 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final RequestsProvider requestsProvider = Provider.of<RequestsProvider>(context);
-    final LogsProvider logsProvider = Provider.of<LogsProvider>(context);
-    if(first){
-      setState(() {
-        first = false;
-//        requestsProvider.requestItems();
-          logsProvider.reqShowLogs();
-      });
-    }
+//    final LogsProvider logsProvider = Provider.of<LogsProvider>(context);
+//    if(first){
+//      setState(() {
+//        first = false;
+////        requestsProvider.requestItems();
+//      });
+//    }
     return Scaffold(
       appBar: _appBar(),
       body: Container(
+//        decoration: BoxDecoration(
+//            gradient: LinearGradient(
+//                begin: Alignment.topLeft,
+//                end: Alignment.bottomRight,
+//                stops: [
+//                  0.2,
+//                  0.7,
+//                ],
+//                colors: [
+//                  Theme.of(context).scaffoldBackgroundColor,
+//                  Colors.blue[400],
+//                ]
+//            )
+//        ),
         color: Theme.of(context).scaffoldBackgroundColor,
         child: Stack(
           children: <Widget>[
